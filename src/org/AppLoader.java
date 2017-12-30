@@ -2,7 +2,7 @@ package org;
 
 /**
  * Точка входа
- * @author Dart Lightec
+ * @author Aladser
  */
 public class AppLoader {
     
