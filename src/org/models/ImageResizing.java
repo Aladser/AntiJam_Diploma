@@ -13,14 +13,14 @@ import javax.swing.ImageIcon;
  * @author Aladser
  */
 public abstract class ImageResizing {
-    public static ImageIcon execute(BufferedImage original){
+    public static ImageIcon execute(BufferedImage original, int dHeight, int dWidth){
         double K1 = 1, K2 = 1;
         double height = original.getHeight();
         double width = original.getWidth();
-        if(height > 400){
-            K1 = 400 / height;
-            if( width * K1 > 600 ){
-                K2 = 600 / (width * K1);
+        if(height > dHeight){
+            K1 = dHeight / height;
+            if( width * K1 > dWidth ){
+                K2 = dWidth / (width * K1);
             }
         }
         width *= (K1*K2);

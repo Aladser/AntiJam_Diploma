@@ -87,7 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
                 Logger.getLogger("Не удалось прочитать файл");
             }
     
-            showImageLabel.setIcon(ImageResizing.execute(image));
+            showImageLabel.setIcon(ImageResizing.execute(image, showImageLabel.getHeight(), showImageLabel.getWidth()));
         }
     }//GEN-LAST:event_fileOpenBtnActionPerformed
 
