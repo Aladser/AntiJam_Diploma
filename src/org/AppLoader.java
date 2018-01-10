@@ -1,6 +1,8 @@
 package org;
 
-import org.controllers.frames.MainFrame;
+
+
+import org.views.frames.MainFrame;
 
 /**
  * Точка входа
@@ -34,7 +36,7 @@ public class AppLoader {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
