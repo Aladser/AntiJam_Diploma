@@ -1,11 +1,18 @@
-package org.views.frames;
+package org.views;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Главное окно
  * @author Aladser
  */
 public class MainFrame extends javax.swing.JFrame {
-
+    BufferedImage image;
+    
     /**
      * Creates new form MainFrame
      */
@@ -22,17 +29,20 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        fileOpen = new javax.swing.JButton();
+        fileOpenBtn = new javax.swing.JButton();
+        showImageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Кодеки");
 
-        fileOpen.setText("Открыть файл");
-        fileOpen.addActionListener(new java.awt.event.ActionListener() {
+        fileOpenBtn.setText("Открыть файл");
+        fileOpenBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileOpenActionPerformed(evt);
+                fileOpenBtnActionPerformed(evt);
             }
         });
+
+        showImageLabel.setBackground(new java.awt.Color(0, 255, 204));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -40,22 +50,28 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fileOpen)
-                .addContainerGap(573, Short.MAX_VALUE))
+                .addComponent(fileOpenBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fileOpen)
-                .addContainerGap(427, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fileOpenBtn)
+                        .addGap(0, 416, Short.MAX_VALUE))
+                    .addComponent(showImageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Открыть файл
-    private void fileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenActionPerformed
+    private void fileOpenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenBtnActionPerformed
         // Создание FileChooser;
         javax.swing.filechooser.FileNameExtensionFilter filefilter; 
         filefilter = new javax.swing.filechooser.FileNameExtensionFilter("Изображения (.jpg,.png,.bmp)", "jpg", "png", "bmp");
@@ -63,13 +79,21 @@ public class MainFrame extends javax.swing.JFrame {
         filechooser.setAcceptAllFileFilterUsed(false);
         filechooser.addChoosableFileFilter(filefilter);
         int ret = filechooser.showDialog(null, "Открыть файл");
+        // Если выбран файл
         if (ret == javax.swing.JFileChooser.APPROVE_OPTION) {
             java.io.File file = filechooser.getSelectedFile();
-           // Если файл открыли
+            try {  
+                image = ImageIO.read(file);
+            } catch (IOException ex) {
+                Logger.getLogger("Не удалось прочитать файл");
+            }
+            ImageIcon ii = new ImageIcon(image.getScaledInstance(showImageLabel.getWidth(), showImageLabel.getHeight(), BufferedImage.SCALE_DEFAULT));    
+            showImageLabel.setIcon(ii);
         }
-    }//GEN-LAST:event_fileOpenActionPerformed
+    }//GEN-LAST:event_fileOpenBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton fileOpen;
+    private javax.swing.JButton fileOpenBtn;
+    private javax.swing.JLabel showImageLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,7 +2,7 @@ package org;
 
 
 
-import org.views.frames.MainFrame;
+import org.views.MainFrame;
 
 /**
  * Точка входа
