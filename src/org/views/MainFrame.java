@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import org.models.ImageResizing;
 
 /**
  * Главное окно
@@ -52,7 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(fileOpenBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(showImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addComponent(showImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -60,11 +61,9 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(fileOpenBtn)
-                        .addGap(0, 416, Short.MAX_VALUE))
-                    .addComponent(showImageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(showImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fileOpenBtn))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -87,8 +86,8 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
-            ImageIcon ii = new ImageIcon(image.getScaledInstance(showImageLabel.getWidth(), showImageLabel.getHeight(), BufferedImage.SCALE_DEFAULT));    
-            showImageLabel.setIcon(ii);
+    
+            showImageLabel.setIcon(ImageResizing.execute(image));
         }
     }//GEN-LAST:event_fileOpenBtnActionPerformed
 
