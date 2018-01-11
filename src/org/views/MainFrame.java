@@ -267,7 +267,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (ret == javax.swing.JFileChooser.APPROVE_OPTION) {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
-                
+                imageBits = new ImageBits(image);
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
@@ -288,7 +288,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     /** Нажатие на кнопку "Кодер" */
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
-	encodeBits = org.models.Codec.encode( imageBits.bits );		
+        encodeBits = org.models.Codec.encode( imageBits.bits );		
 	imageBits = new ImageBits(image);		
 	addNoiseButton.setEnabled(true);
 	decoderButton.setEnabled(true);
