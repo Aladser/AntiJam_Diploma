@@ -125,6 +125,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         graphicButton.setText("График");
         graphicButton.setEnabled(false);
+        graphicButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                graphicButtonActionPerformed(evt);
+            }
+        });
 
         NoisePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -253,6 +258,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void ClearTextPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearTextPanelActionPerformed
 
     }//GEN-LAST:event_ClearTextPanelActionPerformed
+
+    private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_graphicButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ClearTextPanel;
