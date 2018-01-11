@@ -2,22 +2,29 @@ package org.views;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.BitSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import org.models.ImageBits;
 import org.models.ImageResizing;
+import org.models.TransmissionMedia;
 
 /**
  * Главное окно
  * @author Aladser
  */
 public class MainFrame extends javax.swing.JFrame {
-    BufferedImage image;
+    private BufferedImage image;              // Исходное изображение
+    private ImageBits imageBits;              // Битовый массив изображения
+    private ImageBits finalImageBits;         // Полученный массив изображения    
+    private BitSet encodeBits;                // Закодированное битовое сообщение
+    private BitSet decodeBits;                // Декодированное битовое сообщение
+    private TransmissionMedia transmedia;     // Канал передачи данных
     
-    /**
-     * Creates new form MainFrame
-     */
     public MainFrame() {
         initComponents();
+        transmedia = new TransmissionMedia(0.0001);
     }
 
     /**
@@ -30,20 +37,20 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         fileOpenButton = new javax.swing.JButton();
-        ExternalInfoPanel = new javax.swing.JPanel();
-        ClearTextPanel = new javax.swing.JButton();
+        externalInfoPanel = new javax.swing.JPanel();
+        clearTextPanel = new javax.swing.JButton();
         InfiScrollPanel = new javax.swing.JScrollPane();
-        InfoPanel = new javax.swing.JTextArea();
-        ExtrernalImagePanel = new javax.swing.JPanel();
-        ImagePanel = new javax.swing.JLabel();
+        infoPanel = new javax.swing.JTextArea();
+        extrernalImagePanel = new javax.swing.JPanel();
+        imagePanel = new javax.swing.JLabel();
         graphicButton = new javax.swing.JButton();
-        NoisePanel = new javax.swing.JPanel();
+        noisePanel = new javax.swing.JPanel();
         plusNoiseButton = new javax.swing.JButton();
         minusNoiseButton = new javax.swing.JButton();
         addNoiseButton = new javax.swing.JButton();
-        CodecPanel = new javax.swing.JPanel();
-        CoderButton = new javax.swing.JButton();
-        DecoderButton = new javax.swing.JButton();
+        codecPanel = new javax.swing.JPanel();
+        coderButton = new javax.swing.JButton();
+        decoderButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Кодеки");
@@ -58,68 +65,68 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        ExternalInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Информация", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 0, 12))); // NOI18N
-        ExternalInfoPanel.setToolTipText("");
-        ExternalInfoPanel.setName(""); // NOI18N
+        externalInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Информация", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 0, 12))); // NOI18N
+        externalInfoPanel.setToolTipText("");
+        externalInfoPanel.setName(""); // NOI18N
 
-        ClearTextPanel.setText("Очистить");
-        ClearTextPanel.addActionListener(new java.awt.event.ActionListener() {
+        clearTextPanel.setText("Очистить");
+        clearTextPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClearTextPanelActionPerformed(evt);
+                clearTextPanelActionPerformed(evt);
             }
         });
 
-        InfoPanel.setColumns(20);
-        InfoPanel.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        InfoPanel.setRows(5);
-        InfoPanel.setBorder(null);
-        InfiScrollPanel.setViewportView(InfoPanel);
+        infoPanel.setColumns(20);
+        infoPanel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        infoPanel.setRows(5);
+        infoPanel.setBorder(null);
+        InfiScrollPanel.setViewportView(infoPanel);
 
-        javax.swing.GroupLayout ExternalInfoPanelLayout = new javax.swing.GroupLayout(ExternalInfoPanel);
-        ExternalInfoPanel.setLayout(ExternalInfoPanelLayout);
-        ExternalInfoPanelLayout.setHorizontalGroup(
-            ExternalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ExternalInfoPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout externalInfoPanelLayout = new javax.swing.GroupLayout(externalInfoPanel);
+        externalInfoPanel.setLayout(externalInfoPanelLayout);
+        externalInfoPanelLayout.setHorizontalGroup(
+            externalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(InfiScrollPanel)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ExternalInfoPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ClearTextPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clearTextPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52))
         );
-        ExternalInfoPanelLayout.setVerticalGroup(
-            ExternalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ExternalInfoPanelLayout.createSequentialGroup()
+        externalInfoPanelLayout.setVerticalGroup(
+            externalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
                 .addComponent(InfiScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ClearTextPanel)
+                .addComponent(clearTextPanel)
                 .addContainerGap())
         );
 
-        ExtrernalImagePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Изображение", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 0, 12))); // NOI18N
-        ExtrernalImagePanel.setPreferredSize(new java.awt.Dimension(650, 500));
+        extrernalImagePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Изображение", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 0, 12))); // NOI18N
+        extrernalImagePanel.setPreferredSize(new java.awt.Dimension(650, 500));
 
-        ImagePanel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        ImagePanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ImagePanel.setToolTipText("");
-        ImagePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        ImagePanel.setFocusable(false);
-        ImagePanel.setOpaque(true);
+        imagePanel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        imagePanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagePanel.setToolTipText("");
+        imagePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        imagePanel.setFocusable(false);
+        imagePanel.setOpaque(true);
 
-        javax.swing.GroupLayout ExtrernalImagePanelLayout = new javax.swing.GroupLayout(ExtrernalImagePanel);
-        ExtrernalImagePanel.setLayout(ExtrernalImagePanelLayout);
-        ExtrernalImagePanelLayout.setHorizontalGroup(
-            ExtrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ExtrernalImagePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout extrernalImagePanelLayout = new javax.swing.GroupLayout(extrernalImagePanel);
+        extrernalImagePanel.setLayout(extrernalImagePanelLayout);
+        extrernalImagePanelLayout.setHorizontalGroup(
+            extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(extrernalImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        ExtrernalImagePanelLayout.setVerticalGroup(
-            ExtrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ExtrernalImagePanelLayout.createSequentialGroup()
-                .addComponent(ImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        extrernalImagePanelLayout.setVerticalGroup(
+            extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(extrernalImagePanelLayout.createSequentialGroup()
+                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -131,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        NoisePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        noisePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         plusNoiseButton.setText("Шум //\\\\");
             plusNoiseButton.setEnabled(false);
@@ -142,23 +149,23 @@ public class MainFrame extends javax.swing.JFrame {
             addNoiseButton.setText("Наложить шум");
             addNoiseButton.setEnabled(false);
 
-            javax.swing.GroupLayout NoisePanelLayout = new javax.swing.GroupLayout(NoisePanel);
-            NoisePanel.setLayout(NoisePanelLayout);
-            NoisePanelLayout.setHorizontalGroup(
-                NoisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(NoisePanelLayout.createSequentialGroup()
+            javax.swing.GroupLayout noisePanelLayout = new javax.swing.GroupLayout(noisePanel);
+            noisePanel.setLayout(noisePanelLayout);
+            noisePanelLayout.setHorizontalGroup(
+                noisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(noisePanelLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(NoisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(noisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(minusNoiseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(plusNoiseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(NoisePanelLayout.createSequentialGroup()
+                        .addGroup(noisePanelLayout.createSequentialGroup()
                             .addComponent(addNoiseButton)
                             .addGap(0, 0, Short.MAX_VALUE)))
                     .addContainerGap())
             );
-            NoisePanelLayout.setVerticalGroup(
-                NoisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(NoisePanelLayout.createSequentialGroup()
+            noisePanelLayout.setVerticalGroup(
+                noisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(noisePanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(addNoiseButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -168,30 +175,42 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            CodecPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            codecPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-            CoderButton.setText("Кодер");
+            coderButton.setText("Кодер");
+            coderButton.setEnabled(false);
+            coderButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    coderButtonActionPerformed(evt);
+                }
+            });
 
-            DecoderButton.setText("Декодер");
+            decoderButton.setText("Декодер");
+            decoderButton.setEnabled(false);
+            decoderButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    decoderButtonActionPerformed(evt);
+                }
+            });
 
-            javax.swing.GroupLayout CodecPanelLayout = new javax.swing.GroupLayout(CodecPanel);
-            CodecPanel.setLayout(CodecPanelLayout);
-            CodecPanelLayout.setHorizontalGroup(
-                CodecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(CodecPanelLayout.createSequentialGroup()
+            javax.swing.GroupLayout codecPanelLayout = new javax.swing.GroupLayout(codecPanel);
+            codecPanel.setLayout(codecPanelLayout);
+            codecPanelLayout.setHorizontalGroup(
+                codecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(codecPanelLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(CodecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(CoderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DecoderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(codecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(coderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(decoderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
             );
-            CodecPanelLayout.setVerticalGroup(
-                CodecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(CodecPanelLayout.createSequentialGroup()
+            codecPanelLayout.setVerticalGroup(
+                codecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(codecPanelLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(CoderButton)
+                    .addComponent(coderButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(DecoderButton)
+                    .addComponent(decoderButton)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
@@ -202,14 +221,14 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(NoisePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CodecPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(noisePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(codecPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(fileOpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(graphicButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(ExternalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(externalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(ExtrernalImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
             layout.setVerticalGroup(
@@ -218,16 +237,16 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ExtrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ExternalInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(externalInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(fileOpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(graphicButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(NoisePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(noisePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(CodecPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(codecPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
@@ -236,48 +255,74 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Открыть файл
     private void fileOpenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenButtonActionPerformed
-        // Создание FileChooser;
+        // создание FileChooser;
         javax.swing.filechooser.FileNameExtensionFilter filefilter; 
         filefilter = new javax.swing.filechooser.FileNameExtensionFilter("Изображения (.jpg,.png,.bmp)", "jpg", "png", "bmp");
         javax.swing.JFileChooser filechooser = new javax.swing.JFileChooser("C:\\");
         filechooser.setAcceptAllFileFilterUsed(false);
         filechooser.addChoosableFileFilter(filefilter);
         int ret = filechooser.showDialog(null, "Открыть файл");
-        // Если выбран файл
+        
+        // если выбран файл
         if (ret == javax.swing.JFileChooser.APPROVE_OPTION) {
-            java.io.File file = filechooser.getSelectedFile();
             try {  
-                image = ImageIO.read(file);
+                image = ImageIO.read(filechooser.getSelectedFile());
+                
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
-            ImagePanel.setIcon(ImageResizing.execute(image, ImagePanel.getHeight(), ImagePanel.getWidth()));
+            imagePanel.setIcon(ImageResizing.execute(image, imagePanel.getHeight(), imagePanel.getWidth()));
+            infoPanel.append("   Количество цветов = " + 3 + "\n");
+            coderButton.setEnabled(true);
         }
     }//GEN-LAST:event_fileOpenButtonActionPerformed
 
-    private void ClearTextPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearTextPanelActionPerformed
-
-    }//GEN-LAST:event_ClearTextPanelActionPerformed
+    // Нажатие на кнопку "Очистить"
+    private void clearTextPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearTextPanelActionPerformed
+        infoPanel.setText("");
+    }//GEN-LAST:event_clearTextPanelActionPerformed
 
     private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_graphicButtonActionPerformed
 
+    /** Нажатие на кнопку "Кодер" */
+    private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
+	encodeBits = org.models.Codec.encode( imageBits.bits );		
+	imageBits = new ImageBits(image);		
+	addNoiseButton.setEnabled(true);
+	decoderButton.setEnabled(true);
+        infoPanel.append("   Кодирование завершено.\n");        
+    }//GEN-LAST:event_coderButtonActionPerformed
+    
+    /** Нажатие на кнопку "Декодер" */
+    private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
+	decodeBits = org.models.Codec.decode( encodeBits );       
+        finalImageBits = new ImageBits( decodeBits, imageBits.width, imageBits.height);
+        try {
+            imagePanel.setIcon(ImageResizing.execute(finalImageBits.toImage(), finalImageBits.height, finalImageBits.width));
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	decoderButton.setEnabled(false);
+        infoPanel.append("   Декодирование завершено.\n");
+    }//GEN-LAST:event_decoderButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ClearTextPanel;
-    private javax.swing.JPanel CodecPanel;
-    private javax.swing.JButton CoderButton;
-    private javax.swing.JButton DecoderButton;
-    private javax.swing.JPanel ExternalInfoPanel;
-    private javax.swing.JPanel ExtrernalImagePanel;
-    private javax.swing.JLabel ImagePanel;
     private javax.swing.JScrollPane InfiScrollPanel;
-    private javax.swing.JTextArea InfoPanel;
-    private javax.swing.JPanel NoisePanel;
     private javax.swing.JButton addNoiseButton;
+    private javax.swing.JButton clearTextPanel;
+    private javax.swing.JPanel codecPanel;
+    private javax.swing.JButton coderButton;
+    private javax.swing.JButton decoderButton;
+    private javax.swing.JPanel externalInfoPanel;
+    private javax.swing.JPanel extrernalImagePanel;
     private javax.swing.JButton fileOpenButton;
     private javax.swing.JButton graphicButton;
+    private javax.swing.JLabel imagePanel;
+    private javax.swing.JTextArea infoPanel;
     private javax.swing.JButton minusNoiseButton;
+    private javax.swing.JPanel noisePanel;
     private javax.swing.JButton plusNoiseButton;
     // End of variables declaration//GEN-END:variables
 }

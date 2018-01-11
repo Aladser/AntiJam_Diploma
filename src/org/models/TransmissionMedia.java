@@ -1,5 +1,4 @@
 package org.models;
-
 import java.util.BitSet;
 import java.util.Random;
 

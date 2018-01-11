@@ -3,14 +3,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.BitSet;
 
-/** Image as a ByteArray */
+/** Изображение как байтовый массив */
 public class ImageBytes {	
-    // ByteArray
-    final public byte[] bytes;
-    // Image parameters
-    private final int height;
-    private final int width;
-    private final int numColors;      
+    public final byte[] bytes;
+    public final int height;
+    public final int width;
+    public final int numColors;   
 
     public ImageBytes(BufferedImage image){
         // The image to a byte array
@@ -24,17 +22,18 @@ public class ImageBytes {
         bytes = bits.toByteArray();
         height = aHeight;
         width = aWidth;
+ 
         if(bits.get(bits.length() - 1) && bits.get(bits.length() - 2))
             numColors = 3;
 	else
             numColors = 1;    	  
     }
 	
-    // Returns a unsigned integer
+    // Возвращает целое значение
     private static int unsigned(byte i){ 
 	return i>=0 ? i : 256+i; 
     }
-    // Creates a integer color
+    // Создает целочисденный цвет
     private int createColor(byte R, byte G, byte B){
 	return (unsigned(R) << 16) + (unsigned(G) << 8) + unsigned(B) + (255 << 24);
     }
@@ -42,7 +41,7 @@ public class ImageBytes {
 	return (unsigned(pixel) << 16) + (unsigned(pixel) << 8) + unsigned(pixel) + (255 << 24);
     }
 	
-    // Returns a image
+    // Возвращает изображение
     public BufferedImage toImage() throws java.io.IOException{
 	BufferedImage restoreImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
 	int j = (numColors == 4) ? 1 : 0; // определяет наличие альфа-канала
@@ -58,16 +57,15 @@ public class ImageBytes {
 	}
 	return restoreImage;
     }
-	
-    // Returns a bit array
-    public BitSet toBitArray(){
+
+    // Возвращает битовый массив
+    public BitSet toBitArray(){       
 	BitSet bits = BitSet.valueOf(bytes);
-	bits.set(bytes.length * 8 + 7);                    // последний бит - конец массива
-	if(numColors == 3) bits.set(bytes.length * 8 + 6); // предпоследний - количество цветов в пикселе
+        bits.set(bytes.length * 8 - 1);
 	return bits;
     }
 	
-    // Prints N first array elements
+    // Возвращает N байтов массива
     public String toString(int n){
 	String result = "{";
         if(n < 1 || n >= bytes.length) return "Error. Uncorrect length";
@@ -76,11 +74,9 @@ public class ImageBytes {
 	}
         return result + "}\n";
     }
-    @Override
-    public String toString(){
-	String result = new String();
-	result += " = " + numColors + "\n \n";	
-	return result;
+    // Количество цветов
+    public int numberOfColors(){
+	return numColors;
     }
 	
 }
