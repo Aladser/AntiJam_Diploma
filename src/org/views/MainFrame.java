@@ -17,9 +17,7 @@ import org.models.TransmissionMedia;
 public class MainFrame extends javax.swing.JFrame {
     private BufferedImage image;              // Исходное изображение
     private ImageBits imageBits;              // Битовый массив изображения
-    private ImageBits finalImageBits;         // Полученный массив изображения    
-    private BitSet encodeBits;                // Закодированное битовое сообщение
-    private BitSet decodeBits;                // Декодированное битовое сообщение
+    private ImageBits recImageBits;         // Полученный массив изображения    
     private TransmissionMedia transmedia;     // Канал передачи данных
     
     public MainFrame() {
@@ -271,9 +269,14 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
-            imagePanel.setIcon(ImageResizing.execute(image, imagePanel.getHeight(), imagePanel.getWidth()));
+            try {
+                // Проверка, что bitImages верный
+                imagePanel.setIcon( ImageResizing.execute( imageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight() ) );
+            } catch (IOException ex) {
+                System.out.println("Ошибка создания рисунка");
+            }
             infoPanel.append("   Количество цветов = " + 3 + "\n");
-            coderButton.setEnabled(true);
+            coderButton.setEnabled(true);     
         }
     }//GEN-LAST:event_fileOpenButtonActionPerformed
 
@@ -288,8 +291,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     /** Нажатие на кнопку "Кодер" */
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
-        encodeBits = org.models.Codec.encode( imageBits.bits );		
-	imageBits = new ImageBits(image);		
+        transmedia.message = org.models.Codec.encode( imageBits.bits );
+        
 	addNoiseButton.setEnabled(true);
 	decoderButton.setEnabled(true);
         infoPanel.append("   Кодирование завершено.\n");        
@@ -297,10 +300,11 @@ public class MainFrame extends javax.swing.JFrame {
     
     /** Нажатие на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
-	decodeBits = org.models.Codec.decode( encodeBits );       
-        finalImageBits = new ImageBits( decodeBits, imageBits.width, imageBits.height);
+	transmedia.message = org.models.Codec.decode( transmedia.message );       
+        recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
+
         try {
-            imagePanel.setIcon(ImageResizing.execute(finalImageBits.toImage(), finalImageBits.height, finalImageBits.width));
+            imagePanel.setIcon(ImageResizing.execute( recImageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight()) );
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

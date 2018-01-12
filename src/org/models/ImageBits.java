@@ -31,7 +31,6 @@ public class ImageBits {
         bits.set(bytes.length * 8 - 1);
         numColors = (image.getColorModel().getPixelSize()) / 8;
     }
-    
     public ImageBits(BitSet bits, int width, int height){
 	this.bits = bits;
         bits.set(width * height * 8 - 1);
@@ -61,6 +60,7 @@ public class ImageBits {
     private static int unsigned(byte i){ 
 	return i>=0 ? i : 256+i; 
     }
+    
     // Создает целочисденный цвет
     private int createColor(byte R, byte G, byte B){
 	return (unsigned(R) << 16) + (unsigned(G) << 8) + unsigned(B) + (255 << 24);

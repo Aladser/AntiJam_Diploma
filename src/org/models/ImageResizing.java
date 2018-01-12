@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
  */
 public abstract class ImageResizing {
     // dHeight - высота окна, dWidth - ширина окна
-    public static ImageIcon execute(BufferedImage original, int dHeight, int dWidth){
+    public static ImageIcon execute(BufferedImage original, int dWidth, int dHeight){
         double K1 = 1, K2 = 1;
         double height = original.getHeight();
         double width = original.getWidth();

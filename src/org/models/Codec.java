@@ -58,11 +58,11 @@ public class Codec {
         
         // message getting
 	int length = ((encodeMessage.length() - 1) * 4) / 7;
-        BitSet message = new BitSet(length);
+        BitSet decodeMessage = new BitSet(length);
         for (int i = 0, ei = 0; ei < encodeMessage.length() - 1; ei += 7){
-            for (int k = ei; k < ei + 4; k++) { message.set(i++, encodeMessage.get(k)); }
+            for (int k = ei; k < ei + 4; k++) { decodeMessage.set(i++, encodeMessage.get(k)); }
         } 
-        return message;
+        return decodeMessage;
     }
 	
     // Converts logic to integer
