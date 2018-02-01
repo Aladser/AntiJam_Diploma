@@ -14,10 +14,12 @@ import org.models.TransmissionMedia;
  * @author Aladser
  */
 public class MainFrame extends javax.swing.JFrame {
-    private BufferedImage image;              // Исходное изображение
-    private ImageBits imageBits;              // Битовый массив изображения
-    private ImageBits recImageBits;           // Полученный массив изображения    
-    private final TransmissionMedia transmedia;     // Канал передачи данных
+    private BufferedImage image;                 // Исходное изображение
+    private ImageBits imageBits;                 // Битовый массив изображения
+    private ImageBits graphicImageBits;
+    private ImageBits recImageBits;              // Полученный массив изображения    
+    private final TransmissionMedia transmedia;  // Канал передачи данных
+    private GraphicJDialog graphic;              // График
     
     public MainFrame() {
         initComponents();
@@ -90,15 +92,15 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(InfiScrollPanel)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(externalInfoPanelLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
                 .addComponent(clearTextPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         externalInfoPanelLayout.setVerticalGroup(
             externalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
-                .addComponent(InfiScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addComponent(InfiScrollPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(clearTextPanel)
                 .addContainerGap())
@@ -261,8 +263,7 @@ public class MainFrame extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(externalInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(fileOpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,8 +272,10 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addComponent(noisePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(codecPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(codecPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 305, Short.MAX_VALUE))
+                        .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
+                    .addContainerGap())
             );
 
             pack();
@@ -293,6 +296,7 @@ public class MainFrame extends javax.swing.JFrame {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
                 imageBits = new ImageBits(image);
+                graphicImageBits = new ImageBits(image);
                 ArrayShow.show(imageBits.bits, 48, 8, "Исходный битовый массив");
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
@@ -304,7 +308,8 @@ public class MainFrame extends javax.swing.JFrame {
                 System.out.println("Ошибка создания рисунка");
             }
             infoPanel.append("   Количество цветов = " + 3 + "\n");
-            coderButton.setEnabled(true);     
+            coderButton.setEnabled(true);
+            graphicButton.setEnabled(true);
         }
     }//GEN-LAST:event_fileOpenButtonActionPerformed
 
@@ -314,7 +319,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_clearTextPanelActionPerformed
 
     private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
-        // TODO add your handling code here:
+        graphic = new GraphicJDialog(this, transmedia.message);
+        graphic.setVisible(true);
     }//GEN-LAST:event_graphicButtonActionPerformed
 
     /** Нажать на кнопку "Кодер" */
