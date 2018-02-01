@@ -1,17 +1,6 @@
 package org.views;
 
-import java.awt.Color;
 import java.util.BitSet;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.models.Codec;
 import org.models.TransmissionMedia;
 
 /**
@@ -19,66 +8,14 @@ import org.models.TransmissionMedia;
  * @author Aladser
  */
 public class GraphicJDialog extends javax.swing.JDialog {
-    private BitSet srcMessage;
+    private final BitSet srcMessage;
+    private final TransmissionMedia transmedia;
     
     public GraphicJDialog(java.awt.Frame parent, BitSet srcMessage) {
         super(parent, true);
         this.srcMessage = srcMessage;
-	final CategoryDataset dataset = createDataset();
-	final JFreeChart chart = createChart(dataset);
-	final ChartPanel chartPanel = new ChartPanel( chart );        
+        transmedia = new TransmissionMedia();
         initComponents();
-    }
-    
-    private CategoryDataset createDataset( ){
-	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		 
-	double Perr = 0.0001;   //исходная вероятность ошибки
-	TransmissionMedia transmediaChart = new TransmissionMedia(Perr);
-	BitSet outMessage;      //исходящее сообщение
-	BitSet encodeMessage;   //закодированное сообщение
-	BitSet inMessage;       //входящее сообщение
-	int numErrors;          //число ошибок после декодера
-		 
-	while(Perr < 0.02){
-            outMessage = (BitSet) srcMessage.clone();
-            encodeMessage = Codec.encode(outMessage);
-            transmediaChart.imposeNoise(encodeMessage);
-            inMessage = Codec.decode(encodeMessage);
-            numErrors = transmediaChart.equals(outMessage, inMessage);
-            dataset.addValue( numErrors, "" , ""+Perr);
-            transmediaChart.setNoiseLevel(Perr * 2);
-            Perr = transmediaChart.getNoiseLevel();
-	}
-		 
-	return dataset;
-    }
-
-    private JFreeChart createChart(final CategoryDataset dataset) {
-        final JFreeChart chart = ChartFactory.createLineChart("Число ошибок (вероятность ошибок)",       // chart title
-                                                              "Вероятность ошибки",                    // domain axis label
-                                                              "Ошибок не исправлено",                   // range axis label
-                                                              dataset,                   // data
-                                                              PlotOrientation.VERTICAL,  // orientation
-                                                              false,                      // include legend
-                                                              true,                      // tooltips
-                                                              false                      // urls
-                                                              );
-        chart.setBackgroundPaint(Color.white); 
-        final CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.CYAN);
-        plot.setDomainGridlinePaint(Color.black);
-        plot.setRangeGridlinePaint(Color.black);
-    
-        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        rangeAxis.setAutoRangeIncludesZero(true);
-    
-        final LineAndShapeRenderer renderer = new LineAndShapeRenderer();
-        renderer.setSeriesLinesVisible(1, false);     
-        renderer.setSeriesShapesVisible(1, false); 
-        plot.setRenderer(renderer); 
-        return chart;
     }
     
     /**

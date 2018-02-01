@@ -16,7 +16,6 @@ import org.models.TransmissionMedia;
 public class MainFrame extends javax.swing.JFrame {
     private BufferedImage image;                 // Исходное изображение
     private ImageBits imageBits;                 // Битовый массив изображения
-    private ImageBits graphicImageBits;
     private ImageBits recImageBits;              // Полученный массив изображения    
     private final TransmissionMedia transmedia;  // Канал передачи данных
     private GraphicJDialog graphic;              // График
@@ -296,7 +295,6 @@ public class MainFrame extends javax.swing.JFrame {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
                 imageBits = new ImageBits(image);
-                graphicImageBits = new ImageBits(image);
                 ArrayShow.show(imageBits.bits, 48, 8, "Исходный битовый массив");
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
@@ -325,7 +323,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     /** Нажать на кнопку "Кодер" */
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
-        transmedia.message = org.models.Codec.encode( imageBits.bits );      
+        transmedia.message = org.models.Codec.encode( imageBits.bits );
+        transmedia.setTransmission(true);
         ArrayShow.show(imageBits.bits, 42, 7, "\nЗакодированный битовый массив");
         infoPanel.append("   Кодирование завершено.\n");
         addNoiseButton.setEnabled(true);
@@ -334,6 +333,7 @@ public class MainFrame extends javax.swing.JFrame {
     /** Нажать на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	transmedia.message = org.models.Codec.decode( transmedia.message );
+        transmedia.setTransmission(false);
         ArrayShow.show(imageBits.bits, 48, 8, "\nПолученный битовый массив");
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         try {
@@ -349,7 +349,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     /** Нажать на кнопку "Наложить шум" */
     private void addNoiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNoiseButtonActionPerformed
-        transmedia.imposeNoise(transmedia.message);
+        transmedia.imposeNoise();
         ArrayShow.show(transmedia.message, 42, 7, "\nБитовый массив с шумом");
         decoderButton.setEnabled(true);
     }//GEN-LAST:event_addNoiseButtonActionPerformed
