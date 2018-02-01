@@ -33,7 +33,7 @@
                   <Component id="fileOpenButton" max="32767" attributes="0"/>
                   <Component id="graphicButton" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="externalInfoPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="extrernalImagePanel" min="-2" max="-2" attributes="0"/>
@@ -45,12 +45,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="extrernalImagePanel" max="32767" attributes="0"/>
-                      <Component id="externalInfoPanel" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="extrernalImagePanel" max="32767" attributes="0"/>
+                  <Component id="externalInfoPanel" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Component id="fileOpenButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="graphicButton" min="-2" pref="25" max="-2" attributes="0"/>
@@ -231,12 +229,9 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="minusNoiseButton" max="32767" attributes="0"/>
-                      <Component id="plusNoiseButton" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="addNoiseButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="decoderButton" max="32767" attributes="0"/>
+                      <Component id="coderButton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="addNoiseButton" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -246,34 +241,43 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="coderButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="addNoiseButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="plusNoiseButton" min="-2" pref="25" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="minusNoiseButton" min="-2" pref="25" max="-2" attributes="0"/>
+                  <Component id="decoderButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="plusNoiseButton">
+        <Component class="javax.swing.JButton" name="coderButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x428;&#x443;&#x43c; //\u005c\u005c" containsInvalidXMLChars="true"/>
+            <Property name="text" type="java.lang.String" value="&#x41a;&#x43e;&#x434;&#x435;&#x440; &#x438; &#x41e;&#x442;&#x43f;&#x440;&#x430;&#x432;&#x43a;&#x430;"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="minusNoiseButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="&#x428;&#x443;&#x43c; \u005c\u005c//" containsInvalidXMLChars="true"/>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="coderButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="addNoiseButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x41d;&#x430;&#x43b;&#x43e;&#x436;&#x438;&#x442;&#x44c; &#x448;&#x443;&#x43c;"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addNoiseButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="decoderButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x41f;&#x43e;&#x43b;&#x443;&#x447;&#x435;&#x43d;&#x438;&#x435; &#x438; &#x434;&#x435;&#x43a;&#x43e;&#x434;&#x435;&#x440;"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decoderButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -292,8 +296,13 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="coderButton" max="32767" attributes="0"/>
-                      <Component id="decoderButton" max="32767" attributes="0"/>
+                      <Component id="minusNoiseButton" max="32767" attributes="0"/>
+                      <Component id="plusNoiseButton" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="kerrLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="kErrLbl2" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -303,32 +312,58 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="coderButton" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="kerrLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="kErrLbl2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="decoderButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="plusNoiseButton" min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="minusNoiseButton" min="-2" pref="25" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="coderButton">
+        <Component class="javax.swing.JButton" name="minusNoiseButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x41a;&#x43e;&#x434;&#x435;&#x440;"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="&#x428;&#x443;&#x43c; \u005c\u005c//" containsInvalidXMLChars="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="coderButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="minusNoiseButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="decoderButton">
+        <Component class="javax.swing.JButton" name="plusNoiseButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x414;&#x435;&#x43a;&#x43e;&#x434;&#x435;&#x440;"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="&#x428;&#x443;&#x43c; //\u005c\u005c" containsInvalidXMLChars="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decoderButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plusNoiseButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="kerrLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="K &#x43e;&#x448;"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[34, 20]"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="kErrLbl2">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[34, 20]"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

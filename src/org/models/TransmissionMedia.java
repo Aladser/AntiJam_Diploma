@@ -5,14 +5,20 @@ import java.util.Random;
 // Transmission media. Responsible for message errors
 public class TransmissionMedia {
     public BitSet message;
+    private boolean TransmissionFlag;
     private double noiseLevel;
     private int numErrors = 0;
 	
     public TransmissionMedia(double noiseLevel){
             this.noiseLevel = noiseLevel;
+            TransmissionFlag = false;
+    }
+    public TransmissionMedia(){
+            this.noiseLevel = 0.00001;
+            TransmissionFlag = false;
     }
     
-    // Adds noise
+    // Добаляет шум к сообшению
     public int imposeNoise(BitSet message){
             numErrors = 0;
             Random rnd = new Random(System.currentTimeMillis());
@@ -36,7 +42,15 @@ public class TransmissionMedia {
     public double getNoiseLevel(){
             return noiseLevel;
 	}
-	
+
+    public void setTransmission(boolean flag){
+        TransmissionFlag = flag;
+    }
+    
+    public boolean isTransmission(){
+        return TransmissionFlag;
+    }
+
     // Equals two bit arrays
     public int equals(BitSet inm, BitSet outm){
             int result = 0;
