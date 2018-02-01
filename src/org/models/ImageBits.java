@@ -56,12 +56,17 @@ public class ImageBits {
 	return image;        
     }
     
-    // Возвращает целое значение
+    // Возвращает целое значение бита
+    public static int getBit(boolean bit){
+        return (bit == true) ? 1 : 0;      
+    }    
+    
+    // Возвращает беззнаковое значение бита
     private static int unsigned(byte i){ 
 	return i>=0 ? i : 256+i; 
     }
     
-    // Создает целочисденный цвет
+    // Создает целочисленный цвет
     private int createColor(byte R, byte G, byte B){
 	return (unsigned(R) << 16) + (unsigned(G) << 8) + unsigned(B) + (255 << 24);
     }

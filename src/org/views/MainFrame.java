@@ -265,6 +265,11 @@ public class MainFrame extends javax.swing.JFrame {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
                 imageBits = new ImageBits(image);
+                System.out.println("Исходный битовый массив");
+                for(int i=0; i<72; i++){
+                    if( i%8 == 0 && i!=0) System.out.print(" ");
+                    System.out.print( ImageBits.getBit(imageBits.bits.get(i)) );
+                }
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
@@ -292,6 +297,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
         transmedia.message = org.models.Codec.encode( imageBits.bits );
         
+        System.out.println("\nЗакодированный битовый массив");
+        for(int i=0; i<72; i++){
+            if( i%7 == 0 && i!=0) System.out.print(" ");            
+            System.out.print( ImageBits.getBit( transmedia.message.get(i)) );
+        }
+                
 	addNoiseButton.setEnabled(true);
 	decoderButton.setEnabled(true);
         infoPanel.append("   Кодирование завершено.\n");        
@@ -299,7 +310,12 @@ public class MainFrame extends javax.swing.JFrame {
     
     /** Нажатие на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
-	transmedia.message = org.models.Codec.decode( transmedia.message );       
+	transmedia.message = org.models.Codec.decode( transmedia.message );
+        System.out.println("\nДекодированный битовый массив");
+        for(int i=0; i<72; i++){
+            if( i%8 == 0 && i!=0) System.out.print(" ");            
+            System.out.print( ImageBits.getBit( transmedia.message.get(i)) );
+        }
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
 
         try {
