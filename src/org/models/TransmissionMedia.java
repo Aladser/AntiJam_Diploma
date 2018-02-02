@@ -7,7 +7,6 @@ public class TransmissionMedia {
     public BitSet message;
     private boolean TransmissionFlag;
     private double noiseLevel;
-    private int numErrors = 0;
     
     public TransmissionMedia(){
         this.noiseLevel = 0.0001;
@@ -16,7 +15,7 @@ public class TransmissionMedia {
     
     // Наложить шум на сообщение
     public int imposeNoise(){
-        numErrors = 0;
+        int numErrors = 0;
         Random rnd = new Random(System.currentTimeMillis());
         int errorIndex;
         int convNoiseLevel = (int)(1 / noiseLevel);
@@ -39,17 +38,7 @@ public class TransmissionMedia {
     public double getNoiseLevel(){
         return noiseLevel;
     }
-
-    // Установить уровень ушма
-    public void setTransmission(boolean flag){
-        TransmissionFlag = flag;
-    }
     
-    // Проверка на передачу сообщения
-    public boolean isTransmission(){
-        return TransmissionFlag;
-    }
-
     // Сравнение двух битовых массивов
     public static int equals(BitSet inm, BitSet outm){
         int result = 0;

@@ -1,12 +1,10 @@
 package org.views;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.models.ImageBits;
-import org.models.ImageResizing;
 import org.models.TransmissionMedia;
 
 /**
@@ -14,11 +12,11 @@ import org.models.TransmissionMedia;
  * @author Aladser
  */
 public class MainFrame extends javax.swing.JFrame {
-    private BufferedImage image;                 // Исходное изображение
+    private java.awt.image.BufferedImage image;  // Исходное изображение
     private ImageBits imageBits;                 // Битовый массив изображения
     private ImageBits recImageBits;              // Полученный массив изображения    
     private final TransmissionMedia transmedia;  // Канал передачи данных
-    private GraphicJDialog graphic;              // График
+    private int numErrors;                       // Число ошибок после передачи
     
     public MainFrame() {
         initComponents();
@@ -92,7 +90,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(InfoScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(externalInfoPanelLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addGap(120, 120, 120)
                 .addComponent(clearTextPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -301,7 +299,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             try {
                 // Проверка, что bitImages верный
-                imagePanel.setIcon( ImageResizing.execute( imageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight() ) );
+                imagePanel.setIcon( org.models.ImageResizing.execute( imageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight() ) );
             } catch (IOException ex) {
                 System.out.println("Ошибка создания рисунка");
             }
@@ -316,15 +314,15 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.setText("");
     }//GEN-LAST:event_clearTextPanelActionPerformed
 
+    // Нажать на кнопку "График"
     private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
-        graphic = new GraphicJDialog(this, transmedia.message);
-        graphic.setVisible(true);
+        ChartDialog chart = new ChartDialog(this, imageBits.bits);
+        chart.setVisible(true);
     }//GEN-LAST:event_graphicButtonActionPerformed
 
     /** Нажать на кнопку "Кодер" */
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
         transmedia.message = org.models.Codec.encode( imageBits.bits );
-        transmedia.setTransmission(true);
         infoPanel.append( ArrayShow.show(imageBits.bits, 42, 7, "\n  Закодированный битовый массив"));
         addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
@@ -332,17 +330,27 @@ public class MainFrame extends javax.swing.JFrame {
     /** Нажать на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	transmedia.message = org.models.Codec.decode( transmedia.message );
-        transmedia.setTransmission(false);
         infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\n  Полученный битовый массив"));
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
+        numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
+        infoPanel.append( "\n Число неисправленных ошибок после передачи:\n" );
+        infoPanel.append( numErrors + " (");
+        double errRate = (double)numErrors/transmedia.message.size() * 100000;  //% ошибок от всех битов
+        int iSubErrRate = (int)Math.round(errRate);                             // округление 1
+        errRate = (double)iSubErrRate;                                          // округление 2
+        errRate /= 1000;                                                        // округление 3
+        infoPanel.append(String.valueOf(errRate) + "%)\n");
+        
         try {
-            imagePanel.setIcon(ImageResizing.execute( recImageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight()) );
+            imagePanel.setIcon(org.models.ImageResizing.execute( recImageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight()) );
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         addNoiseButton.setEnabled(false);
 	decoderButton.setEnabled(false);
+        plusNoiseButton.setEnabled(true);
+        minusNoiseButton.setEnabled(true);
     }//GEN-LAST:event_decoderButtonActionPerformed
 
     /** Нажать на кнопку "Наложить шум" */
@@ -350,6 +358,8 @@ public class MainFrame extends javax.swing.JFrame {
         transmedia.imposeNoise();
         infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\n  Битовый массив с шумом"));
         decoderButton.setEnabled(true);
+        plusNoiseButton.setEnabled(false);
+        minusNoiseButton.setEnabled(false);
     }//GEN-LAST:event_addNoiseButtonActionPerformed
 
     /** Повысить уровень шума*/
