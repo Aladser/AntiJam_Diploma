@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         transmedia = new TransmissionMedia();
-        kErrLbl2.setText( Double.toString(transmedia.getNoiseLevel()) );
+        kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );
     }
 
     /**
@@ -38,7 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
         fileOpenButton = new javax.swing.JButton();
         externalInfoPanel = new javax.swing.JPanel();
         clearTextPanel = new javax.swing.JButton();
-        InfiScrollPanel = new javax.swing.JScrollPane();
+        InfoScrollPanel = new javax.swing.JScrollPane();
         infoPanel = new javax.swing.JTextArea();
         extrernalImagePanel = new javax.swing.JPanel();
         imagePanel = new javax.swing.JLabel();
@@ -51,7 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
         minusNoiseButton = new javax.swing.JButton();
         plusNoiseButton = new javax.swing.JButton();
         kerrLabel = new javax.swing.JLabel();
-        kErrLbl2 = new javax.swing.JLabel();
+        kerrLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Кодеки");
@@ -81,7 +81,7 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         infoPanel.setRows(5);
         infoPanel.setBorder(null);
-        InfiScrollPanel.setViewportView(infoPanel);
+        InfoScrollPanel.setViewportView(infoPanel);
 
         javax.swing.GroupLayout externalInfoPanelLayout = new javax.swing.GroupLayout(externalInfoPanel);
         externalInfoPanel.setLayout(externalInfoPanelLayout);
@@ -89,7 +89,7 @@ public class MainFrame extends javax.swing.JFrame {
             externalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(InfiScrollPanel)
+                .addComponent(InfoScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(externalInfoPanelLayout.createSequentialGroup()
                 .addGap(69, 69, 69)
@@ -99,7 +99,7 @@ public class MainFrame extends javax.swing.JFrame {
         externalInfoPanelLayout.setVerticalGroup(
             externalInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, externalInfoPanelLayout.createSequentialGroup()
-                .addComponent(InfiScrollPanel)
+                .addComponent(InfoScrollPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(clearTextPanel)
                 .addContainerGap())
@@ -121,7 +121,7 @@ public class MainFrame extends javax.swing.JFrame {
             extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(extrernalImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
                 .addContainerGap())
         );
         extrernalImagePanelLayout.setVerticalGroup(
@@ -208,9 +208,9 @@ public class MainFrame extends javax.swing.JFrame {
             kerrLabel.setText("K ош");
             kerrLabel.setPreferredSize(new java.awt.Dimension(34, 20));
 
-            kErrLbl2.setBackground(new java.awt.Color(255, 255, 255));
-            kErrLbl2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-            kErrLbl2.setPreferredSize(new java.awt.Dimension(34, 20));
+            kerrLabel2.setBackground(new java.awt.Color(255, 255, 255));
+            kerrLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            kerrLabel2.setPreferredSize(new java.awt.Dimension(34, 20));
 
             javax.swing.GroupLayout codecPanelLayout = new javax.swing.GroupLayout(codecPanel);
             codecPanel.setLayout(codecPanelLayout);
@@ -224,7 +224,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(codecPanelLayout.createSequentialGroup()
                             .addComponent(kerrLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(kErrLbl2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(kerrLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addContainerGap())
             );
             codecPanelLayout.setVerticalGroup(
@@ -233,7 +233,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap()
                     .addGroup(codecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(kerrLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(kErrLbl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(kerrLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(plusNoiseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -252,11 +252,11 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(codecPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(fileOpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(graphicButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(externalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 919, Short.MAX_VALUE)
+                    .addContainerGap())
             );
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,8 +325,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
         transmedia.message = org.models.Codec.encode( imageBits.bits );
         transmedia.setTransmission(true);
-        ArrayShow.show(imageBits.bits, 42, 7, "\nЗакодированный битовый массив");
-        infoPanel.append("   Кодирование завершено.\n");
+        infoPanel.append( ArrayShow.show(imageBits.bits, 42, 7, "\n  Закодированный битовый массив"));
         addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
     
@@ -334,7 +333,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	transmedia.message = org.models.Codec.decode( transmedia.message );
         transmedia.setTransmission(false);
-        ArrayShow.show(imageBits.bits, 48, 8, "\nПолученный битовый массив");
+        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\n  Полученный битовый массив"));
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         try {
             imagePanel.setIcon(ImageResizing.execute( recImageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight()) );
@@ -344,13 +343,12 @@ public class MainFrame extends javax.swing.JFrame {
         
         addNoiseButton.setEnabled(false);
 	decoderButton.setEnabled(false);
-        infoPanel.append("   Декодирование завершено.\n");
     }//GEN-LAST:event_decoderButtonActionPerformed
 
     /** Нажать на кнопку "Наложить шум" */
     private void addNoiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNoiseButtonActionPerformed
         transmedia.imposeNoise();
-        ArrayShow.show(transmedia.message, 42, 7, "\nБитовый массив с шумом");
+        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\n  Битовый массив с шумом"));
         decoderButton.setEnabled(true);
     }//GEN-LAST:event_addNoiseButtonActionPerformed
 
@@ -360,7 +358,7 @@ public class MainFrame extends javax.swing.JFrame {
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 2);
 	else
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 10);
-        kErrLbl2.setText( Double.toString(transmedia.getNoiseLevel()) );        
+        kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );        
     }//GEN-LAST:event_plusNoiseButtonActionPerformed
 
     /** Понизить уровень шума*/
@@ -369,11 +367,11 @@ public class MainFrame extends javax.swing.JFrame {
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 0.5);
 	else
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 0.1);
-        kErrLbl2.setText( Double.toString(transmedia.getNoiseLevel()) );
+        kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );
     }//GEN-LAST:event_minusNoiseButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane InfiScrollPanel;
+    private javax.swing.JScrollPane InfoScrollPanel;
     private javax.swing.JButton addNoiseButton;
     private javax.swing.JButton clearTextPanel;
     private javax.swing.JPanel codecPanel;
@@ -385,8 +383,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton graphicButton;
     private javax.swing.JLabel imagePanel;
     private javax.swing.JTextArea infoPanel;
-    private javax.swing.JLabel kErrLbl2;
     private javax.swing.JLabel kerrLabel;
+    private javax.swing.JLabel kerrLabel2;
     private javax.swing.JButton minusNoiseButton;
     private javax.swing.JPanel noisePanel;
     private javax.swing.JButton plusNoiseButton;

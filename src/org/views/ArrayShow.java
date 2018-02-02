@@ -8,11 +8,12 @@ import org.models.ImageBits;
  * @author Aladser
  */
 public class ArrayShow {
-    public static void show(BitSet array, int number, int separator, String name){
-        System.out.println(name);
+    public static String show(BitSet array, int number, int separator, String name){
+        String result = name + "\n";
         for(int i=0; i<number; i++){
-            if( i%separator == 0 && i!=0) System.out.print(" ");            
-            System.out.print( ImageBits.getBit( array.get(i)) );
+            if( i%separator == 0 && i!=0) result += " ";
+            result += ImageBits.getBit( array.get(i));
         }
+        return result;
     }
 }

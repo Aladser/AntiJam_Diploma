@@ -33,11 +33,11 @@
                   <Component id="fileOpenButton" max="32767" attributes="0"/>
                   <Component id="graphicButton" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="externalInfoPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="extrernalImagePanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="extrernalImagePanel" pref="919" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -98,7 +98,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="InfiScrollPanel" max="32767" attributes="0"/>
+                  <Component id="InfoScrollPanel" pref="320" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -111,7 +111,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="InfiScrollPanel" max="32767" attributes="0"/>
+                  <Component id="InfoScrollPanel" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="clearTextPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -128,7 +128,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearTextPanelActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="InfiScrollPanel">
+        <Container class="javax.swing.JScrollPane" name="InfoScrollPanel">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -173,7 +173,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="imagePanel" pref="618" max="32767" attributes="0"/>
+                  <Component id="imagePanel" pref="887" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -302,7 +302,7 @@
                       <Group type="102" attributes="0">
                           <Component id="kerrLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="kErrLbl2" max="32767" attributes="0"/>
+                          <Component id="kerrLabel2" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -315,7 +315,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="kerrLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="kErrLbl2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="kerrLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="plusNoiseButton" min="-2" pref="25" max="-2" attributes="0"/>
@@ -351,7 +351,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="kErrLbl2">
+        <Component class="javax.swing.JLabel" name="kerrLabel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
