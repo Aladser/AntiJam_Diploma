@@ -14,7 +14,7 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import org.models.Codec;
+import org.models.codecs.HammingCodec;
 import org.models.TransmissionMedia;
 
 @SuppressWarnings("serial")
@@ -41,9 +41,9 @@ public class ChartDialog extends javax.swing.JDialog{
 	int numErrors;          // число ошибок после декодера
 		 
 	while(Perr < 0.01){
-            transmedia.message = Codec.encode(srcMessage);
+            transmedia.message = HammingCodec.encode(srcMessage);
             transmedia.imposeNoise();
-            transmedia.message = Codec.decode(transmedia.message);
+            transmedia.message = HammingCodec.decode(transmedia.message);
             numErrors = TransmissionMedia.equals(srcMessage, transmedia.message);
             dataset.addValue( numErrors, "" , "" + Perr);
             transmedia.setNoiseLevel(Perr * 2);

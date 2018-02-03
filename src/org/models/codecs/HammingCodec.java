@@ -1,14 +1,15 @@
-package org.models;
+package org.models.codecs;
 import java.util.BitSet;
 
-public class Codec {
+// Кодек кода Хэмминга
+public abstract class HammingCodec extends Codec{
     /** Encoding
-     * @param message
+     * @param message - сообщение для кодирования
      * @return  */
     public static BitSet encode(BitSet message){
 	int length = ((message.length()) * 7) / 4;
 	BitSet encodeMessage = new BitSet(length);
-        encodeMessage.set(length);   // a message end bit
+        encodeMessage.set(length);   // Установка конца битового массива
 	for(int i = 0, ei = 0; i < message.length() - 1; i += 4){
             // infobite writing
             for (int k = i; k < i + 4; k++, ei++) {encodeMessage.set(ei, message.get(k));}
@@ -21,7 +22,7 @@ public class Codec {
     }
 	
     /** Decoding
-     * @param encodeMessage
+     * @param encodeMessage - сигнал для декодирования
      * @return  */
     public static BitSet decode(BitSet encodeMessage){				
         // syndrom computation
@@ -64,10 +65,4 @@ public class Codec {
         } 
         return decodeMessage;
     }
-	
-    // Converts logic to integer
-    private static int getInteger(boolean value){
-        return value ? 1 : 0;
-    }
-
 }

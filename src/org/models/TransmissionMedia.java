@@ -5,12 +5,10 @@ import java.util.Random;
 // Канал передачи
 public class TransmissionMedia {
     public BitSet message;
-    private boolean TransmissionFlag;
     private double noiseLevel;
     
     public TransmissionMedia(){
         this.noiseLevel = 0.0001;
-        TransmissionFlag = false;
     }
     
     // Наложить шум на сообщение
