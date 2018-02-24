@@ -18,7 +18,7 @@ public class MainFrame extends javax.swing.JFrame {
     private final TransmissionMedia transmedia;  // Канал передачи данных
     private int numErrors;                       // Число ошибок после передачи
     
-    public MainFrame() {
+    public MainFrame(){
         initComponents();
         transmedia = new TransmissionMedia();
         kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );
@@ -282,11 +282,11 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(selectCodecComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(105, 105, 105)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(noisePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(codecPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 166, Short.MAX_VALUE))
+                            .addGap(0, 265, Short.MAX_VALUE))
                         .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
                     .addContainerGap())
             );
@@ -343,6 +343,7 @@ public class MainFrame extends javax.swing.JFrame {
                 transmedia.message = org.models.codecs.HammingCodec.encode( imageBits.bits );
                 break;
             case 1:
+                System.out.println("111");
                 System.exit(42);
                 break;
         }
