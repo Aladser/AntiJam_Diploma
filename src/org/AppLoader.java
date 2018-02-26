@@ -1,6 +1,5 @@
 package org;
 
-import org.models.NumberCoup;
 import org.models.SignedNumberException;
 import org.views.MainFrame;
 
@@ -38,10 +37,6 @@ public class AppLoader {
         //</editor-fold>
 
         /* Вызов главного окна */  
-        System.out.println("8 -> " + NumberCoup.execute(8, 2, 4));
-        System.out.println("4 -> " + NumberCoup.execute(4, 2, 4));
-        System.out.println("2 -> " + NumberCoup.execute(2, 2, 4));
-        System.out.println("1 -> " + NumberCoup.execute(1, 2, 4));
         java.awt.EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);
         });

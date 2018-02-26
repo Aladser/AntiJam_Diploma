@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.models.ImageBits;
 import org.models.TransmissionMedia;
+import org.models.codecs.BCHCodec;
 
 /**
  * Главное окно
@@ -241,7 +242,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            selectCodecComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Хэмминга", "Рида-Соломона" }));
+            selectCodecComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Хэмминга", "БЧХ" }));
 
             jLabel1.setBackground(new java.awt.Color(255, 255, 255));
             jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -309,7 +310,7 @@ public class MainFrame extends javax.swing.JFrame {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
                 imageBits = new ImageBits(image);
-                ArrayShow.show(imageBits.bits, 48, 8, "Исходный битовый массив");
+                infoPanel.append( ArrayShow.show(imageBits.bits, 20, 4, "\n  Исходный битовый массив") + "\n");
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
@@ -343,8 +344,8 @@ public class MainFrame extends javax.swing.JFrame {
                 transmedia.message = org.models.codecs.HammingCodec.encode( imageBits.bits );
                 break;
             case 1:
-                System.out.println("111");
-                System.exit(42);
+                transmedia.message = org.models.codecs.BCHCodec.encode( imageBits.bits );
+                infoPanel.append( "   Порождающий полином g(x) = " + Integer.toBinaryString( BCHCodec.Gx ) + "\n");
                 break;
         }
         infoPanel.append( ArrayShow.show(imageBits.bits, 42, 7, "\n  Закодированный битовый массив"));

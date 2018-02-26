@@ -1,7 +1,7 @@
 package org.models;
 
 /**
- * Переворачивает биты числа
+ * Переворачивает разряды числа
  * @author Aladser
  */
 public abstract class NumberCoup {
