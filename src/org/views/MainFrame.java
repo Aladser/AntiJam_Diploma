@@ -243,6 +243,7 @@ public class MainFrame extends javax.swing.JFrame {
             );
 
             selectCodecComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Хэмминга", "БЧХ" }));
+            selectCodecComboBox.setSelectedIndex(1);
 
             jLabel1.setBackground(new java.awt.Color(255, 255, 255));
             jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

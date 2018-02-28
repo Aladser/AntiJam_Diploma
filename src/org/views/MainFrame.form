@@ -382,6 +382,7 @@
             <StringItem index="1" value="&#x411;&#x427;&#x425;"/>
           </StringArray>
         </Property>
+        <Property name="selectedIndex" type="int" value="1"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
