@@ -58,15 +58,20 @@ public abstract class BCHCodec extends Codec{
         //boolean[] tAx = {false,true,false,true, false,false,false,false, true,true,false,true};
         int[] tSx = new int[7];
                 
-        for(int i=0; i<12; i+=4){
-            for(int k=0; k<7; k++){                
-                tSx[k] = (Ax.get(i) & Mx[0][k])?1:0;
-               // System.out.println( tAx[i] + "&" + Mx[0][k] + "=" + tAx[i]*Mx[0][k] );
-                tSx[k] ^= (Ax.get(i+1) & Mx[1][k])?1:0;;
+        boolean r = false;
+        for(int i=0, j=0; i<12; i+=4){
+            for(int k=0; k<7; k++, j++){
+                if(Ax.get(i) & Mx[0][k]) Sx.set(j);
+                //tSx[k] = (Ax.get(i) & Mx[0][k])?1:0;
+                // System.out.println( tAx[i] + "&" + Mx[0][k] + "=" + tAx[i]*Mx[0][k] );
+                if(Ax.get(i+1) & Mx[1][k]) r=true;
+                //tSx[k] ^= (Ax.get(i+1) & Mx[1][k])?1:0;
                 //System.out.println( tAx[i+2] + "&" + Mx[1][k] + "=" + tAx[i+1]*Mx[1][k] );
-                tSx[k] ^= (Ax.get(i+2) & Mx[2][k])?1:0;;
+                if(Ax.get(i+1) & Mx[2][k]) r=true;
+                //tSx[k] ^= (Ax.get(i+2) & Mx[2][k])?1:0;
                 //System.out.println( tAx[i+2] + "&" + Mx[2][k] + "=" + tAx[i+2]*Mx[2][k] );
-                tSx[k] ^= (Ax.get(i+3) & Mx[3][k])?1:0;;
+                if(Ax.get(i+1) & Mx[3][k]) r=true;
+                //tSx[k] ^= (Ax.get(i+3) & Mx[3][k])?1:0;
                 //System.out.println( tAx[i+3] + "&" + Mx[3][k] + "=" + tAx[i+3]*Mx[3][k] );
                 //System.out.println( "S(" + k + ") = " + tSx[k] );
                 //System.out.print(tAx[i] +"|"+ tAx[i+1] +"|"+ tAx[i+2] +"|"+ tAx[i+3] + " = ");
