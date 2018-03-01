@@ -1,23 +1,23 @@
 package org.models.codecs;
 
 import java.util.BitSet;
-import org.models.ImageBits;
+//import org.models.ImageBits;
 
 /**
  * Кодек БЧХ кода
  */
 public abstract class BCHCodec extends Codec{
-    public static final int Gx = 0b1011; // порождающий многочлен g(x)
+    // Порождающий многочлен g(x)
+    public static final int Gx = 0b1011; 
     
-    // кодирование
+    // Кодирование
     // Ax - информация
     // Sx - кодовое слово
     public static BitSet encode(BitSet Ax){
         int length = ((Ax.length()) * 7) / 4; // размер = n / n - k
-        //BitSet Sx = new BitSet(length);
-        //Sx.set(length);
-        BitSet Sx = new BitSet(21);
-        Sx.set(21);
+        BitSet Sx = new BitSet();
+        // S[length] - флаг конца массива
+        Sx.set( length );
 
         // Mx - Образующая матрица M(x). 
         // Первое число - строки, второе число - столбцы
@@ -53,59 +53,51 @@ public abstract class BCHCodec extends Codec{
         Mx[3][4] = false; //0
         Mx[3][5] = false; //0
         Mx[3][6] = false; //0
-        
-        // Кодирование
-        //boolean[] tAx = {false,true,false,true, false,false,false,false, true,true,false,true};
-        int[] tSx = new int[7];
-                
+               
         boolean r = false;
-        for(int i=0, j=0; i<12; i+=4){
+        for(int i=0, j=0; i<20; i+=4){
             for(int k=0; k<7; k++, j++){
-                if(Ax.get(i) & Mx[0][k]) Sx.set(j);
-                //tSx[k] = (Ax.get(i) & Mx[0][k])?1:0;
-                // System.out.println( tAx[i] + "&" + Mx[0][k] + "=" + tAx[i]*Mx[0][k] );
-                if(Ax.get(i+1) & Mx[1][k]) r=true;
-                //tSx[k] ^= (Ax.get(i+1) & Mx[1][k])?1:0;
-                //System.out.println( tAx[i+2] + "&" + Mx[1][k] + "=" + tAx[i+1]*Mx[1][k] );
-                if(Ax.get(i+1) & Mx[2][k]) r=true;
-                //tSx[k] ^= (Ax.get(i+2) & Mx[2][k])?1:0;
-                //System.out.println( tAx[i+2] + "&" + Mx[2][k] + "=" + tAx[i+2]*Mx[2][k] );
-                if(Ax.get(i+1) & Mx[3][k]) r=true;
-                //tSx[k] ^= (Ax.get(i+3) & Mx[3][k])?1:0;
-                //System.out.println( tAx[i+3] + "&" + Mx[3][k] + "=" + tAx[i+3]*Mx[3][k] );
-                //System.out.println( "S(" + k + ") = " + tSx[k] );
-                //System.out.print(tAx[i] +"|"+ tAx[i+1] +"|"+ tAx[i+2] +"|"+ tAx[i+3] + " = ");
-                if(k==6)
-                    System.out.println(
-                            ImageBits.getBit(Ax.get(i)) +"|"+ ImageBits.getBit(Ax.get(i+1)) +"|"+ ImageBits.getBit(Ax.get(i+2)) +"|"+ ImageBits.getBit(Ax.get(i+3)) + " = " +
-                            tSx[k-6] + "|"+ tSx[k-5] + "|"+ tSx[k-4] + "|"+ tSx[k-3] + "|"+ tSx[k-2] + "|"+ tSx[k-1] + "|"+ tSx[k] + "\n" );
+                if( Ax.get(i) & Mx[0][k] ) Sx.set(j);
+                else Sx.clear(j);             
                 
+                if( Ax.get(i+1) & Mx[1][k] ) r = true;
+                if( Sx.get(j)^r ) Sx.set(j);
+                else Sx.clear(j);
+                r = false;
+                
+                if( Ax.get(i+2) & Mx[2][k] ) r = true;
+                if( Sx.get(j)^r ) Sx.set(j);
+                else Sx.clear(j);
+                r = false;
+                
+                if( Ax.get(i+3) & Mx[3][k] ) r = true;
+                if( Sx.get(j)^r ) Sx.set(j);
+                else Sx.clear(j);
+                r = false;
+                
+                // Таблица A(x)=S(x)
+                /*if((j+1)%7 == 0 && j!=0){
+                    System.out.print( 
+                            ImageBits.getBit(Ax.get(i)) 
+                            +"|"
+                            + ImageBits.getBit(Ax.get(i+1))
+                            +"|"
+                            + ImageBits.getBit(Ax.get(i+2))
+                            +"|"
+                            + ImageBits.getBit(Ax.get(i+3))
+                            +" = "
+                            + ImageBits.getBit(Sx.get(j-6))
+                            + ImageBits.getBit(Sx.get(j-5))
+                            + ImageBits.getBit(Sx.get(j-4))
+                            + ImageBits.getBit(Sx.get(j-3))
+                            + ImageBits.getBit(Sx.get(j-2))
+                            + ImageBits.getBit(Sx.get(j-1))
+                            + ImageBits.getBit(Sx.get(j))
+                            + "\n"
+                    );
+                }*/
             }
         }
-
-        // Кодирование
-    /*            
-        for(int i=0; i<12; i+=4){
-            for(int k=0; k<7; k++){
-                
-                tSx[k] = ImageBits.getBit(tAx[i]) & Mx[0][k];
-               // System.out.println( tAx[i] + "&" + Mx[0][k] + "=" + tAx[i]*Mx[0][k] );
-                tSx[k] ^= ImageBits.getBit(tAx[i+1]) & Mx[1][k];
-                //System.out.println( tAx[i+2] + "&" + Mx[1][k] + "=" + tAx[i+1]*Mx[1][k] );
-                tSx[k] ^= ImageBits.getBit(tAx[i+2]) & Mx[2][k];
-                //System.out.println( tAx[i+2] + "&" + Mx[2][k] + "=" + tAx[i+2]*Mx[2][k] );
-                tSx[k] ^= ImageBits.getBit(tAx[i+3]) & Mx[3][k];
-                //System.out.println( tAx[i+3] + "&" + Mx[3][k] + "=" + tAx[i+3]*Mx[3][k] );
-                //System.out.println( "S(" + k + ") = " + tSx[k] );
-                //System.out.print(tAx[i] +"|"+ tAx[i+1] +"|"+ tAx[i+2] +"|"+ tAx[i+3] + " = ");
-                if(k==6)
-                    System.out.println(
-                            ImageBits.getBit(tAx[i]) +"|"+ ImageBits.getBit(tAx[i+1]) +"|"+ ImageBits.getBit(tAx[i+2]) +"|"+ ImageBits.getBit(tAx[i+3]) + " = " +
-                            tSx[k-6] + "|"+ tSx[k-5] + "|"+ tSx[k-4] + "|"+ tSx[k-3] + "|"+ tSx[k-2] + "|"+ tSx[k-1] + "|"+ tSx[k] + "\n" );
-                
-            }
-        }       
-    */
         
         return Sx;
     }
