@@ -1,6 +1,7 @@
 package org.models.codecs;
 
 import java.util.BitSet;
+import org.models.PolynomDivision;
 //import org.models.ImageBits;
 
 /**
@@ -80,7 +81,8 @@ public abstract class BCHCodec extends Codec{
     }
     
     //Декодирование
-    public static BitSet decode(BitSet encodeMessage){	
+    public static BitSet decode(BitSet encodeMessage){
+        PolynomDivision.execute();
         return encodeMessage;
     }
 }

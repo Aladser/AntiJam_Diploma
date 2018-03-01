@@ -356,11 +356,20 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.append( ArrayShow.show(transmedia.message, 35, 7, "\nЗакодированный битовый массив (5 блоков):"));
         selectCodecComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
+        decoderButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
     
     /** Нажать на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
-	transmedia.message = org.models.codecs.HammingCodec.decode( transmedia.message );
+	switch(selectCodecComboBox.getSelectedIndex()){
+            case 0:
+                transmedia.message = org.models.codecs.HammingCodec.decode( transmedia.message );
+                break;
+            case 1:
+                transmedia.message = org.models.codecs.BCHCodec.decode( transmedia.message );
+                break;
+        } 
+        /*
         infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\nПолученный битовый массив"));
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
@@ -383,6 +392,7 @@ public class MainFrame extends javax.swing.JFrame {
 	decoderButton.setEnabled(false);
         plusNoiseButton.setEnabled(true);
         minusNoiseButton.setEnabled(true);
+        */
     }//GEN-LAST:event_decoderButtonActionPerformed
 
     /** Нажать на кнопку "Наложить шум" */
