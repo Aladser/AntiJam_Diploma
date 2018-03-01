@@ -55,7 +55,7 @@ public abstract class BCHCodec extends Codec{
         Mx[3][6] = false; //0
                
         boolean r = false;
-        for(int i=0, j=0; i<20; i+=4){
+        for(int i=0, j=0; i<Ax.length(); i+=4){
             for(int k=0; k<7; k++, j++){
                 if( Ax.get(i) & Mx[0][k] ) Sx.set(j);
                 else Sx.clear(j);             
@@ -74,31 +74,13 @@ public abstract class BCHCodec extends Codec{
                 if( Sx.get(j)^r ) Sx.set(j);
                 else Sx.clear(j);
                 r = false;
-                
-                // Таблица A(x)=S(x)
-                /*if((j+1)%7 == 0 && j!=0){
-                    System.out.print( 
-                            ImageBits.getBit(Ax.get(i)) 
-                            +"|"
-                            + ImageBits.getBit(Ax.get(i+1))
-                            +"|"
-                            + ImageBits.getBit(Ax.get(i+2))
-                            +"|"
-                            + ImageBits.getBit(Ax.get(i+3))
-                            +" = "
-                            + ImageBits.getBit(Sx.get(j-6))
-                            + ImageBits.getBit(Sx.get(j-5))
-                            + ImageBits.getBit(Sx.get(j-4))
-                            + ImageBits.getBit(Sx.get(j-3))
-                            + ImageBits.getBit(Sx.get(j-2))
-                            + ImageBits.getBit(Sx.get(j-1))
-                            + ImageBits.getBit(Sx.get(j))
-                            + "\n"
-                    );
-                }*/
             }
-        }
-        
+        }        
         return Sx;
+    }
+    
+    //Декодирование
+    public static BitSet decode(BitSet encodeMessage){	
+        return encodeMessage;
     }
 }

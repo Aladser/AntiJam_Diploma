@@ -1,6 +1,7 @@
 package org.views;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -311,7 +312,7 @@ public class MainFrame extends javax.swing.JFrame {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
                 imageBits = new ImageBits(image);
-                infoPanel.append( ArrayShow.show(imageBits.bits, 20, 4, "\n  Исходный битовый массив") + "\n");
+                infoPanel.append( ArrayShow.show(imageBits.bits, 20, 4, "Исходный битовый массив (5 блоков):") + "\n");
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
@@ -321,7 +322,7 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.out.println("Ошибка создания рисунка");
             }
-            infoPanel.append("   Количество цветов = " + 3 + "\n");
+            infoPanel.append("\nКоличество цветов = " + 3 + "\n");
             coderButton.setEnabled(true);
             graphicButton.setEnabled(true);
         }
@@ -340,16 +341,19 @@ public class MainFrame extends javax.swing.JFrame {
 
     /** Нажать на кнопку "Кодер" */
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
+        Date time = new Date();
         switch(selectCodecComboBox.getSelectedIndex()){
             case 0:
                 transmedia.message = org.models.codecs.HammingCodec.encode( imageBits.bits );
                 break;
             case 1:
+                infoPanel.append( "\nБЧХ. Порождающий полином g(x) = " + Integer.toBinaryString( BCHCodec.Gx ) + "\n");
+                infoPanel.append("Идет кодирование..\n");
                 transmedia.message = org.models.codecs.BCHCodec.encode( imageBits.bits );
-                infoPanel.append( "   Порождающий полином g(x) = " + Integer.toBinaryString( BCHCodec.Gx ) + "\n");
+                infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
                 break;
-        }
-        infoPanel.append( ArrayShow.show(imageBits.bits, 42, 7, "\n  Закодированный битовый массив"));
+        }        
+        infoPanel.append( ArrayShow.show(transmedia.message, 35, 7, "\nЗакодированный битовый массив (5 блоков):"));
         selectCodecComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
@@ -357,10 +361,10 @@ public class MainFrame extends javax.swing.JFrame {
     /** Нажать на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	transmedia.message = org.models.codecs.HammingCodec.decode( transmedia.message );
-        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\n  Полученный битовый массив"));
+        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\nПолученный битовый массив"));
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
-        infoPanel.append( "\n Число неисправленных ошибок после передачи:\n" );
+        infoPanel.append( "\nЧисло неисправленных ошибок после передачи:\n" );
         infoPanel.append( numErrors + " (");
         double errRate = (double)numErrors/transmedia.message.size() * 100000;  //% ошибок от всех битов
         int iSubErrRate = (int)Math.round(errRate);                             // округление 1
@@ -384,7 +388,7 @@ public class MainFrame extends javax.swing.JFrame {
     /** Нажать на кнопку "Наложить шум" */
     private void addNoiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNoiseButtonActionPerformed
         transmedia.imposeNoise();
-        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\n  Битовый массив с шумом"));
+        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\nБитовый массив с шумом"));
         decoderButton.setEnabled(true);
         plusNoiseButton.setEnabled(false);
         minusNoiseButton.setEnabled(false);

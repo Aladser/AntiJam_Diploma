@@ -16,7 +16,7 @@ public abstract class ArrayShow {
     public static String show(BitSet array, int number, int separator, String name){
         String result = name + "\n";
         for(int i=0; i<number; i++){
-            if( i%separator == 0 && i!=0) result += " ";
+            if( i%separator == 0 && i!=0) result += "\n";
             result += (array.get(i) == true) ? 1 : 0;
         }
         return result;
