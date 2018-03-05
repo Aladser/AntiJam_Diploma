@@ -5,10 +5,9 @@ package org.models;
  * @author Aladser
  */
 public abstract class PolynomDivision {
-    public static void execute() throws SignedNumberException{
+    public static void execute(int[] arr) throws SignedNumberException{
         int n = 7;                            // длина кодового слова
         int k = 4;                            // длина инфокодового слова
-        int[] arr = {1, 0, 1, 0, 0, 1, 1};    // инфокодовое слово
         int divider = 0b1011;                 // делитель
         int reminder = 0;                     // остаток
         int[] result = new int[4];            // результат

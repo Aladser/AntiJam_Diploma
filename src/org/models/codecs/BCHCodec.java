@@ -84,16 +84,13 @@ public abstract class BCHCodec extends Codec{
     
     //Декодирование
     public static BitSet decode(BitSet encodeMessage){
+        int[] arr= {1, 0, 1, 0, 0, 1, 1};
         try {
-            PolynomDivision.execute();
+            PolynomDivision.execute(arr);
         } catch (SignedNumberException ex) {
             Logger.getLogger(BCHCodec.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            createIntArray(encodeMessage, 10, 20);
-        } catch (Exception ex) {
-            Logger.getLogger(BCHCodec.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         return encodeMessage;
     }
     
@@ -102,9 +99,10 @@ public abstract class BCHCodec extends Codec{
      * @param arr - битовый массив-источник
      * @param si - начало фрагмента
      * @param ei - конец фрагмента
+     * @return 
      * @throws NumberOversizeException - выпадает, если si > ei
      */
-    public static int[] createIntArray(BitSet arr, int si, int ei) throws NumberOversizeException, Exception{
+    public static int[] createIntArrayFromBitSet(BitSet arr, int si, int ei) throws NumberOversizeException, Exception{
         if(si > ei) throw new NumberOversizeException(si , ei);
         if(si>arr.size()){throw new OutOffArrayException(si, arr.size());}
         if(ei>arr.size()){throw new OutOffArrayException(ei, arr.size());} 
@@ -116,12 +114,14 @@ public abstract class BCHCodec extends Codec{
         return res;
     }
     
+    // Исключение, если первое число больше второго
     private static class NumberOversizeException extends Exception{
         public NumberOversizeException(int num1, int num2){
             super("Число number1 = " + num1 + " должно быть меньше number2 = " + num2);
         }
     }
     
+    // Исключение, если индекс выпал из массива
     private static class OutOffArrayException extends Exception{
         public OutOffArrayException(int index, int size){
             super("Выход индекса " + index + " за пределы массива, размер массива = " + size);
