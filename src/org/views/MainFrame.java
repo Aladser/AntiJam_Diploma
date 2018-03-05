@@ -2,7 +2,6 @@ package org.views;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.models.ImageBits;
@@ -369,7 +368,7 @@ public class MainFrame extends javax.swing.JFrame {
                 transmedia.message = org.models.codecs.BCHCodec.decode( transmedia.message );
                 break;
         } 
-        /*
+        /* Тест декодера
         infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\nПолученный битовый массив"));
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
