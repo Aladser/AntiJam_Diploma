@@ -6,57 +6,67 @@ package org.models;
  */
 public abstract class PolynomDivision {
     public static void execute() throws SignedNumberException{
-        int[] array = {1,0,0,0,1,0,1}; //делимое
-        int division=0;
-        int divider=0b1011;
-        int[] res = new int[4];
-        int reminder=0;
+        int n = 7;                            // длина кодового слова
+        int k = 4;                            // длина инфокодового слова
+        int[] arr = {1, 1, 1, 1, 1, 1, 1};    // инфоркодовое слово
+        int divider = 0b1011;                 // делитель
+        int[] result = new int[4];            // результат
+        int reminder = 0;                     // остаток
         
-        int k=0, m=0;
-        for(; k<4; k++){ //k<n-3
-            if(array[k]==1){
-                res[m++]=1;
-                division = 8*array[k] + 4*array[k+1] + 2*array[k+2] + array[k+3];
-                System.out.println( "Делимое " + Integer.toBinaryString(division) );
-                
-                reminder = division^divider;
-                System.out.println( "Остаток " + Integer.toBinaryString(reminder) + "\n");
+        // Деление полиномов: поиск первой 1
+        // Количество шагов цикла = n-k - столько раз можно сдвинуться до конца массива
+        int i=0;
+        for(; i < (n-k); i++){
+            if(arr[i] == 1){
+                reminder = (8*arr[i] + 4*arr[i+1] + 2*arr[i+2] + arr[i+3]) ^ divider;
+                System.out.println( "ц1 делимое " + Integer.toBinaryString( 8*arr[i] + 4*arr[i+1] + 2*arr[i+2] + arr[i+3] ) );
+                i += (k-1);
                 break;
             }
-            else
-                res[m++]=0;
         }
+     
+        System.out.println("ц1 остаток " + Integer.toBinaryString(reminder));
+        System.out.println("ц1 i="+i);
         
-        for(; k<4; k++){
-            if(reminder >= 4){
-                res[m++]=1;
-                k++;
-                division = (reminder<<1) + array[k+3];
+        // Деление полиномов (4,3): продолжение
+        while( (i+k-2) < n ){
+            // reminder = XXX
+            if(reminder > 3){
+                System.out.println("XXX");
+                reminder <<= 1;
+                reminder += arr[i+1];
+                i++;
             }
-            else if(reminder >=2){
-                res[m++]=0;
-                res[m++]=1;
-                k+=2;
-                division = (reminder<<2) + (2*array[k+2]) + array[k+3];
+            // reminder = XX
+            else if(reminder > 1){
+                System.out.println("XX");
+                reminder <<= 2;
+                reminder += 2 * arr[i+1];
+                reminder += arr[i+2];
+                i+=2;
             }
+            // reminder = 1
             else if(reminder == 1){
-                res[m++]=0;
-                res[m++]=0;
-                res[m++]=1;
-                k+=3;
-                division = (reminder<<3) + (4*array[k+1]) + 2*array[k+2] + array[k+3];
+                System.out.println("X");
+                reminder <<= 3;
+                reminder += 4 * arr[i+1];
+                reminder += 2 * arr[i+2];
+                reminder += arr[i+3];
+                i+=3;
             }
+            // reminder = 0
             else{
-                res[m++]=0;
-                division=0;
+                System.out.println("0");
+                i+=3;
             }
-            System.out.println( "Делимое " + Integer.toBinaryString(division) );
-            if(division !=0) reminder = division^divider;
-            System.out.println( "Остаток " + Integer.toBinaryString(reminder) + "\n");
+            
+            System.out.println( "делимое " + Integer.toBinaryString(reminder) );
+            reminder ^= divider;
+            System.out.println( "остаток " + Integer.toBinaryString(reminder) );
         }
-        int result = 8*res[0] + 4*res[1] + 2*res[2] + res[3];
-        result = NumberCoup.execute(result, 2, 4);
-        System.out.println( Integer.toBinaryString(result) + "(" + result + ")");        
+        System.out.print(arr[0]+"|"+arr[1]+"|"+arr[2]+"|"+arr[3]+"|"+arr[4]+"|"+arr[5]+"|"+arr[6]+" mod 1011 =");
+        System.out.println(Integer.toBinaryString(reminder));
+        
     }
         
 }
