@@ -1,6 +1,7 @@
 package org.models.codecs;
 
 import java.util.BitSet;
+import org.models.BinDecConverting;
 import org.models.PolynomDivision;
 
 /**
@@ -97,7 +98,7 @@ public abstract class BCHCodec extends Codec{
         code.set(5);
         code.clear(6);
         
-        BitSet infocode = PolynomDivision.execute( code );     
+        BitSet infocode = PolynomDivision.execute( code );
         return infocode;
     }
     
