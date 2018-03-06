@@ -10,9 +10,8 @@ public abstract class NumberCoup {
      * @param origNumber
      * @param base - основание числа
      * @param digitNumber
-     * @throws org.models.SignedNumberException
      */   
-    public static int execute(int origNumber, int base, int digitNumber) throws SignedNumberException{
+    public static int execute(int origNumber, int base, int digitNumber){
         int number = 0; // перевернутое число
         int degree = 0; // степень результата
         int highOrder = (int) Math.pow(base, digitNumber) / base;

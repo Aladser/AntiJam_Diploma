@@ -7,15 +7,18 @@ import java.util.BitSet;
  * @author Aladser
  */
 public abstract class PolynomDivision {
-    public static void execute(BitSet arr) throws SignedNumberException{
+    public static void execute(BitSet arr){
         int n = 7;                            // длина кодового слова
         int k = 4;                            // длина инфокодового слова
         int divider = 0b1011;                 // делитель
+        int[] quotient = new int[k];          // частное
         int reminder = 0;                     // остаток
-        int[] result = new int[4];            // результат
-        int resultDEC;
         
-        // Деление полиномов: поиск первой 1
+        // result[0] - частное деления
+        // result[1] - остаток деления
+        int[] result = new int[2];            // {частное, остаток}
+        
+        // Деление полиномов: поиск первой единицы делимого
         // Количество шагов цикла = n-k - столько раз можно сдвинуться до конца массива
         // (arr.get(i)?1:0)
         int i=0, j=0;
@@ -25,10 +28,10 @@ public abstract class PolynomDivision {
                 reminder = division ^ divider;
                 System.out.print( Integer.toBinaryString( division ) + " / 1011 = ");
                 i += (k-1);
-                result[j++]=1;
+                quotient[j++]=1;
                 break;
             }
-            result[j++]=0;
+            quotient[j++]=0;
         }
         System.out.println(Integer.toBinaryString(reminder) + "\n-----");
         
@@ -41,7 +44,7 @@ public abstract class PolynomDivision {
                 reminder <<= 1;
                 reminder += (arr.get(i+1)?1:0);
                 i++;
-                result[j++]=1;
+                quotient[j++]=1;
             }
             // reminder = XX
             else if(reminder > 1){
@@ -51,8 +54,8 @@ public abstract class PolynomDivision {
                 reminder += 2 * (arr.get(i+1)?1:0);
                 reminder += (arr.get(i+2)?1:0);
                 i+=2;
-                result[j++]=0;
-                result[j++]=1;
+                quotient[j++]=0;
+                quotient[j++]=1;
             }
             // reminder = 1
             else if(reminder == 1){
@@ -63,9 +66,9 @@ public abstract class PolynomDivision {
                 reminder += 2 * (arr.get(i+2)?1:0);
                 reminder += (arr.get(i+3)?1:0);
                 i+=3;
-                result[j++]=0;
-                result[j++]=0;
-                result[j++]=1;
+                quotient[j++]=0;
+                quotient[j++]=0;
+                quotient[j++]=1;
             }
             // reminder = 0
             else{
@@ -73,7 +76,7 @@ public abstract class PolynomDivision {
                 System.out.println("0-----");
                 j++;
                 i+=3;
-                result[j++]=0;
+                quotient[j++]=0;
             }
             
             System.out.print( Integer.toBinaryString( reminder ) + " / 1011 = ");
@@ -89,17 +92,17 @@ public abstract class PolynomDivision {
         System.out.print( (arr.get(5)?1:0) );
         System.out.print( (arr.get(6)?1:0) );
         System.out.print( " / 1011 = " );
-        resultDEC = 8*result[0] + 4*result[1] + 2*result[2] + result[3];
-        int resultC = NumberCoup.execute(resultDEC, 2, 4);
-        if(resultC > 7)
+        result[0] = NumberCoup.execute( 8*quotient[0] + 4*quotient[1] + 2*quotient[2] + quotient[3], 2, 4 );
+        result[1] = reminder;                                                                                
+        if(result[0] > 7)
             System.out.print("");
-        else if(resultC > 3)
+        else if(result[0] > 3)
             System.out.print("0");
-        else if(resultC > 1)
+        else if(result[0] > 1)
             System.out.print("00");
         else
             System.out.print("000");
-        System.out.print( Integer.toBinaryString( resultC ) );
-        System.out.println( " (ост. " + Integer.toBinaryString(reminder) + ")");
+        System.out.print( Integer.toBinaryString(result[0]) );
+        System.out.println( " (ост. " + Integer.toBinaryString(result[1]) + ")" );
     }        
 }

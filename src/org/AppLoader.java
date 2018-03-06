@@ -1,6 +1,5 @@
 package org;
 
-import org.models.SignedNumberException;
 import org.views.MainFrame;
 
 /**
@@ -10,9 +9,8 @@ import org.views.MainFrame;
 public class AppLoader {
     /**
     * @param args the command line arguments
-     * @throws org.models.SignedNumberException
     */
-    public static void main(String args[]) throws SignedNumberException {
+    public static void main(String args[]){
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

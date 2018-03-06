@@ -1,10 +1,7 @@
 package org.models.codecs;
 
 import java.util.BitSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.models.PolynomDivision;
-import org.models.SignedNumberException;
 
 /**
  * Кодек БЧХ кода
@@ -88,25 +85,17 @@ public abstract class BCHCodec extends Codec{
      * @return информационный блок
      */
     public static BitSet decode(BitSet encodeMessage){
-        //int[] arr= {1, 0, 1, 0, 0, 1, 1};
+        //int[] arr= {0, 1, 0, 1, 1, 0, 0};
         BitSet res = new BitSet();
         res.set(7);
         
-        res.set(0);
-        res.set(2);
-        res.set(5);
-        res.set(6);
-        System.out.print("Sx = ");
-        for(int i=0; i<res.length()-1; i++) 
-            System.out.print( res.get(i)== true ? 1 : 0 );
-        System.out.print("\n");
+        res.set(1);
+        res.set(3);
+        res.set(4);
         
-        try {
-            PolynomDivision.execute( res );
-        } catch (SignedNumberException ex) {
-            Logger.getLogger(BCHCodec.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PolynomDivision.execute( res );
         
         return res;
     }
+    
 }
