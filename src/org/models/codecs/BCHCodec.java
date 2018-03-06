@@ -1,10 +1,6 @@
 package org.models.codecs;
 
 import java.util.BitSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.models.PolynomDivision;
-import org.models.SignedNumberException;
 
 /**
  * Кодек БЧХ кода
@@ -82,50 +78,27 @@ public abstract class BCHCodec extends Codec{
         return Sx;
     }
     
-    //Декодирование
-    public static BitSet decode(BitSet encodeMessage){
-        int[] arr= {1, 0, 1, 0, 0, 1, 1};
-        try {
-            PolynomDivision.execute(arr);
-        } catch (SignedNumberException ex) {
-            Logger.getLogger(BCHCodec.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return encodeMessage;
-    }
-    
-    // Создание int-массива из бит
     /**
-     * @param arr - битовый массив-источник
-     * @param si - начало фрагмента
-     * @param ei - конец фрагмента
-     * @return 
-     * @throws NumberOversizeException - выпадает, если si > ei
+     * 
+     * @param encodeMessage - закодированный битовый массив
+     * @return информационный блок
      */
-    public static int[] createIntArrayFromBitSet(BitSet arr, int si, int ei) throws NumberOversizeException, Exception{
-        if(si > ei) throw new NumberOversizeException(si , ei);
-        if(si>arr.size()){throw new OutOffArrayException(si, arr.size());}
-        if(ei>arr.size()){throw new OutOffArrayException(ei, arr.size());} 
+    public static BitSet decode(BitSet encodeMessage){
+        //int[] arr= {1, 0, 1, 0, 0, 1, 1};
+        BitSet res = new BitSet();
+        res.set(7);
         
-        int[] res = new int[ei-si+1];
-        for(int i=si, j=0; i<ei+1; i++){
-            res[j++] = (arr.get(i)==true) ? 1 : 0;
-        }
+        res.set(0);
+        res.set(2);
+        res.set(5);
+        res.set(6);
+        System.out.print("Sx = ");
+        for(int i=0; i<res.length()-1; i++) 
+            System.out.print( res.get(i)== true ? 1 : 0 );
+        System.out.print("\n");
+        
+        
+        
         return res;
     }
-    
-    // Исключение, если первое число больше второго
-    private static class NumberOversizeException extends Exception{
-        public NumberOversizeException(int num1, int num2){
-            super("Число number1 = " + num1 + " должно быть меньше number2 = " + num2);
-        }
-    }
-    
-    // Исключение, если индекс выпал из массива
-    private static class OutOffArrayException extends Exception{
-        public OutOffArrayException(int index, int size){
-            super("Выход индекса " + index + " за пределы массива, размер массива = " + size);
-    }    
-}
-
 }
