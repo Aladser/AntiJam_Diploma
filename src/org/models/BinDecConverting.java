@@ -1,5 +1,4 @@
 package org.models;
-
 import java.util.BitSet;
 
 /**
@@ -13,7 +12,8 @@ public abstract class BinDecConverting {
      * @return 
      */
     public static BitSet decToBin(int number){
-        System.out.print(Integer.toBinaryString(number)+"(");
+        System.out.print(number+" = ");
+        BitSet result = new BitSet();
         int orderNumber = 0; // число двоичных разрядов
         if(number==0) orderNumber=1;
         int a = number;
@@ -22,7 +22,6 @@ public abstract class BinDecConverting {
             orderNumber++;
         }
         int order = (int) Math.pow(2, orderNumber-1); // старший разряд
-        BitSet result = new BitSet();
         result.set(orderNumber);   
         a = number;
         for(int i=0; i<orderNumber; i++){
@@ -32,12 +31,19 @@ public abstract class BinDecConverting {
             }
             order /= 2;
         }
-        for(int j=0; j<orderNumber; j++) System.out.print(result.get(j)?1:0);
-        System.out.println(")");
         return result;
     }
     
+    /**
+     * Двоичное число в десятичное
+     * @param number
+     * @return 
+     */
     public static int binToDec(BitSet number){
-        return 1;
+        int result = 0;
+        // highDegree = (размер массива-1)
+        int highDegree = number.length() - 2;
+        for(int i=0; i<highDegree+1; i++) result += (number.get(i)?1:0) * Math.pow(2, highDegree-i);
+        return result;
     }
 }
