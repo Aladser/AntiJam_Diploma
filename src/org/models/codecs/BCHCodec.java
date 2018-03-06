@@ -85,17 +85,20 @@ public abstract class BCHCodec extends Codec{
      * @return информационный блок
      */
     public static BitSet decode(BitSet encodeMessage){
-        //int[] arr= {0, 1, 0, 1, 1, 0, 0};
-        BitSet res = new BitSet();
-        res.set(7);
+        // {1, 0, 1, 0, 0, 1, 1};
+        BitSet code = new BitSet();
+        code.set(7);
         
-        res.set(1);
-        res.set(3);
-        res.set(4);
+        code.set(0);
+        code.clear(1);
+        code.clear(2);
+        code.set(3);
+        code.set(4);
+        code.set(5);
+        code.clear(6);
         
-        PolynomDivision.execute( res );
-        
-        return res;
+        BitSet infocode = PolynomDivision.execute( code );     
+        return infocode;
     }
     
 }
