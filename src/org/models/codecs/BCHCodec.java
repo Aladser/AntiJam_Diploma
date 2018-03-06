@@ -1,6 +1,10 @@
 package org.models.codecs;
 
 import java.util.BitSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.models.PolynomDivision;
+import org.models.SignedNumberException;
 
 /**
  * Кодек БЧХ кода
@@ -97,7 +101,11 @@ public abstract class BCHCodec extends Codec{
             System.out.print( res.get(i)== true ? 1 : 0 );
         System.out.print("\n");
         
-        
+        try {
+            PolynomDivision.execute( res );
+        } catch (SignedNumberException ex) {
+            Logger.getLogger(BCHCodec.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return res;
     }
