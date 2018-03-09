@@ -11,25 +11,20 @@ public abstract class BinDecConverting {
      * @param number
      * @return 
      */
-    public static BitSet decToBin(int number){
-        System.out.print(number+" = ");
-        BitSet result = new BitSet();
-        int orderNumber = 0; // число двоичных разрядов
-        if(number==0) orderNumber=1;
-        int a = number;
-        while(a != 0){
-            a >>= 1;
-            orderNumber++;
-        }
-        int order = (int) Math.pow(2, orderNumber-1); // старший разряд
-        result.set(orderNumber);   
-        a = number;
-        for(int i=0; i<orderNumber; i++){
-            if(a >= order){
-                result.set(i);
-                a -= order; 
+    public static BitSet decToBin(int number){     
+        BitSet result = new BitSet();       
+        int numOrders = countBinaryOrders(number);
+        result.set(numOrders);
+        int exp = (int) Math.pow(2, numOrders - 1); 
+        int ind=0;
+        while(number != 0){
+            if(number >= exp){
+                result.set(ind);
+                number -= exp;
             }
-            order /= 2;
+            ind++;
+            exp/=2;
+            numOrders--;
         }
         return result;
     }
@@ -39,11 +34,22 @@ public abstract class BinDecConverting {
      * @param number
      * @return 
      */
-    public static int binToDec(BitSet number){
+    public static int binToDec(BitSet number){        
         int result = 0;
         // highDegree = (размер массива-1)
         int highDegree = number.length() - 2;
         for(int i=0; i<highDegree+1; i++) result += (number.get(i)?1:0) * Math.pow(2, highDegree-i);
         return result;
+    }
+    
+    // считает число двоичных разрядов
+    public static int countBinaryOrders(int num){
+        if(num==0 || num==1) return 1;
+        int numOrders = 0;
+        while(num != 0){
+            num >>= 1;
+            numOrders++;
+        }
+        return numOrders;
     }
 }

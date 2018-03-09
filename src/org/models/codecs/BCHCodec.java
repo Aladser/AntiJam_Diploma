@@ -91,6 +91,11 @@ public abstract class BCHCodec extends Codec{
         code1.set(4);   
         code1.set(5);
         
+        // Тест
+        int[] arr = new int[16];
+        for(int i=0; i<arr.length; i++) arr[i] = i;
+        
+        
         PolynomDivision.execute(BinDecConverting.binToDec(code1), 0b1011);   
         return new BitSet();
     }
