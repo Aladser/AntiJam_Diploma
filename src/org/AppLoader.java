@@ -39,6 +39,7 @@ public class AppLoader {
         /* Вызов главного окна */
         BitSet code = new BitSet();
         code.set(7);
+        code.set(0);
         BCHCodec.decode(code);
         
         java.awt.EventQueue.invokeLater(() -> {

@@ -91,11 +91,12 @@ public abstract class BCHCodec extends Codec{
         code.set(4);   
         code.set(5);   
         
-        for(int i=0; i<code.length()-1; i++)System.out.print(code.get(i)?1:0);
-        System.out.print(" = " + BinDecConverting.binToDec(code));
-        System.out.println();
+        //for(int i=0; i<code.length()-1; i++)System.out.print(code.get(i)?1:0);
+        //System.out.print(" = " + BinDecConverting.binToDec(code));
+        //System.out.println();
         
         int num = BinDecConverting.binToDec(code);
+        PolynomDivision.execute(num, 0b1011);
         
         return new BitSet();
     }

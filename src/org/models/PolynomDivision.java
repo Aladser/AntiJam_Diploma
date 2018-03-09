@@ -7,7 +7,7 @@ import java.util.BitSet;
  * @author Aladser
  */
 public abstract class PolynomDivision {
-    public static BitSet execute(BitSet arr){
+    /*public static BitSet execute(BitSet arr){
         int n = 7;                            // длина кодового слова
         int k = 4;                            // длина инфокодового слова
         int divider = 0b1011;                 // делитель
@@ -104,7 +104,7 @@ public abstract class PolynomDivision {
         System.out.println( " (ост. " + Integer.toBinaryString(reminder) + ")" );  
         return infocode;
     }  
-    
+    */
     // считает число двоичных разрядов
     public static int countBinaryOrders(int num){
         if(num==0 || num==1) return 1;
@@ -114,5 +114,40 @@ public abstract class PolynomDivision {
             numOrders++;
         }
         return numOrders;
+    }
+    
+    public static int execute(int division, int divider){
+        int n = 7;                  // длина кодового слова
+        int k = 4;                  // размер полинома
+        int[] quotBin = new int[k];    // частное
+        int quotDec = 0;            // DEC частное 
+        
+        int a = 0b1010011;
+        int b = a;
+        int n1 = countBinaryOrders(a); // размер делимого
+        int j = n - n1;                // позиция в инфокоде
+        for(int i=0; i<n1-k; i++) divider <<= 1;
+        int z=3;
+        while(  n1 > 3 ){
+            System.out.println("делим "+Integer.toBinaryString(a));
+            System.out.println("делит "+Integer.toBinaryString(divider));
+            
+            a ^= divider;
+            quotBin[j++] = 1;
+            j += (n1 - countBinaryOrders(a) - 1);
+            for(int i=0; i<(n1 - countBinaryOrders(a)); i++) divider >>= 1;
+            n1 = countBinaryOrders(a);
+
+            System.out.println("частн "+Integer.toBinaryString(a));
+            System.out.println("-------");
+            z--;
+        }
+        for(int i=0; i<k; i++)System.out.print(quotBin[i]);
+        quotDec = 8*quotBin[0] + 4*quotBin[1] + 2*quotBin[2] + quotBin[3];
+        System.out.print("\n"+Integer.toBinaryString(b)+" = ");
+        System.out.print(Integer.toBinaryString(NumberCoup.execute(quotDec, 2, k))+"\n" );
+        
+        int result = 0;
+        return result;
     }
 }
