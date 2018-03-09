@@ -103,5 +103,16 @@ public abstract class PolynomDivision {
         for(int z=0; z<infocode.length()-1; z++) System.out.print(infocode.get(z)?1:0);
         System.out.println( " (ост. " + Integer.toBinaryString(reminder) + ")" );  
         return infocode;
-    }        
+    }  
+    
+    // считает число двоичных разрядов
+    public static int countBinaryOrders(int num){
+        if(num==0 || num==1) return 1;
+        int numOrders = 0;
+        while(num != 0){
+            num >>= 1;
+            numOrders++;
+        }
+        return numOrders;
+    }
 }

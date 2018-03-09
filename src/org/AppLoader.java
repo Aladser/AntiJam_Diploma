@@ -1,4 +1,7 @@
 package org;
+import java.util.BitSet;
+import org.models.PolynomDivision;
+import org.models.codecs.BCHCodec;
 import org.views.MainFrame;
 
 /**
@@ -33,7 +36,11 @@ public class AppLoader {
         }
         //</editor-fold>
 
-        /* Вызов главного окна */      
+        /* Вызов главного окна */
+        BitSet code = new BitSet();
+        code.set(7);
+        BCHCodec.decode(code);
+        
         java.awt.EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);
         });

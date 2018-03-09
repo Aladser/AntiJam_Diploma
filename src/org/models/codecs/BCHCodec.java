@@ -80,26 +80,23 @@ public abstract class BCHCodec extends Codec{
         return Sx;
     }
     
-    /**
-     * 
-     * @param encodeMessage - закодированный битовый массив
-     * @return информационный блок
-     */
-    public static BitSet decode(BitSet encodeMessage){
-        // {1, 0, 1, 0, 0, 1, 1};
+    public static BitSet decode(BitSet msg){
+        int gx = 0b1011; // G(x)
         BitSet code = new BitSet();
         code.set(7);
         
-        code.set(0);
-        code.clear(1);
-        code.clear(2);
-        code.set(3);
-        code.set(4);
-        code.set(5);
-        code.clear(6);
+        // 1001110 = 78
+        code.set(0);   
+        code.set(3);   
+        code.set(4);   
+        code.set(5);   
         
-        BitSet infocode = PolynomDivision.execute( code );
-        return infocode;
+        for(int i=0; i<code.length()-1; i++)System.out.print(code.get(i)?1:0);
+        System.out.print(" = " + BinDecConverting.binToDec(code));
+        System.out.println();
+        
+        int num = BinDecConverting.binToDec(code);
+        
+        return new BitSet();
     }
-    
 }
