@@ -9,11 +9,12 @@ import org.models.PolynomDivision;
  */
 public abstract class BCHCodec extends Codec{
     // Порождающий многочлен g(x)
-    public static final int Gx = 0b1011; 
+    public static final int GX = 0b1011; 
     
-    // Кодирование
-    // Ax - информация
-    // Sx - кодовое слово
+    /** Кодирование
+     * @param Ax - информация
+     * @return Sx - кодовое слово
+     */
     public static BitSet encode(BitSet Ax){
         int length = ((Ax.length()) * 7) / 4; // размер = n / n - k
         BitSet Sx = new BitSet();
@@ -81,23 +82,16 @@ public abstract class BCHCodec extends Codec{
     }
     
     public static BitSet decode(BitSet msg){
-        int gx = 0b1011; // G(x)
-        BitSet code = new BitSet();
-        code.set(7);
+        BitSet code1 = new BitSet();
+        code1.set(7);
         
         // 1001110 = 78
-        code.set(0);   
-        code.set(3);   
-        code.set(4);   
-        code.set(5);   
+        code1.set(0);   
+        code1.set(3);   
+        code1.set(4);   
+        code1.set(5);
         
-        //for(int i=0; i<code.length()-1; i++)System.out.print(code.get(i)?1:0);
-        //System.out.print(" = " + BinDecConverting.binToDec(code));
-        //System.out.println();
-        
-        int num = BinDecConverting.binToDec(code);
-        PolynomDivision.execute(num, 0b1011);
-        
+        PolynomDivision.execute(BinDecConverting.binToDec(code1), 0b1011);   
         return new BitSet();
     }
 }
