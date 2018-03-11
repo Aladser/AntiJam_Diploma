@@ -6,17 +6,17 @@ import org.models.PolynomDivision;
 
 /**
  * Кодек БЧХ кода
- * Gx, GxBin - порождающий полином
- * n - длина кодового слова
- * k - длина инфокодового слова
- * Mx - кодирующая матрица
  */
 public abstract class BCHCodec extends Codec{
-    // Порождающий многочлен g(x)
-    public static final int Gx = 0b1011;
-    private static final BitSet GxBin = BinDecTranslation.decToBin(Gx);  
+    // длина кодового слова
     private static final int n = 7;
+    // длина инфокодового слова
     private static final int k = 4;
+    // порождающий многочлен
+    public static final int Gx = 0b1011;
+    // порождающий многочлен (bin)
+    private static final BitSet GxBin = BinDecTranslation.decToBin(Gx, k);
+    // кодирующая матрица
     private static final boolean[][] Mx = getCodingMatrix();
     
     /** Кодирование
@@ -24,32 +24,21 @@ public abstract class BCHCodec extends Codec{
      * @return Sx - кодовое слово
      */
     public static BitSet encode(BitSet Ax){
-        int length = ((Ax.length()) * 7) / 4; // размер = Ax.length * (n / k)
         BitSet Sx = new BitSet();
+        int length = ((Ax.length()-1) * n) / k;
         Sx.set(length);
-        
-        boolean r = false;
-        // i - индекс по Ax
-        // j - индек по Sx
-        // k - индекс умножения Ax на столбец Mx
+        int sxi = 0;
         // умножение матриц Ax * Mx
-        for(int j=0, i=0; i<Ax.length(); i+=4){
-            for(int k=0; k<7; k++, j++){
-                if( Ax.get(i) & Mx[0][k] ) Sx.set(j);             
-                
-                if( Ax.get(i+1) & Mx[1][k] ) r = true;
-                if( Sx.get(j)^r ) Sx.set(j);
-                r = false;
-                
-                if( Ax.get(i+2) & Mx[2][k] ) r = true;
-                if( Sx.get(j)^r ) Sx.set(j);
-                r = false;
-                
-                if( Ax.get(i+3) & Mx[3][k] ) r = true;
-                if( Sx.get(j)^r ) Sx.set(j);
-                r = false;
-            }
-        }       
+        // i - проход по  A(x)
+        // mxj - проход по столбцам M(x)
+        // mxi - проход по столбцу M(x)
+        boolean[] comp = new boolean[k];
+        for(int axi=0; axi<Ax.length()-1; axi+=k){            
+            for(int mxj=0; mxj<n; mxj++, sxi++){
+                for(int mxi=0; mxi<k; mxi++) comp[mxi] = Ax.get(axi+mxi) & Mx[mxi][mxj];     
+                if(comp[0]^comp[1]^comp[2]^comp[3]) Sx.set(sxi);
+            }              
+        }
         return Sx;
     }
     

@@ -44,19 +44,18 @@ public class AppLoader {
         for(int i=0; i<SIZE; i++) numbers[i]=i;
         // двоичная форма чисел
         BitSet[] binNumbers = new BitSet[SIZE];
-        for(int i=0; i<SIZE; i++) binNumbers[i] = BinDecTranslation.decToBin(numbers[i]);
-        /*/ Вывод в консоль
+        for(int i=0; i<SIZE; i++) binNumbers[i] = BinDecTranslation.decToBin(numbers[i], 4);
+        // закодированные числа
+        BitSet[] codes = new BitSet[SIZE];
+        for(int i=0; i<SIZE; i++) codes[i] = BCHCodec.encode(binNumbers[i]);
+        // Вывод в консоль
         for(int i=0; i<SIZE; i++){
             System.out.print( numbers[i] + " = ");
             for( int j=0; j<binNumbers[i].length()-1; j++ ) System.out.print( binNumbers[i].get(j)?1:0 );
+            System.out.print(" = ");
+            for( int j=0; j<codes[i].length()-1; j++ ) System.out.print( codes[i].get(j)?1:0 );
             System.out.println();
-        }*/
-        
-        BitSet ax = BinDecTranslation.decToBin(5);
-        BitSet sx = BCHCodec.encode( binNumbers[5] );
-        for(int i=0; i<ax.length()-1; i++) System.out.print(ax.get(i)?1:0);
-        System.out.println();
-        
+        }
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {

@@ -12,11 +12,35 @@ public abstract class BinDecTranslation {
      * @return 
      */
     public static BitSet decToBin(int number){     
-        BitSet result = new BitSet();       
+        BitSet result = new BitSet();
         int numOrders = countBinaryOrders(number);
         result.set(numOrders);
         int exp = (int) Math.pow(2, numOrders - 1); 
-        int ind=0;
+        int ind = 0;
+        while(number != 0){
+            if(number >= exp){
+                result.set(ind);
+                number -= exp;
+            }
+            ind++;
+            exp/=2;
+            numOrders--;
+        }
+        return result;
+    }
+       
+    /**
+     * Десятичное => двоичное
+     * @param number
+     * @param k - требуемая разрядность
+     * @return 
+     */
+    public static BitSet decToBin(int number, int k){     
+        BitSet result = new BitSet();
+        result.set(k);
+        int numOrders = countBinaryOrders(number);
+        int exp = (int) Math.pow(2, numOrders - 1); 
+        int ind = k - numOrders;
         while(number != 0){
             if(number >= exp){
                 result.set(ind);
