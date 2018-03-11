@@ -2,12 +2,12 @@ package org.models;
 import java.util.BitSet;
 
 /**
- * Двоично-десятичные преобразования
+ * Двоично-десятичные переводы
  * @author Aladser
  */
-public abstract class BinDecConverting {
+public abstract class BinDecTranslation {
     /**
-     * Десятичное число в двоичное
+     * Десятичное => двоичное
      * @param number
      * @return 
      */
@@ -30,7 +30,7 @@ public abstract class BinDecConverting {
     }
     
     /**
-     * Двоичное число в десятичное
+     * Двоичное => десятичное
      * @param number
      * @return 
      */
@@ -42,7 +42,7 @@ public abstract class BinDecConverting {
         return result;
     }
     
-    // считает число двоичных разрядов
+    // Считает число двоичных разрядов
     public static int countBinaryOrders(int num){
         if(num==0 || num==1) return 1;
         int numOrders = 0;

@@ -1,102 +1,78 @@
 package org.models.codecs;
 
 import java.util.BitSet;
-import org.models.BinDecConverting;
+import org.models.BinDecTranslation;
 import org.models.PolynomDivision;
 
 /**
  * Кодек БЧХ кода
+ * Gx, GxBin - порождающий полином
+ * n - длина кодового слова
+ * k - длина инфокодового слова
+ * Mx - кодирующая матрица
  */
 public abstract class BCHCodec extends Codec{
     // Порождающий многочлен g(x)
-    public static final int GX = 0b1011; 
+    public static final int Gx = 0b1011;
+    private static final BitSet GxBin = BinDecTranslation.decToBin(Gx);  
+    private static final int n = 7;
+    private static final int k = 4;
+    private static final boolean[][] Mx = getCodingMatrix();
     
     /** Кодирование
-     * @param Ax - информация
+     * @param Ax - инфокодовое слово
      * @return Sx - кодовое слово
      */
     public static BitSet encode(BitSet Ax){
-        int length = ((Ax.length()) * 7) / 4; // размер = n / n - k
+        int length = ((Ax.length()) * 7) / 4; // размер = Ax.length * (n / k)
         BitSet Sx = new BitSet();
-        // S[length] - флаг конца массива
-        Sx.set( length );
-
-        // Mx - Образующая матрица M(x). 
-        // Первое число - строки, второе число - столбцы
-        boolean[][] Mx = new boolean[4][7]; 
-        Mx[0][0] = false; //0
-        Mx[0][1] = false; //0
-        Mx[0][2] = false; //0
-        Mx[0][3] = true;  //1
-        Mx[0][4] = false; //0
-        Mx[0][5] = true;  //1
-        Mx[0][6] = true;  //1
+        Sx.set(length);
         
-        Mx[1][0] = false; //0
-        Mx[1][1] = false; //0
-        Mx[1][2] = true;  //1
-        Mx[1][3] = false; //0
-        Mx[1][4] = true;  //1
-        Mx[1][5] = true;  //1
-        Mx[1][6] = false; //0
-
-        Mx[2][0] = false; //0
-        Mx[2][1] = true;  //1
-        Mx[2][2] = false; //0
-        Mx[2][3] = true;  //1
-        Mx[2][4] = true;  //1
-        Mx[2][5] = false; //0
-        Mx[2][6] = false; //0
-        
-        Mx[3][0] = true;  //1
-        Mx[3][1] = false; //0
-        Mx[3][2] = true;  //1
-        Mx[3][3] = true;  //1
-        Mx[3][4] = false; //0
-        Mx[3][5] = false; //0
-        Mx[3][6] = false; //0
-               
         boolean r = false;
-        for(int i=0, j=0; i<Ax.length(); i+=4){
+        // i - индекс по Ax
+        // j - индек по Sx
+        // k - индекс умножения Ax на столбец Mx
+        // умножение матриц Ax * Mx
+        for(int j=0, i=0; i<Ax.length(); i+=4){
             for(int k=0; k<7; k++, j++){
-                if( Ax.get(i) & Mx[0][k] ) Sx.set(j);
-                else Sx.clear(j);             
+                if( Ax.get(i) & Mx[0][k] ) Sx.set(j);             
                 
                 if( Ax.get(i+1) & Mx[1][k] ) r = true;
                 if( Sx.get(j)^r ) Sx.set(j);
-                else Sx.clear(j);
                 r = false;
                 
                 if( Ax.get(i+2) & Mx[2][k] ) r = true;
                 if( Sx.get(j)^r ) Sx.set(j);
-                else Sx.clear(j);
                 r = false;
                 
                 if( Ax.get(i+3) & Mx[3][k] ) r = true;
                 if( Sx.get(j)^r ) Sx.set(j);
-                else Sx.clear(j);
                 r = false;
             }
-        }        
+        }       
         return Sx;
     }
     
     public static BitSet decode(BitSet msg){
-        BitSet code1 = new BitSet();
-        code1.set(7);
-        
-        // 1001110 = 78
-        code1.set(0);   
-        code1.set(3);   
-        code1.set(4);   
-        code1.set(5);
-        
-        // Тест
-        int[] arr = new int[16];
-        for(int i=0; i<arr.length; i++) arr[i] = i;
-        
-        
-        PolynomDivision.execute(BinDecConverting.binToDec(code1), 0b1011);   
+        PolynomDivision.execute(BinDecTranslation.binToDec(msg), Gx);   
         return new BitSet();
+    }
+    
+    /**
+     * Создает кодирующую матрицу
+     * @return
+     */
+    private static boolean[][] getCodingMatrix(){
+        boolean[][] Mx = new boolean[k][n];        
+        //  по строкам матрицы идет сдвиг влево gx
+        // 00gx
+        // 0gx0
+        // gx00
+        for(int i=0, numZero=n-k; i<k; i++){
+            for(int j=numZero, z=0; j<n; j++)
+                if(z<GxBin.length()-1) Mx[i][j] = GxBin.get(z++);
+            numZero--;
+        }         
+        return Mx;
     }
 }

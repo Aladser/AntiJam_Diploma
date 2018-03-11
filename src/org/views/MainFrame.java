@@ -346,7 +346,7 @@ public class MainFrame extends javax.swing.JFrame {
                 transmedia.message = org.models.codecs.HammingCodec.encode( imageBits.bits );
                 break;
             case 1:
-                infoPanel.append( "\nБЧХ. Порождающий полином g(x) = " + Integer.toBinaryString( BCHCodec.GX ) + "\n");
+                infoPanel.append( "\nБЧХ. Порождающий полином g(x) = " + Integer.toBinaryString( BCHCodec.Gx ) + "\n");
                 infoPanel.append("Идет кодирование..\n");
                 transmedia.message = org.models.codecs.BCHCodec.encode( imageBits.bits );
                 infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
