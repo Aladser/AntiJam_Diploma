@@ -7,10 +7,10 @@ import javax.imageio.ImageIO;
 import org.models.ImageBits;
 import org.models.TransmissionMedia;
 import org.models.codecs.BCHCodec;
+import org.models.codecs.Codec;
 
 /**
  * Главное окно
- * @author Aladser
  */
 public class MainFrame extends javax.swing.JFrame {
     private java.awt.image.BufferedImage image;  // Исходное изображение
@@ -18,6 +18,7 @@ public class MainFrame extends javax.swing.JFrame {
     private ImageBits recImageBits;              // Полученный массив изображения    
     private final TransmissionMedia transmedia;  // Канал передачи данных
     private int numErrors;                       // Число ошибок после передачи
+    public Codec codec;                          // кодек
     
     public MainFrame(){
         initComponents();
@@ -346,9 +347,10 @@ public class MainFrame extends javax.swing.JFrame {
                 transmedia.message = org.models.codecs.HammingCodec.encode( imageBits.bits );
                 break;
             case 1:
-                infoPanel.append( "\nБЧХ. Порождающий полином g(x) = " + Integer.toBinaryString( BCHCodec.getGX() ) + "\n");
+                codec = new BCHCodec(0b1011, 7, 4);
+                infoPanel.append( "\nБЧХ. Порождающий полином g(x) = " + Integer.toBinaryString( codec.getGX() ) + "\n");
                 infoPanel.append("Идет кодирование..\n");
-                transmedia.message = org.models.codecs.BCHCodec.encode( imageBits.bits );
+                transmedia.message = codec.encode( imageBits.bits );
                 infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
                 break;
         }        
@@ -365,7 +367,7 @@ public class MainFrame extends javax.swing.JFrame {
                 transmedia.message = org.models.codecs.HammingCodec.decode( transmedia.message );
                 break;
             case 1:
-                transmedia.message = org.models.codecs.BCHCodec.decode( transmedia.message );
+                transmedia.message = codec.decode( transmedia.message );
                 break;
         } 
         /* Тест декодера

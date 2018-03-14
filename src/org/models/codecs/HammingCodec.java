@@ -1,8 +1,9 @@
 package org.models.codecs;
 import java.util.BitSet;
+import static org.models.codecs.Codec.getInteger;
 
 // Кодек кода Хэмминга
-public abstract class HammingCodec extends Codec{
+public abstract class HammingCodec{
     /** Encoding
      * @param message - сообщение для кодирования
      * @return  */

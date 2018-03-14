@@ -1,9 +1,8 @@
 package org;
 import java.util.BitSet;
 import org.models.BinDecTranslation;
-import org.models.NumberCoup;
-import org.models.PolynomDivision;
 import org.models.codecs.BCHCodec;
+import org.models.codecs.Codec;
 import org.views.MainFrame;
 
 /**
@@ -37,34 +36,25 @@ public class AppLoader {
         }
         //</editor-fold>
 
-        // ТЕСТ
-        // числа
-        
-        int SIZE = 16;
-        int[] numbers = new int[SIZE];
-        for(int i=0; i<SIZE; i++) numbers[i]=i;
-        // двоичная форма чисел
-        BitSet[] binNumbers = new BitSet[SIZE];
-        for(int i=0; i<SIZE; i++) binNumbers[i] = BinDecTranslation.decToBin(numbers[i], 4);
-        // закодированные числа
-        BitSet[] codes = new BitSet[SIZE];
-        for(int i=0; i<SIZE; i++) codes[i] = BCHCodec.encode(binNumbers[i]);
-        // декодироване
-        BitSet[] codes2 = new BitSet[SIZE];
-        for(int i=0; i<SIZE; i++) codes2[i] = BCHCodec.decode(codes[i]);
-        // Вывод в консоль
-        for(int i=0; i<SIZE; i++){
-            //System.out.print( numbers[i] + " = ");
-            for( int j=0; j<binNumbers[i].length()-1; j++ ) System.out.print( binNumbers[i].get(j)?1:0 );
-            //System.out.print(" = ");
-            //for( int j=0; j<codes[i].length()-1; j++ ) System.out.print( codes[i].get(j)?1:0 );
-            System.out.print(" = ");
-            for( int j=0; j<codes2[i].length()-1; j++ ) System.out.print( codes2[i].get(j)?1:0 );
-            System.out.println();
+        // ТЕСТ   
+        //Codec codec = new BCHCodec(0b1011, 7, 4);
+        int size = 16;
+        int[] numbers = new int[size];
+        for(int i=0; i<size; i++) numbers[i]=i;    
+        BitSet[] binNumbers = new BitSet[size];
+        for(int i=0; i<size; i++) binNumbers[i] = BinDecTranslation.decToBin(i, 4);
+        BitSet Ax = new BitSet();
+        Ax.set(size*4);
+        for(int k=0, i=0; i<Ax.length()-1; i+=4){
+            for(int j=0; j<4; j++) if(binNumbers[k].get(j)) Ax.set(i+j);
+            k++;
+        }
+        for(int i=0; i<Ax.length()-1; i++){
+            System.out.print( Ax.get(i)?1:0 );
+            if((i+1)%4 == 0) System.out.println();
         }
         
-
-       
+        
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);

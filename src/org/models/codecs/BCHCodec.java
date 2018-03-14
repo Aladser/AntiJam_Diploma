@@ -8,23 +8,32 @@ import org.models.PolynomDivision;
 /**
  * Кодек БЧХ кода
  */
-public abstract class BCHCodec extends Codec{
-    // длина кодового слова
-    private static final int n = 7;
-    // длина инфокодового слова
-    private static final int k = 4;
-    // порождающий многочлен
-    private static final int Gx = 0b1011;
-    // порождающий многочлен (bin)
-    private static final BitSet GxBin = BinDecTranslation.decToBin(Gx, k);
-    // кодирующая матрица
-    private static final boolean[][] Mx = getCodingMatrix();
+public class BCHCodec extends Codec{
+    private final int n; // длина кодового слова
+    private final int k; // длина инфоблока
+    private final int Gx; // порождающий многочлен
+    private final BitSet GxBin; // порождающий многочлен (bin)
+    private final boolean[][] Mx; // кодирующая матрица
+    
+    /**
+     * @param Gx порождающий полином
+     * @param n длина кодового слова
+     * @param k длина инфоблока
+     */
+    public BCHCodec(int Gx, int n, int k){
+        this.Gx = Gx;
+        this.GxBin = BinDecTranslation.decToBin(Gx, k);
+        this.n = n;
+        this.k = k;
+        this.Mx = getCodingMatrix();
+    }
     
     /** Кодирование
-     * @param Ax - инфокодовое слово
+     * @param Ax инфоблок
      * @return Sx - кодовое слово
      */
-    public static BitSet encode(BitSet Ax){
+    @Override
+    public BitSet encode(BitSet Ax){
         BitSet Sx = new BitSet();
         int length = ((Ax.length()-1) * n) / k;
         Sx.set(length);
@@ -45,35 +54,40 @@ public abstract class BCHCodec extends Codec{
     
     /**
      * Декодирование
-     * @param msg - кодовое слово
-     * @return Ax - инфослово 
+     * @param msg кодовое слово
+     * @return Ax - инфоблок 
      */
-    public static BitSet decode(BitSet msg){
-        PolynomDivision.Result divResult = PolynomDivision.execute(BinDecTranslation.binToDec(msg), n, Gx, k);
+    @Override
+    public BitSet decode(BitSet msg){
+        PolynomDivision.Result divResult = PolynomDivision.execute(BinDecTranslation.binToDec(msg), n, Gx);
         int intAx = NumberCoup.execute(divResult.quotient, 2, k);
         BitSet Ax = BinDecTranslation.decToBin(intAx);
-        BitSet result = addZeroToCode(Ax, k);
-        return result;
+        return addZeroToCode(Ax, k);
     }
     
-    public static int getGX(){ return Gx; }
+    /**
+     * Возвращает порождающий полином, если он есть
+     * @return 
+     */
+    @Override
+    public int getGX(){ return Gx; }
     
     /**
      * Создает кодирующую матрицу
      * @return
      */
-    private static boolean[][] getCodingMatrix(){
-        boolean[][] Mx = new boolean[k][n];        
+    private boolean[][] getCodingMatrix(){
+        boolean[][] mx = new boolean[k][n];        
         //  по строкам матрицы идет сдвиг влево gx
         // 00gx
         // 0gx0
         // gx00
         for(int i=0, numZero=n-k; i<k; i++){
             for(int j=numZero, z=0; j<n; j++)
-                if(z<GxBin.length()-1) Mx[i][j] = GxBin.get(z++);
+                if(z<GxBin.length()-1) mx[i][j] = GxBin.get(z++);
             numZero--;
         }         
-        return Mx;
+        return mx;
     }
     
     /**

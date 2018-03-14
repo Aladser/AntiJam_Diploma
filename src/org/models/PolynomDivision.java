@@ -5,13 +5,13 @@ package org.models;
  */
 public abstract class PolynomDivision {
     /** Деление
-     * @param division - делимое
-     * @param n - число разрядов делимого
-     * @param divider - делитель
-     * @param k - число разрядов
-     * @return частное
+     * @param division делимое
+     * @param n требуемое число разрядов делимого
+     * @param divider делитель
+     * @return частное и остаток деления
      */
-    public static Result execute(int division, int n, int divider, int k){
+    public static Result execute(int division, int n, int divider){
+        int k = BinDecTranslation.countBinaryOrders(divider);
         Result result = new Result();
         
         int[] quotient = new int[k];
@@ -34,7 +34,9 @@ public abstract class PolynomDivision {
         return result;
     }
     
-    // Класс результата деления
+    /**
+     * Класс результата деления
+     */
     public static class Result{
         public int quotient = 0; // частное
         public int reminder = 0; // остаток

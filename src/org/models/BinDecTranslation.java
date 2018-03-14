@@ -8,7 +8,7 @@ import java.util.BitSet;
 public abstract class BinDecTranslation {
     /**
      * Десятичное => двоичное
-     * @param number
+     * @param number число
      * @return 
      */
     public static BitSet decToBin(int number){     
@@ -31,8 +31,8 @@ public abstract class BinDecTranslation {
        
     /**
      * Десятичное => двоичное
-     * @param number
-     * @param k - требуемая разрядность
+     * @param number число
+     * @param k требуемая разрядность
      * @return 
      */
     public static BitSet decToBin(int number, int k){     
