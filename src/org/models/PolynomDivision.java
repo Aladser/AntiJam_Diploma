@@ -2,38 +2,37 @@ package org.models;
 
 /**
  * Деление полиномов
- * @author Aladser
  */
-public abstract class PolynomDivision {  
-    public static int execute(int division, int divider){
-        int result;
-        int n = 7;                   // длина кодового слова
-        int k = 4;                   // размер полинома
+public abstract class PolynomDivision {
+    /** Деление
+     * @param division - делимое
+     * @param n - число разрядов делимого
+     * @param divider - делитель
+     * @param k - число разрядов
+     * @return частное
+     */
+    public static int execute(int division, int n, int divider, int k){
+        int result = 0;
         int[] quotient = new int[k]; // частное
-        
-        System.out.print( Integer.toBinaryString(division) +" => ");
-        
-        // размер делимого
-        int n1 = BinDecTranslation.countBinaryOrders(division);
-        // позиция в инфокоде
-        int j = n - n1;                   
-        // поиск первой единицы
-        for(int i=0; i<n1-k; i++) divider <<= 1;
-        while(  n1 > 3 ){
-            //System.out.println("делим "+Integer.toBinaryString(division));
-            //System.out.println("делит "+Integer.toBinaryString(divider));  
+        int n1 = BinDecTranslation.countBinaryOrders(division); // число разрядов делимого
+        int j = n - n1; // позиция первой единицы частного                   
+        for(int i=0; i<n1-k; i++) divider <<= 1; // сдвиг делителя для начала деления делимого        
+        while(  n1 > 3 ){ 
             division ^= divider;
             quotient[j++] = 1;
             j += (n1 - BinDecTranslation.countBinaryOrders(division) - 1);
             for(int i=0; i<(n1 - BinDecTranslation.countBinaryOrders(division)); i++) divider >>= 1;
             n1 = BinDecTranslation.countBinaryOrders(division);
-            //System.out.println("частн "+Integer.toBinaryString(division));
-            //System.out.println("-------");
-        }   
-        result = NumberCoup.execute(8*quotient[0] + 4*quotient[1] + 2*quotient[2] + quotient[3], 2, k);
-        //return 8*quotient[0] + 4*quotient[1] + 2*quotient[2] + quotient[3];
-        System.out.println( Integer.toBinaryString(result) );
-        
+        }
+        int[] orders = new int[k];
+        for(int i=k-1, z=0; i>=0; i--, z++) orders[z] = (int) Math.pow(2, i);
+        for(int i=0; i<k; i++) result += orders[i]*quotient[i];
         return result;
+    }
+    
+    // Класс результата деления
+    public class DivisionResult{
+        int quotient;
+        int reminder;
     }
 }

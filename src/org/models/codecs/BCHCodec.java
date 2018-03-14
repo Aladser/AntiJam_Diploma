@@ -2,6 +2,7 @@ package org.models.codecs;
 
 import java.util.BitSet;
 import org.models.BinDecTranslation;
+import org.models.NumberCoup;
 import org.models.PolynomDivision;
 
 /**
@@ -48,9 +49,11 @@ public abstract class BCHCodec extends Codec{
      * @return Ax - инфослово 
      */
     public static BitSet decode(BitSet msg){
-        int quitent = PolynomDivision.execute(BinDecTranslation.binToDec(msg), Gx);
-        BitSet Ax = BinDecTranslation.decToBin(quitent);
-        return addZeroToCode(Ax, k);
+        int quotient = PolynomDivision.execute(BinDecTranslation.binToDec(msg), n, Gx, k);
+        int intAx = NumberCoup.execute(quotient, 2, k);
+        BitSet Ax = BinDecTranslation.decToBin(intAx);
+        BitSet result = addZeroToCode(Ax, k);
+        return result;
     }
     
     /**
