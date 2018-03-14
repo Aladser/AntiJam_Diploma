@@ -42,10 +42,15 @@ public abstract class BCHCodec extends Codec{
         return Sx;
     }
     
+    /**
+     * Декодирование
+     * @param msg - кодовое слово
+     * @return Ax - инфослово 
+     */
     public static BitSet decode(BitSet msg){
         int quitent = PolynomDivision.execute(BinDecTranslation.binToDec(msg), Gx);
-        BitSet result = BinDecTranslation.decToBin(quitent);
-        return addZeroToCode(result, k);
+        BitSet Ax = BinDecTranslation.decToBin(quitent);
+        return addZeroToCode(Ax, k);
     }
     
     /**

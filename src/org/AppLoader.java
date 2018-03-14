@@ -39,6 +39,7 @@ public class AppLoader {
 
         // ТЕСТ
         // числа
+        /*
         int SIZE = 16;
         int[] numbers = new int[SIZE];
         for(int i=0; i<SIZE; i++) numbers[i]=i;
@@ -61,7 +62,13 @@ public class AppLoader {
             for( int j=0; j<codes2[i].length()-1; j++ ) System.out.print( codes2[i].get(j)?1:0 );
             System.out.println();
         }
-        
+        */
+       PolynomDivision.execute(0b1001110, 0b1011);
+       PolynomDivision.execute(0b1000101, 0b1011);
+       PolynomDivision.execute(0b0100111, 0b1011);
+       PolynomDivision.execute(0b0101100, 0b1011);
+       PolynomDivision.execute(0b1010011, 0b1011);
+       PolynomDivision.execute(0b1111111, 0b1011);
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {

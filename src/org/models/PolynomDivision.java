@@ -11,7 +11,7 @@ public abstract class PolynomDivision {
         int k = 4;                   // размер полинома
         int[] quotient = new int[k]; // частное
         
-        //System.out.print( Integer.toBinaryString(division) +" => ");
+        System.out.print( Integer.toBinaryString(division) +" => ");
         
         // размер делимого
         int n1 = BinDecTranslation.countBinaryOrders(division);
@@ -31,8 +31,8 @@ public abstract class PolynomDivision {
             //System.out.println("-------");
         }   
         result = NumberCoup.execute(8*quotient[0] + 4*quotient[1] + 2*quotient[2] + quotient[3], 2, k);
-        
-        //System.out.println( Integer.toBinaryString(result) +"\n-----");
+        //return 8*quotient[0] + 4*quotient[1] + 2*quotient[2] + quotient[3];
+        System.out.println( Integer.toBinaryString(result) );
         
         return result;
     }

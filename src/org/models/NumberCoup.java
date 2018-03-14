@@ -1,28 +1,26 @@
 package org.models;
 
 /**
- * Переворачивает разряды числа
- * @author Aladser
+ * Переворачивает разряды числа в base-системе счисления
  */
 public abstract class NumberCoup {
     
     /**
-     * @param origNumber
-     * @param base - основание числа
-     * @param digitNumber
+     * @param number
+     * @param base
+     * @param numOrders
      */   
-    public static int execute(int origNumber, int base, int digitNumber){
-        int number = 0; // перевернутое число
-        int degree = 0; // степень результата
-        int highOrder = (int) Math.pow(base, digitNumber) / base;
-        while(origNumber != 0){
-            if(origNumber >= highOrder){
-                origNumber -= highOrder;
-                number += (int) Math.pow(base, degree);      
+    public static int execute(int number, int base, int numOrders){
+        int result = 0, degree = 0;
+        int highOrder = (int) Math.pow(base, numOrders) / base;
+        while(number != 0){
+            if(number >= highOrder){
+                number -= highOrder;
+                result += (int) Math.pow(base, degree);      
             }
             highOrder /= base;
             degree++;
         }
-        return number;
+        return result;
     }
 }
