@@ -60,6 +60,8 @@ public class AppLoader {
             if((i+1)%7 == 0) System.out.print("|");
         }
         
+        
+        
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);
