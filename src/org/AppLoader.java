@@ -39,7 +39,7 @@ public class AppLoader {
 
         // ТЕСТ
         // числа
-        /*
+        
         int SIZE = 16;
         int[] numbers = new int[SIZE];
         for(int i=0; i<SIZE; i++) numbers[i]=i;
@@ -62,32 +62,8 @@ public class AppLoader {
             for( int j=0; j<codes2[i].length()-1; j++ ) System.out.print( codes2[i].get(j)?1:0 );
             System.out.println();
         }
-        */
         
-       int r11 = PolynomDivision.execute(0b1001110, 7, 0b1011, 4);
-       int r21 = NumberCoup.execute(r11, 2, 4);
-       System.out.println( "0b1001110 = " + Integer.toBinaryString(r21) );
-       /*
-       int r12 = PolynomDivision.execute(0b1000101, 7, 0b1011, 4);
-       int r22 = NumberCoup.execute(r12, 2, 4);
-       System.out.println( "0b1000101 = " + Integer.toBinaryString(r22) );
-       
-       int r13 = PolynomDivision.execute(0b0100111, 7, 0b1011, 4);
-       int r23 = NumberCoup.execute(r13, 2, 4);
-       System.out.println( "0b0100111 = " + Integer.toBinaryString(r23) );
-       
-       int r14 = PolynomDivision.execute(0b0101100, 7, 0b1011, 4);
-       int r24 = NumberCoup.execute(r14, 2, 4);
-       System.out.println( "0b0101100 = " + Integer.toBinaryString(r24) );
-       
-       int r15 = PolynomDivision.execute(0b1010011, 7, 0b1011, 4);
-       int r25 = NumberCoup.execute(r15, 2, 4);
-       System.out.println( "0b1010011 = " + Integer.toBinaryString(r25) );
-       
-       int r16 = PolynomDivision.execute(0b1111111, 7, 0b1011, 4);
-       int r26 = NumberCoup.execute(r16, 2, 4);
-       System.out.println( "0b1111111 = " + Integer.toBinaryString(r26) );
-       8/
+
        
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {

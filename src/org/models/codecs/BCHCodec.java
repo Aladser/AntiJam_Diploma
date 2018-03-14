@@ -49,8 +49,8 @@ public abstract class BCHCodec extends Codec{
      * @return Ax - инфослово 
      */
     public static BitSet decode(BitSet msg){
-        int quotient = PolynomDivision.execute(BinDecTranslation.binToDec(msg), n, Gx, k);
-        int intAx = NumberCoup.execute(quotient, 2, k);
+        PolynomDivision.Result divResult = PolynomDivision.execute(BinDecTranslation.binToDec(msg), n, Gx, k);
+        int intAx = NumberCoup.execute(divResult.quotient, 2, k);
         BitSet Ax = BinDecTranslation.decToBin(intAx);
         BitSet result = addZeroToCode(Ax, k);
         return result;
