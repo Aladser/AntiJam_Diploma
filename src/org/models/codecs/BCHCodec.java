@@ -14,7 +14,7 @@ public abstract class BCHCodec extends Codec{
     // длина инфокодового слова
     private static final int k = 4;
     // порождающий многочлен
-    public static final int Gx = 0b1011;
+    private static final int Gx = 0b1011;
     // порождающий многочлен (bin)
     private static final BitSet GxBin = BinDecTranslation.decToBin(Gx, k);
     // кодирующая матрица
@@ -55,6 +55,8 @@ public abstract class BCHCodec extends Codec{
         BitSet result = addZeroToCode(Ax, k);
         return result;
     }
+    
+    public static int getGX(){ return Gx; }
     
     /**
      * Создает кодирующую матрицу
