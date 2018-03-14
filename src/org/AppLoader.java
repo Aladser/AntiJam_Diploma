@@ -37,7 +37,7 @@ public class AppLoader {
         //</editor-fold>
 
         // ТЕСТ   
-        //Codec codec = new BCHCodec(0b1011, 7, 4);
+        Codec codec = new BCHCodec(0b1011, 7, 4);
         int size = 16;
         int[] numbers = new int[size];
         for(int i=0; i<size; i++) numbers[i]=i;    
@@ -51,9 +51,14 @@ public class AppLoader {
         }
         for(int i=0; i<Ax.length()-1; i++){
             System.out.print( Ax.get(i)?1:0 );
-            if((i+1)%4 == 0) System.out.println();
+            if((i+1)%4 == 0) System.out.print("   |");
         }
-        
+        System.out.println();
+        BitSet Sx = codec.encode(Ax);
+        for(int i=0; i<Sx.length()-1; i++){
+            System.out.print( Sx.get(i)?1:0 );
+            if((i+1)%7 == 0) System.out.print("|");
+        }
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
