@@ -48,14 +48,20 @@ public class AppLoader {
         // закодированные числа
         BitSet[] codes = new BitSet[SIZE];
         for(int i=0; i<SIZE; i++) codes[i] = BCHCodec.encode(binNumbers[i]);
+        // декодироване
+        BitSet[] codes2 = new BitSet[SIZE];
+        for(int i=0; i<SIZE; i++) codes2[i] = BCHCodec.decode(codes[i]);
         // Вывод в консоль
         for(int i=0; i<SIZE; i++){
             System.out.print( numbers[i] + " = ");
             for( int j=0; j<binNumbers[i].length()-1; j++ ) System.out.print( binNumbers[i].get(j)?1:0 );
             System.out.print(" = ");
             for( int j=0; j<codes[i].length()-1; j++ ) System.out.print( codes[i].get(j)?1:0 );
+            System.out.print(" = ");
+            for( int j=0; j<codes2[i].length()-1; j++ ) System.out.print( codes2[i].get(j)?1:0 );
             System.out.println();
         }
+        
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {

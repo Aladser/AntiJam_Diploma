@@ -43,8 +43,9 @@ public abstract class BCHCodec extends Codec{
     }
     
     public static BitSet decode(BitSet msg){
-        PolynomDivision.execute(BinDecTranslation.binToDec(msg), Gx);   
-        return new BitSet();
+        int quitent = PolynomDivision.execute(BinDecTranslation.binToDec(msg), Gx);
+        BitSet result = BinDecTranslation.decToBin(quitent);
+        return addZeroToCode(result, k);
     }
     
     /**
@@ -63,5 +64,19 @@ public abstract class BCHCodec extends Codec{
             numZero--;
         }         
         return Mx;
+    }
+    
+    /**
+     * Добавляет недостающие нули к коду
+     * @param code
+     * @return 
+     */
+    private static BitSet addZeroToCode(BitSet code, int numOrders){
+        BitSet result = new BitSet();
+        result.set(numOrders);
+        int j = numOrders - code.length() + 1;
+        for(int i=0; i<code.length()-1; i++, j++)
+            if(code.get(i)) result.set(j);
+        return result;
     }
 }
