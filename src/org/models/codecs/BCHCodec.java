@@ -38,8 +38,9 @@ public class BCHCodec extends Codec{
         int length = ((Ax.length()-1) * n) / k;
         Sx.set(length);
         // умножение матриц Ax * Mx
-        // i - проход по  A(x)
-        // mxj - проход по столбцам M(x)
+        // axi - индекс по  A(x)
+        // sxi - индекс по S(x)
+        // mxj - проход по строке M(x)
         // mxi - проход по столбцу M(x)
         boolean[] comp = new boolean[k];
         for(int sxi = 0, axi=0; axi<Ax.length()-1; axi+=k){            

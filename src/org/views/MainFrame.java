@@ -2,6 +2,7 @@ package org.views;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.models.ImageBits;
@@ -23,7 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(){
         initComponents();
         transmedia = new TransmissionMedia();
-        kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );
+        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
     }
 
     /**
@@ -312,7 +313,6 @@ public class MainFrame extends javax.swing.JFrame {
             try {  
                 image = ImageIO.read(filechooser.getSelectedFile());
                 imageBits = new ImageBits(image);
-                infoPanel.append( ArrayShow.show(imageBits.bits, 20, 4, "Исходный битовый массив (5 блоков):") + "\n");
             } catch (IOException ex) {
                 Logger.getLogger("Не удалось прочитать файл");
             }
@@ -322,7 +322,6 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.out.println("Ошибка создания рисунка");
             }
-            infoPanel.append("\nКоличество цветов = " + 3 + "\n");
             coderButton.setEnabled(true);
             graphicButton.setEnabled(true);
         }
@@ -344,34 +343,34 @@ public class MainFrame extends javax.swing.JFrame {
         Date time = new Date();
         switch(selectCodecComboBox.getSelectedIndex()){
             case 0:
-                transmedia.message = org.models.codecs.HammingCodec.encode( imageBits.bits );
+                codec = new org.models.codecs.HammingCodec();
                 break;
             case 1:
                 codec = new BCHCodec(0b1011, 7, 4);
-                infoPanel.append( "\nБЧХ. Порождающий полином g(x) = " + Integer.toBinaryString( codec.getGX() ) + "\n");
-                infoPanel.append("Идет кодирование..\n");
-                transmedia.message = codec.encode( imageBits.bits );
-                infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
+                infoPanel.append( "Код БЧХ \nПорождающий полином g(x) = " + Integer.toBinaryString( codec.getGX() ) + "\n\n");
                 break;
-        }        
-        infoPanel.append( ArrayShow.show(transmedia.message, 35, 7, "\nЗакодированный битовый массив (5 блоков):"));
+        }
+        infoPanel.append("Идет кодирование..\n");
+        
+        transmedia.message = codec.encode(imageBits.bits);        
+        infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n\n");     
         selectCodecComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
-        decoderButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
     
     /** Нажать на кнопку "Декодер" */
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
-	switch(selectCodecComboBox.getSelectedIndex()){
+	Date time = new Date();
+        infoPanel.append("\n\nИдет декодирование..\n");
+        switch(selectCodecComboBox.getSelectedIndex()){
             case 0:
-                transmedia.message = org.models.codecs.HammingCodec.decode( transmedia.message );
+                //transmedia.message = org.models.codecs.HammingCodec.decode( transmedia.message );
                 break;
             case 1:
                 transmedia.message = codec.decode( transmedia.message );
                 break;
         } 
-        /* Тест декодера
-        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\nПолученный битовый массив"));
+        infoPanel.append("Декодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
         infoPanel.append( "\nЧисло неисправленных ошибок после передачи:\n" );
@@ -393,36 +392,77 @@ public class MainFrame extends javax.swing.JFrame {
 	decoderButton.setEnabled(false);
         plusNoiseButton.setEnabled(true);
         minusNoiseButton.setEnabled(true);
-        */
+        coderButton.setEnabled(true);
+        addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_decoderButtonActionPerformed
 
     /** Нажать на кнопку "Наложить шум" */
     private void addNoiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNoiseButtonActionPerformed
+        if(transmedia.getNoiseLevel() < 0.001){
+            double zeros = transmedia.getNoiseLevel();
+            int numZeros=0;
+            while(zeros != 1){
+                zeros*=10;
+                numZeros++;
+            }
+            System.out.print(numZeros);
+            infoPanel.append("Наложен шум 10^-"+ numZeros);
+        }
+        else
+            infoPanel.append("Наложен шум 10^-"+ transmedia.getNoiseLevel());
         transmedia.imposeNoise();
-        infoPanel.append( ArrayShow.show(transmedia.message, 42, 7, "\nБитовый массив с шумом"));
         decoderButton.setEnabled(true);
         plusNoiseButton.setEnabled(false);
         minusNoiseButton.setEnabled(false);
+        coderButton.setEnabled(false);
+        addNoiseButton.setEnabled(false);
     }//GEN-LAST:event_addNoiseButtonActionPerformed
 
-    /** Повысить уровень шума*/
+    /**
+     * Повысить уровень шума
+     */
     private void plusNoiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusNoiseButtonActionPerformed
         if(transmedia.getNoiseLevel() > 0.001)
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 2);
 	else
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 10);
-        kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );        
+        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );        
     }//GEN-LAST:event_plusNoiseButtonActionPerformed
 
-    /** Понизить уровень шума*/
+    /**
+     * Понизить уровень шума
+     * @param evt 
+     */
     private void minusNoiseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minusNoiseButtonActionPerformed
-	if(transmedia.getNoiseLevel() > 0.001)
-            transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 0.5);
-	else
-            transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 0.1);
-        kerrLabel2.setText( Double.toString(transmedia.getNoiseLevel()) );
+        double noise = transmedia.getNoiseLevel();
+        int exp = 0;
+        while(noise < 1){ 
+            noise *= 10; 
+            exp++;
+        }
+        noise = Math.pow(10, -++exp);
+        transmedia.setNoiseLevel(noise);
+        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
     }//GEN-LAST:event_minusNoiseButtonActionPerformed
-
+    
+    /**
+     * Представление дробных чисел в форме 10^-exp
+     * @param number
+     * @return 
+     */
+    private String formateDoubleNumber(double number){
+        double zeros = number;
+        int numZeros = 0;
+        while(zeros < 1){
+                zeros*=10;
+                numZeros++;
+            }
+        String res;
+        if(numZeros < 3) res = Double.toString(number);
+        else res = "10^-"+numZeros;
+        return res;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane InfoScrollPanel;
     private javax.swing.JButton addNoiseButton;

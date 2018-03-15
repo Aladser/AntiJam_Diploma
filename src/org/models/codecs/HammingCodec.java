@@ -3,11 +3,11 @@ import java.util.BitSet;
 import static org.models.codecs.Codec.getInteger;
 
 // Кодек кода Хэмминга
-public abstract class HammingCodec{
+public class HammingCodec extends Codec{
     /** Encoding
      * @param message - сообщение для кодирования
      * @return  */
-    public static BitSet encode(BitSet message){
+    public BitSet encode(BitSet message){
 	int length = ((message.length()) * 7) / 4;
 	BitSet encodeMessage = new BitSet(length);
         encodeMessage.set(length);   // Установка конца битового массива
@@ -25,7 +25,7 @@ public abstract class HammingCodec{
     /** Decoding
      * @param encodeMessage - сигнал для декодирования
      * @return  */
-    public static BitSet decode(BitSet encodeMessage){				
+    public BitSet decode(BitSet encodeMessage){				
         // syndrom computation
         for (int i = 0, sindrom = 0; i < encodeMessage.length() - 1; i += 7){
             sindrom = getInteger(encodeMessage.get(i) ^ encodeMessage.get(i + 2) ^ encodeMessage.get(i + 3) ^ encodeMessage.get(i + 4)) << 2;
@@ -65,5 +65,10 @@ public abstract class HammingCodec{
             for (int k = ei; k < ei + 4; k++) { decodeMessage.set(i++, encodeMessage.get(k)); }
         } 
         return decodeMessage;
+    }
+
+    @Override
+    public int getGX() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

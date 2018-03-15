@@ -8,7 +8,7 @@ public class TransmissionMedia {
     private double noiseLevel;
     
     public TransmissionMedia(){
-        this.noiseLevel = 0.0001;
+        this.noiseLevel = 0.00001;
     }
     
     // Наложить шум на сообщение
@@ -26,15 +26,20 @@ public class TransmissionMedia {
         return numErrors;
     }
     
-    public int setNoiseLevel(double value){
-        if(value < 0 || value >= 1) return -1;
-        noiseLevel = value;
-        return 0;
+    /**
+     * Установить уровень шума
+     * @param value значение
+     */
+    public void setNoiseLevel(double value){
+        this.noiseLevel = value;
     }
 	
-    // Получить уровень шума
+    /**
+     * Получить уровень шума
+     * @return уровень шума
+     */
     public double getNoiseLevel(){
-        return noiseLevel;
+        return this.noiseLevel;
     }
     
     // Сравнение двух битовых массивов
