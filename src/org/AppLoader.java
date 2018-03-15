@@ -49,17 +49,21 @@ public class AppLoader {
             for(int j=0; j<4; j++) if(binNumbers[k].get(j)) Ax.set(i+j);
             k++;
         }
+        /*
         for(int i=0; i<Ax.length()-1; i++){
             System.out.print( Ax.get(i)?1:0 );
             if((i+1)%4 == 0) System.out.print("   |");
         }
         System.out.println();
+        */
         BitSet Sx = codec.encode(Ax);
+        /*
         for(int i=0; i<Sx.length()-1; i++){
             System.out.print( Sx.get(i)?1:0 );
             if((i+1)%7 == 0) System.out.print("|");
         }
-        
+        */
+        BitSet Ax2 = codec.decode(Sx);
         
         
         /* Вызов главного окна */
