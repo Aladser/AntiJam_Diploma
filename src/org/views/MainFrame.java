@@ -351,7 +351,6 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
         }
         infoPanel.append("Идет кодирование..\n");
-        
         transmedia.message = codec.encode(imageBits.bits);        
         infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n\n");     
         selectCodecComboBox.setEnabled(false);
