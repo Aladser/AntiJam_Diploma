@@ -37,13 +37,12 @@ public class BCHCodec extends Codec{
         BitSet Sx = new BitSet();
         int length = ((Ax.length()-1) * n) / k;
         Sx.set(length);
-        int sxi = 0;
         // умножение матриц Ax * Mx
         // i - проход по  A(x)
         // mxj - проход по столбцам M(x)
         // mxi - проход по столбцу M(x)
         boolean[] comp = new boolean[k];
-        for(int axi=0; axi<Ax.length()-1; axi+=k){            
+        for(int sxi = 0, axi=0; axi<Ax.length()-1; axi+=k){            
             for(int mxj=0; mxj<n; mxj++, sxi++){
                 for(int mxi=0; mxi<k; mxi++) comp[mxi] = Ax.get(axi+mxi) & Mx[mxi][mxj];     
                 if(comp[0]^comp[1]^comp[2]^comp[3]) Sx.set(sxi);
@@ -54,19 +53,33 @@ public class BCHCodec extends Codec{
     
     /**
      * Декодирование
-     * @param msg кодовое слово
+     * @param Sx -закодированное сообщение
      * @return Ax - инфоблок 
      */
     @Override
-    public BitSet decode(BitSet msg){
-        PolynomDivision.Result divResult = PolynomDivision.execute(BinDecTranslation.binToDec(msg), n, Gx);
-        int intAx = NumberCoup.execute(divResult.quotient, 2, k);
-        BitSet Ax = BinDecTranslation.decToBin(intAx);
-        return addZeroToCode(Ax, k);
+    public BitSet decode(BitSet Sx){
+        BitSet Ax = new BitSet();
+        int length = ((Sx.length()-1) * k) / n;
+        Sx.set(length);
+        // Деление полиномов, перевот числа, прибавка нулей слева
+        BitSet codeBlock = new BitSet();
+        int iiblock; // int-код инфоблока
+        BitSet biblock; // bin-код инфоблока 
+        for(int axi=0, sxi=0; sxi<Sx.length()-1; sxi+=n){
+            codeBlock.clear();
+            codeBlock.set(n);
+            for(int ci=0, i=sxi; i<sxi+n; i++, ci++) if(Sx.get(i)) codeBlock.set(ci);
+            PolynomDivision.Result divResult = PolynomDivision.execute(BinDecTranslation.binToDec(codeBlock), n, Gx);
+            iiblock = NumberCoup.execute(divResult.quotient, 2, k);
+            biblock = BinDecTranslation.decToBin(iiblock);
+            biblock = addZeroToCode(biblock, k);
+            for(int i=0; i<biblock.length()-1; i++, axi++) if(biblock.get(i)) Ax.set(axi);
+        }
+        return Ax;
     }
     
     /**
-     * Возвращает порождающий полином, если он есть
+     * Возвращает порождающий полином
      * @return 
      */
     @Override
@@ -91,8 +104,9 @@ public class BCHCodec extends Codec{
     }
     
     /**
-     * Добавляет недостающие нули к коду
-     * @param code
+     * Добавляет недостающие нули коду
+     * @param code код
+     * @param numOrders требуемая разрядность
      * @return 
      */
     private static BitSet addZeroToCode(BitSet code, int numOrders){

@@ -66,7 +66,11 @@ public abstract class BinDecTranslation {
         return result;
     }
     
-    // Считает число двоичных разрядов
+    /**
+     * Считает число двоичных разрядов
+     * @param num
+     * @return 
+     */
     public static int countBinaryOrders(int num){
         if(num==0 || num==1) return 1;
         int numOrders = 0;
@@ -75,5 +79,20 @@ public abstract class BinDecTranslation {
             numOrders++;
         }
         return numOrders;
+    }
+    
+    /**
+     * Сравнивает два BitSet
+     * @param arr1 первый массив
+     * @param arr2 второй массив
+     * @return число разных разрядов
+     */
+    public static int equalBitSets(BitSet arr1, BitSet arr2){
+        if(arr1.length() != arr2.length()) return -1;
+        int result = 0;
+        for(int i=0; i<arr1.length()-1; i++){
+            if(arr1.get(i) != arr2.get(i))result++;
+        }
+        return result;
     }
 }

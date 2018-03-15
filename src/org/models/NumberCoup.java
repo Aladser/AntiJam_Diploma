@@ -5,10 +5,10 @@ package org.models;
  */
 public abstract class NumberCoup {
     
-    /**
-     * @param number
-     * @param base
-     * @param numOrders
+    /** Переворот разрядов числа
+     * @param number число
+     * @param base основание
+     * @param numOrders разрядность
      */   
     public static int execute(int number, int base, int numOrders){
         int result = 0, degree = 0;
