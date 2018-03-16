@@ -3,7 +3,6 @@ package org.models.codecs;
 import java.util.BitSet;
 import org.models.BinDecTranslation;
 import org.models.NumberCoup;
-import org.models.PolynomDivision;
 
 /**
  * Кодек БЧХ кода

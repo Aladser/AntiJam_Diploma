@@ -1,20 +1,19 @@
 package org;
 
+import java.util.BitSet;
+import org.models.BinDecTranslation;
+import org.models.NumberCoup;
+import org.models.codecs.PolynomDivision;
+import org.models.codecs.BCHCodec;
+import org.models.codecs.Codec;
+import org.views.ArrayShow;
 import org.views.MainFrame;
 
 /**
  * Точка входа
  */
 public class AppLoader {
-    /**
-    * @param args the command line arguments
-    */
     public static void main(String args[]){
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -34,35 +33,44 @@ public class AppLoader {
         //</editor-fold>
 
         // ТЕСТ 
-        /*
-        Codec codec = new BCHCodec(0b1011, 7, 4);
-        int size = 16;   
-        BitSet[] numbers = new BitSet[size];
-        for(int i=0; i<size; i++) numbers[i] = BinDecTranslation.decToBin(i, 4);
-        BitSet Ax = new BitSet();
-        Ax.set(size*4);
-        for(int k=0, i=0; i<Ax.length()-1; i+=4){
-            for(int j=0; j<4; j++) if(numbers[k].get(j)) Ax.set(i+j);
-            k++;
+        int gx = 0b1011;
+        Codec codec = new BCHCodec(gx, 7, 4);
+        BitSet number = BinDecTranslation.decToBin(1, 4);
+        BitSet code = codec.encode(number);
+        System.out.println(ArrayShow.execute(code, 7) + " = " + ArrayShow.execute(number, 4) + "\n-------");
+        
+        int j = code.length()- 2;
+        PolynomDivision.Result res;       
+        BitSet[] codes = new BitSet[7];
+        for(int i=0; i<codes.length; i++){
+            codes[i] = new BitSet();
+            codes[i].set(7);
+            for(int k=0; k<code.length(); k++) if( code.get(k) ) codes[i].set(k);
+            if(codes[i].get(i)) codes[i].clear(i);
+            else codes[i].set(i);
         }
         
-        BitSet Sx = codec.encode(Ax);  
-        for(int i=0; i<Sx.length()-1; i++){
-            System.out.print( Sx.get(i)?1:0 );
-            if((i+1)%7 == 0) System.out.print("|");
+        PolynomDivision.Result[] quots = new PolynomDivision.Result[7];
+        for(int i=0; i<quots.length; i++){
+            quots[i] = PolynomDivision.execute( BinDecTranslation.binToDec(codes[i]), 7, gx );
+            quots[i].quotient = NumberCoup.execute(quots[i].quotient, 2, 4);
         }
-        System.out.println();        
-        Ax = codec.decode(Sx);
-        for(int i=0; i<Ax.length()-1; i++){
-            System.out.print( Ax.get(i)?1:0 );
-            if((i+1)%4 == 0) System.out.print("---|");
+        
+        BitSet a;
+        for(int i=0; i<quots.length; i++){
+            System.out.print(ArrayShow.execute(codes[i], 7) + " = ");
+            a = BinDecTranslation.decToBin(quots[i].quotient, 4);
+            System.out.print( ArrayShow.execute(a, 7) );
+            a = BinDecTranslation.decToBin(quots[i].reminder, 3);
+            System.out.print( " ост." + ArrayShow.execute(a, 7) );
+            System.out.print( ", w = " + (a.cardinality()-1) );
+            System.out.println( ", orders = " + BinDecTranslation.countBinaryOrders(quots[i].reminder));
         }
-        System.out.println();
-        */
+        
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
-            new MainFrame().setVisible(true);
+            //new MainFrame().setVisible(true);
         });
     }
     

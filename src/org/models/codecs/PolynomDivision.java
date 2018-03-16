@@ -1,4 +1,6 @@
-package org.models;
+package org.models.codecs;
+
+import org.models.BinDecTranslation;
 
 /**
  * Деление полиномов
@@ -14,7 +16,7 @@ public abstract class PolynomDivision {
         int k = BinDecTranslation.countBinaryOrders(divider);
         Result result = new Result();
         
-        int[] quotient = new int[k];
+        int[] quotient = new int[k]; // частное в виде битового массива
         int n1 = BinDecTranslation.countBinaryOrders(division); // число разрядов делимого
         int j = n - n1; // позиция первой единицы частного                   
         for(int i=0; i<n1-k; i++) divider <<= 1; // сдвиг делителя для начала деления       
@@ -26,8 +28,8 @@ public abstract class PolynomDivision {
             n1 = BinDecTranslation.countBinaryOrders(division);
         }
         
-        int[] orders = new int[k];
-        for(int i=k-1, z=0; i>=0; i--, z++) orders[z] = (int) Math.pow(2, i);
+        int[] orders = new int[k]; // разряды частного в десятичной форме
+        for(int z=0, i=k-1; i>=0; i--, z++) orders[z] = (int) Math.pow(2, i);
         for(int i=0; i<k; i++) result.quotient += orders[i]*quotient[i];
         result.reminder = division;
         
