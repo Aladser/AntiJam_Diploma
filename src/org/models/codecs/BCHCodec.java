@@ -1,8 +1,9 @@
 package org.models.codecs;
 
 import java.util.BitSet;
-import org.models.BinDecTranslation;
+import org.models.BinOperations;
 import org.models.NumberCoup;
+import org.views.ArrayShow;
 
 /**
  * Кодек БЧХ кода
@@ -21,7 +22,7 @@ public class BCHCodec extends Codec{
      */
     public BCHCodec(int Gx, int n, int k){
         this.Gx = Gx;
-        this.GxBin = BinDecTranslation.decToBin(Gx, k);
+        this.GxBin = BinOperations.decToBin(Gx, k);
         this.n = n;
         this.k = k;
         this.Mx = getCodingMatrix();
@@ -69,14 +70,35 @@ public class BCHCodec extends Codec{
             codeBlock.clear();
             codeBlock.set(n);
             for(int ci=0, i=sxi; i<sxi+n; i++, ci++) if(Sx.get(i)) codeBlock.set(ci);
-            PolynomDivision.Result divResult = PolynomDivision.execute(BinDecTranslation.binToDec(codeBlock), n, Gx);
+            int iCodeBlock = BinOperations.binToDec(codeBlock);
+            PolynomDivision.Result divResult = PolynomDivision.execute(iCodeBlock, n, Gx);
+            
             iiblock = NumberCoup.execute(divResult.quotient, 2, k);
-            biblock = BinDecTranslation.decToBin(iiblock);
-            biblock = addZeroToCode(biblock, k);
+            biblock = BinOperations.decToBin(iiblock);
+            biblock = BinOperations.addZeroToCode(biblock, k);
             for(int i=0; i<biblock.length()-1; i++, axi++) if(biblock.get(i)) Ax.set(axi);
         }
         return Ax;
     }
+    
+    @Override
+    public BitSet fixError(int number, int w){     
+        PolynomDivision.Result quot = new PolynomDivision.Result();
+        int shift = 0;
+        
+        while(w>1){
+            shift++;
+            number = BinOperations.shifLefttBits(number, n);
+            System.out.println(Integer.toBinaryString(number) + " сдвиг " + shift);
+            quot = PolynomDivision.execute(number, n, 0b1011);
+            // вес остатка
+            w = BinOperations.decToBin(quot.reminder, n).cardinality() - 1;
+        }
+        
+        number ^= quot.reminder;
+        System.out.println(Integer.toBinaryString(number));
+        return BinOperations.decToBin(number);
+    }    
     
     /**
      * Возвращает порождающий полином
@@ -101,20 +123,5 @@ public class BCHCodec extends Codec{
             numZero--;
         }         
         return mx;
-    }
-    
-    /**
-     * Добавляет недостающие нули коду
-     * @param code код
-     * @param numOrders требуемая разрядность
-     * @return 
-     */
-    private static BitSet addZeroToCode(BitSet code, int numOrders){
-        BitSet result = new BitSet();
-        result.set(numOrders);
-        int j = numOrders - code.length() + 1;
-        for(int i=0; i<code.length()-1; i++, j++)
-            if(code.get(i)) result.set(j);
-        return result;
     }
 }

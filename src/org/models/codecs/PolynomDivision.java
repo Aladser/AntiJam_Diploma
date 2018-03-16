@@ -1,6 +1,6 @@
 package org.models.codecs;
 
-import org.models.BinDecTranslation;
+import org.models.BinOperations;
 
 /**
  * Деление полиномов
@@ -13,19 +13,19 @@ public abstract class PolynomDivision {
      * @return частное и остаток деления
      */
     public static Result execute(int division, int n, int divider){
-        int k = BinDecTranslation.countBinaryOrders(divider);
+        int k = BinOperations.countBinaryOrders(divider);
         Result result = new Result();
         
         int[] quotient = new int[k]; // частное в виде битового массива
-        int n1 = BinDecTranslation.countBinaryOrders(division); // число разрядов делимого
+        int n1 = BinOperations.countBinaryOrders(division); // число разрядов делимого
         int j = n - n1; // позиция первой единицы частного                   
         for(int i=0; i<n1-k; i++) divider <<= 1; // сдвиг делителя для начала деления       
         while(  n1 > k-1 ){ 
             division ^= divider;
             quotient[j++] = 1;
-            j += (n1 - BinDecTranslation.countBinaryOrders(division) - 1);
-            for(int i=0; i<(n1 - BinDecTranslation.countBinaryOrders(division)); i++) divider >>= 1;
-            n1 = BinDecTranslation.countBinaryOrders(division);
+            j += (n1 - BinOperations.countBinaryOrders(division) - 1);
+            for(int i=0; i<(n1 - BinOperations.countBinaryOrders(division)); i++) divider >>= 1;
+            n1 = BinOperations.countBinaryOrders(division);
         }
         
         int[] orders = new int[k]; // разряды частного в десятичной форме

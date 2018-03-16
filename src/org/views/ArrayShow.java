@@ -14,7 +14,7 @@ public abstract class ArrayShow {
      * @param name имя массива
      * @return 
      */
-    public static String execute(BitSet array, int n, int separator, String name){
+    public static String exec(BitSet array, int n, int separator, String name){
         String result = name + "\n";
         for(int i=0; i<n; i++){
             if( i%separator == 0 && i!=0) result += " | ";
@@ -31,12 +31,23 @@ public abstract class ArrayShow {
      * @param separator группировка по separator бит
      * @return 
      */
-    public static String execute(BitSet array, int separator){
+    public static String exec(BitSet array, int separator){
         String result = "";
         for(int i=0; i<array.length()-1; i++){
             if( i%separator == 0 && i!=0) result += "|";
             result += array.get(i)?1:0;
         }
+        return result;        
+    }
+    
+    /**
+     * Возвращает указанный массив длиной n в виде строки
+     * @param array массив
+     * @return 
+     */
+    public static String exec (BitSet array){
+        String result = "";
+        for(int i=0; i<array.length()-1; i++) result += array.get(i)?1:0;
         return result;        
     }
 }

@@ -5,7 +5,7 @@ import java.util.BitSet;
  * Двоично-десятичные переводы
  * @author Aladser
  */
-public abstract class BinDecTranslation {
+public abstract class BinOperations {
     /**
      * Десятичное => двоичное
      * @param number число
@@ -94,5 +94,42 @@ public abstract class BinDecTranslation {
             if(arr1.get(i) != arr2.get(i))result++;
         }
         return result;
+    }
+    
+    /**
+     * Добавляет недостающие нули коду
+     * @param code код
+     * @param numOrders требуемая разрядность
+     * @return 
+     */
+    public static BitSet addZeroToCode(BitSet code, int numOrders){
+        BitSet res = new BitSet();
+        res.set(numOrders);
+        int j = numOrders - code.length() + 1;
+        for(int i=0; i<code.length()-1; i++, j++)
+            if(code.get(i)) res.set(j);
+        return res;
+    }
+    
+    /**
+     * Сдвиг битов влево
+     * @param number число
+     * @param orders разрядность
+     * @return 
+     */
+    public static int shifLefttBits(int number, int orders){
+        int highOrder = (int) Math.pow(2, orders);
+        number <<= 1;
+        // убирание верхнего индекса, добавление его в нижний, если он равен 1,
+        if(number >= highOrder){ 
+            number -= highOrder;
+            number++;
+        }
+        return number;
+    }
+    
+    public static int shifRightBits(int number, int orders){
+        
+        return 1;
     }
 }

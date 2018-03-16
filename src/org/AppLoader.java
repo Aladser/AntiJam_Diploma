@@ -1,7 +1,7 @@
 package org;
 
 import java.util.BitSet;
-import org.models.BinDecTranslation;
+import org.models.BinOperations;
 import org.models.NumberCoup;
 import org.models.codecs.PolynomDivision;
 import org.models.codecs.BCHCodec;
@@ -34,38 +34,33 @@ public class AppLoader {
 
         // ТЕСТ 
         int gx = 0b1011;
+        int num = 7;
         Codec codec = new BCHCodec(gx, 7, 4);
-        BitSet number = BinDecTranslation.decToBin(1, 4);
-        BitSet code = codec.encode(number);
-        System.out.println(ArrayShow.execute(code, 7) + " = " + ArrayShow.execute(number, 4) + "\n-------");
         
-        int j = code.length()- 2;
-        PolynomDivision.Result res;       
+        BitSet number = BinOperations.decToBin(num, 4);
+        BitSet binNumber = codec.encode(number);
+        System.out.println(ArrayShow.exec(binNumber) + " = " + ArrayShow.exec(number) + "\n-------");
+              
         BitSet[] codes = new BitSet[7];
         for(int i=0; i<codes.length; i++){
             codes[i] = new BitSet();
             codes[i].set(7);
-            for(int k=0; k<code.length(); k++) if( code.get(k) ) codes[i].set(k);
+            for(int k=0; k<binNumber.length(); k++) if( binNumber.get(k) ) codes[i].set(k);
             if(codes[i].get(i)) codes[i].clear(i);
             else codes[i].set(i);
-        }
+        }      
         
-        PolynomDivision.Result[] quots = new PolynomDivision.Result[7];
-        for(int i=0; i<quots.length; i++){
-            quots[i] = PolynomDivision.execute( BinDecTranslation.binToDec(codes[i]), 7, gx );
-            quots[i].quotient = NumberCoup.execute(quots[i].quotient, 2, 4);
-        }
+        BitSet code1 = codes[0];
+        int icode1 = BinOperations.binToDec(code1);
+        System.out.print(ArrayShow.exec(code1) + " = ");
+        PolynomDivision.Result res = PolynomDivision.execute(icode1, 7, 0b1011);
+        BitSet quot = BinOperations.decToBin(res.quotient, 4);
+        System.out.println( ArrayShow.exec(quot) + " ост." + Integer.toBinaryString(res.reminder) + "\n-------");
         
-        BitSet a;
-        for(int i=0; i<quots.length; i++){
-            System.out.print(ArrayShow.execute(codes[i], 7) + " = ");
-            a = BinDecTranslation.decToBin(quots[i].quotient, 4);
-            System.out.print( ArrayShow.execute(a, 7) );
-            a = BinDecTranslation.decToBin(quots[i].reminder, 3);
-            System.out.print( " ост." + ArrayShow.execute(a, 7) );
-            System.out.print( ", w = " + (a.cardinality()-1) );
-            System.out.println( ", orders = " + BinDecTranslation.countBinaryOrders(quots[i].reminder));
-        }
+        codec.fixError(icode1, 2);
+        
+        BinOperations.shifLefttBits(icode1, 7);
+        
         
         
         /* Вызов главного окна */
