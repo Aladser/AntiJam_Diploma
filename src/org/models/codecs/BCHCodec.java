@@ -3,7 +3,6 @@ package org.models.codecs;
 import java.util.BitSet;
 import org.models.BinOperations;
 import org.models.NumberCoup;
-import org.views.ArrayShow;
 
 /**
  * Кодек БЧХ кода

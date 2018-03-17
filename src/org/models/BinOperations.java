@@ -134,4 +134,30 @@ public abstract class BinOperations {
         if(number<<31!=0) number += Math.pow(2, orders);
         return number>>=1;
     }
+    
+    /**
+     * Возвращает битовый массив в виде строки
+     * @param array массив
+     * @param sep группировка по separator бит
+     * @return 
+     */
+    public static String showBitSet(BitSet array, int sep){
+        String result = "";
+        for(int i=0; i<array.length()-1; i++){
+            if( i%sep == 0 && i!=0) result += "|";
+            result += array.get(i)?1:0;
+        }
+        return result;        
+    }
+    
+    /**
+    * Возвращает битовый массив в виде строки
+    * @param array массив
+    * @return 
+    */
+    public static String showBitSet(BitSet array){
+        String result = "";
+        for(int i=0; i<array.length()-1; i++) result += array.get(i)?1:0;
+        return result;        
+    }
 }
