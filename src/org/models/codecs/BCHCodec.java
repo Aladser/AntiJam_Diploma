@@ -71,9 +71,9 @@ public class BCHCodec extends Codec{
             codeBlock.set(n);
             for(int ci=0, i=sxi; i<sxi+n; i++, ci++) if(Sx.get(i)) codeBlock.set(ci);
             int iCodeBlock = BinOperations.binToDec(codeBlock);
-            PolynomDivision.Result divResult = PolynomDivision.execute(iCodeBlock, n, Gx);
+            PolynomDivision.Result divResult = PolynomDivision.exec(iCodeBlock, n, Gx);
             
-            iiblock = NumberCoup.execute(divResult.quotient, 2, k);
+            iiblock = NumberCoup.exec(divResult.quotient, 2, k);
             biblock = BinOperations.decToBin(iiblock);
             biblock = BinOperations.addZeroToCode(biblock, k);
             for(int i=0; i<biblock.length()-1; i++, axi++) if(biblock.get(i)) Ax.set(axi);
@@ -82,21 +82,17 @@ public class BCHCodec extends Codec{
     }
     
     @Override
-    public BitSet fixError(int number, int w){     
+    public BitSet fixError(int number, int w){
         PolynomDivision.Result quot = new PolynomDivision.Result();
         int shift = 0;
-        
         while(w>1){
             shift++;
             number = BinOperations.shifLefttBits(number, n);
-            System.out.println(Integer.toBinaryString(number) + " сдвиг " + shift);
-            quot = PolynomDivision.execute(number, n, 0b1011);
-            // вес остатка
-            w = BinOperations.decToBin(quot.reminder, n).cardinality() - 1;
+            quot = PolynomDivision.exec(number, n, 0b1011);
+            w = BinOperations.decToBin(quot.reminder).cardinality() - 1; // вес остатка
         }
-        
         number ^= quot.reminder;
-        System.out.println(Integer.toBinaryString(number));
+        for(int i=0; i<shift; i++) number = BinOperations.shifRightBits(number, n);
         return BinOperations.decToBin(number);
     }    
     

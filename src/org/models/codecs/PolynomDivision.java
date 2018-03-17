@@ -12,7 +12,7 @@ public abstract class PolynomDivision {
      * @param divider делитель
      * @return частное и остаток деления
      */
-    public static Result execute(int division, int n, int divider){
+    public static Result exec(int division, int n, int divider){
         int k = BinOperations.countBinaryOrders(divider);
         Result result = new Result();
         

@@ -10,7 +10,7 @@ public abstract class NumberCoup {
      * @param base основание
      * @param numOrders разрядность
      */   
-    public static int execute(int number, int base, int numOrders){
+    public static int exec(int number, int base, int numOrders){
         int result = 0, degree = 0;
         int highOrder = (int) Math.pow(base, numOrders) / base;
         while(number != 0){

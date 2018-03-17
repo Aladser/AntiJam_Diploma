@@ -112,24 +112,26 @@ public abstract class BinOperations {
     }
     
     /**
-     * Сдвиг битов влево
+     * Один сдвиг битов влево
      * @param number число
-     * @param orders разрядность
+     * @param orders разрядность числа
      * @return 
      */
     public static int shifLefttBits(int number, int orders){
-        int highOrder = (int) Math.pow(2, orders);
+        int highOrd = (int) Math.pow(2, orders);
         number <<= 1;
-        // убирание верхнего индекса, добавление его в нижний, если он равен 1,
-        if(number >= highOrder){ 
-            number -= highOrder;
-            number++;
-        }
+        if(number >= highOrd) number -= highOrd-1;
         return number;
     }
     
+    /**
+     * Один сдвиг битов вправо
+     * @param number число
+     * @param orders разрядность числа
+     * @return 
+     */
     public static int shifRightBits(int number, int orders){
-        
-        return 1;
+        if(number<<31!=0) number += Math.pow(2, orders);
+        return number>>=1;
     }
 }
