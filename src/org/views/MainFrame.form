@@ -32,7 +32,7 @@
                   <Component id="codecPanel" max="32767" attributes="0"/>
                   <Component id="fileOpenButton" max="32767" attributes="0"/>
                   <Component id="graphicButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="selectCodecComboBox" max="32767" attributes="0"/>
+                  <Component id="codecChoiceComboBox" max="32767" attributes="0"/>
                   <Component id="jLabel1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -56,7 +56,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="selectCodecComboBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="codecChoiceComboBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="noisePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -152,6 +152,9 @@
                   <Border info="null"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -374,7 +377,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="selectCodecComboBox">
+    <Component class="javax.swing.JComboBox" name="codecChoiceComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
@@ -384,6 +387,9 @@
         </Property>
         <Property name="selectedIndex" type="int" value="1"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectCodecButton"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

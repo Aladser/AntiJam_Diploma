@@ -4,6 +4,8 @@ import org.jfree.chart.ChartPanel;
 
 import java.awt.Color;
 import java.util.BitSet;
+import java.util.Date;
+import javax.swing.JTextArea;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -13,34 +15,35 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-import org.models.codecs.HammingCodec;
 import org.models.TransmissionMedia;
 import org.models.codecs.Codec;
 
 @SuppressWarnings("serial")
 public class ChartDialog extends javax.swing.JDialog{
     private final BitSet srcMessage;
+    private final Codec codec;
+    MainFrame mframe;
 	
-    public ChartDialog(MainFrame owner, BitSet srcMessage){
+    public ChartDialog(MainFrame owner, BitSet srcMessage, Codec codec){
 	super(owner, "График", true);
 	this.setBounds(190, 190, 900, 540);
+        this.codec = codec;
 	this.srcMessage = srcMessage;	
 	final CategoryDataset dataset = createDataset();
 	final JFreeChart chart = createChart(dataset);
-	final ChartPanel chartPanel = new ChartPanel( chart );
-	    
+	final ChartPanel chartPanel = new ChartPanel( chart );   
 	chartPanel.setPreferredSize( new java.awt.Dimension(900, 500 ) );
 	setContentPane( chartPanel );
+        this.mframe = mframe;
     }
 	
     private CategoryDataset createDataset( ){
-        System.out.println("Вычисления начало");
+        long time = new Date().getTime();
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset(); 
 	double Perr = 0.0001;   // исходная вероятность ошибки
 	TransmissionMedia transmedia = new TransmissionMedia();
 	int numErrors;          // число ошибок после декодера
-	org.models.codecs.Codec codec = new org.models.codecs.HammingCodec();	 
+        int a= 0;
 	while(Perr < 0.01){
             transmedia.message = codec.encode(srcMessage);
             transmedia.imposeNoise();
@@ -50,8 +53,8 @@ public class ChartDialog extends javax.swing.JDialog{
             transmedia.setNoiseLevel(Perr * 2);
             Perr = transmedia.getNoiseLevel();
 	}
-   
-        System.out.println("Вычисления конец");
+        System.out.println( "Время вычисления =" );
+        System.out.println( (new Date().getTime() - time)/1000 );
 	return dataset;
     }
 	

@@ -43,7 +43,7 @@ public class BCHCodec extends Codec{
         // mxj - проход по строке M(x)
         // mxi - проход по столбцу M(x)
         boolean[] comp = new boolean[k];
-        for(int sxi = 0, axi=0; axi<Ax.length()-1; axi+=k){            
+        for(int sxi = 0, axi=0; axi<Ax.length()-1; axi+=k){ 
             for(int mxj=0; mxj<n; mxj++, sxi++){
                 for(int mxi=0; mxi<k; mxi++) comp[mxi] = Ax.get(axi+mxi) & Mx[mxi][mxj];     
                 if(comp[0]^comp[1]^comp[2]^comp[3]) Sx.set(sxi);
@@ -66,14 +66,19 @@ public class BCHCodec extends Codec{
         BitSet codeBlock = new BitSet();
         int iiblock; // int-код инфоблока
         BitSet biblock; // bin-код инфоблока 
+        int w; // вес остатка
+        PolynomDivision.Result divRes;  // результат деления
         for(int axi=0, sxi=0; sxi<Sx.length()-1; sxi+=n){
-            codeBlock.clear();
-            codeBlock.set(n);
+            codeBlock.clear(); codeBlock.set(n);
             for(int ci=0, i=sxi; i<sxi+n; i++, ci++) if(Sx.get(i)) codeBlock.set(ci);
             int iCodeBlock = BinOperations.binToDec(codeBlock);
-            PolynomDivision.Result divResult = PolynomDivision.exec(iCodeBlock, n, Gx);
-            
-            iiblock = NumberCoup.exec(divResult.quotient, 2, k);
+            divRes = PolynomDivision.exec(iCodeBlock, n, Gx);
+            w = BinOperations.decToBin(divRes.reminder).cardinality() - 1;
+            if(w>1){ 
+                iCodeBlock = BinOperations.binToDec( fixError(iCodeBlock, w) );
+                divRes = PolynomDivision.exec(iCodeBlock, n, Gx);
+            }
+            iiblock = NumberCoup.exec(divRes.quotient, 2, k);
             biblock = BinOperations.decToBin(iiblock);
             biblock = BinOperations.addZeroToCode(biblock, k);
             for(int i=0; i<biblock.length()-1; i++, axi++) if(biblock.get(i)) Ax.set(axi);
