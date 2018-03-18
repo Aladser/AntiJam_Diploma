@@ -58,9 +58,10 @@ public class BCHCodec extends Codec{
      */
     @Override
     public BitSet decode(BitSet Sx){
+        System.out.println( BinOperations.showBitSet(Sx) );
         BitSet Ax = new BitSet();
         int length = ((Sx.length()-1) * k) / n;
-        Sx.set(length);
+        //Sx.set(length);
         // Деление полиномов, перевот числа, прибавка нулей слева
         BitSet codeBlock = new BitSet();
         int iiblock; // int-код инфоблока

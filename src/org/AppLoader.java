@@ -52,18 +52,19 @@ public class AppLoader {
         }
         int[] syndrs = new int[8]; 
         for(int i=0; i<errcodes.length; i++) syndrs[ res[i].reminder ] = errs[i];
-        for(int i=0; i<syndrs.length; i++) System.out.println(i + " = " + syndrs[i]);
+        //for(int i=0; i<syndrs.length; i++) System.out.println(i + " = " + syndrs[i]);
         BinOperations.decToBin(4);
         
         Codec codec = new BCHCodec(0b1011, 7 ,4);
         int n1 = 7;
         BitSet n2 = BinOperations.decToBin(n1, 4);
         BitSet n3 = codec.encode( n2 );
-        int n4 = BinOperations.binToDec( codec.decode(n2) );
+        int n4 = BinOperations.binToDec( codec.decode(n3) );
+        
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
-            //new MainFrame().setVisible(true);
+           new MainFrame().setVisible(true);
         });
     }
     
