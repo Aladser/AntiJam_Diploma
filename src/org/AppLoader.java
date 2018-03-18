@@ -4,6 +4,7 @@ import java.util.BitSet;
 import org.models.BinOperations;
 import org.models.NumberCoup;
 import org.models.codecs.BCHCodec;
+import org.models.codecs.Codec;
 import org.models.codecs.PolynomDivision;
 import org.views.MainFrame;
 
@@ -54,9 +55,15 @@ public class AppLoader {
         for(int i=0; i<syndrs.length; i++) System.out.println(i + " = " + syndrs[i]);
         BinOperations.decToBin(4);
         
+        Codec codec = new BCHCodec(0b1011, 7 ,4);
+        int n1 = 7;
+        BitSet n2 = BinOperations.decToBin(n1, 4);
+        BitSet n3 = codec.encode( n2 );
+        int n4 = BinOperations.binToDec( codec.decode(n2) );
+        
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
-            new MainFrame().setVisible(true);
+            //new MainFrame().setVisible(true);
         });
     }
     
