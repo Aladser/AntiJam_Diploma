@@ -124,4 +124,6 @@ public class BCHCodec extends Codec{
         }         
         return mx;
     }
+    
+    
 }

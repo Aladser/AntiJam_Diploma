@@ -41,23 +41,22 @@ public class AppLoader {
             if(errcodes[i].get(i)) errcodes[i].clear(i);
             else errcodes[i].set(i);
         }
+        int[] errs = new int[7];
+        int icode = BinOperations.binToDec(code);
+        for(int b, i=0; i<7; i++) errs[i] = icode ^ BinOperations.binToDec(errcodes[i]);
         PolynomDivision.Result[] res = new PolynomDivision.Result[7];
         for(int i=0; i<errcodes.length; i++){
             res[i] = PolynomDivision.exec(BinOperations.binToDec(errcodes[i]), 7, 0b1011);
             res[i].quotient = NumberCoup.exec(res[i].quotient, 2, 4);
         }
-        BitSet quot;
-        for(int i=0; i<errcodes.length; i++){
-            System.out.print( "[" + i + "] " + BinOperations.showBitSet(errcodes[i]) + " = ");
-            quot = BinOperations.decToBin(res[i].quotient, 4);
-            System.out.print( BinOperations.showBitSet(quot) + " ост." + Integer.toBinaryString(res[i].reminder) );
-            System.out.println( " ("+res[i].reminder+")" );
-        }
-        
+        int[] syndrs = new int[8]; 
+        for(int i=0; i<errcodes.length; i++) syndrs[ res[i].reminder ] = errs[i];
+        for(int i=0; i<syndrs.length; i++) System.out.println(i + " = " + syndrs[i]);
+        BinOperations.decToBin(4);
         
         /* Вызов главного окна */
         java.awt.EventQueue.invokeLater(() -> {
-            //new MainFrame().setVisible(true);
+            new MainFrame().setVisible(true);
         });
     }
     

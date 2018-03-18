@@ -22,7 +22,6 @@ import org.models.codecs.Codec;
 public class ChartDialog extends javax.swing.JDialog{
     private final BitSet srcMessage;
     private final Codec codec;
-    MainFrame mframe;
 	
     public ChartDialog(MainFrame owner, BitSet srcMessage, Codec codec){
 	super(owner, "График", true);
@@ -34,7 +33,6 @@ public class ChartDialog extends javax.swing.JDialog{
 	final ChartPanel chartPanel = new ChartPanel( chart );   
 	chartPanel.setPreferredSize( new java.awt.Dimension(900, 500 ) );
 	setContentPane( chartPanel );
-        this.mframe = mframe;
     }
 	
     private CategoryDataset createDataset( ){
@@ -53,7 +51,7 @@ public class ChartDialog extends javax.swing.JDialog{
             transmedia.setNoiseLevel(Perr * 2);
             Perr = transmedia.getNoiseLevel();
 	}
-        System.out.println( "Время вычисления =" );
+        System.out.print( "Время вычисления = " );
         System.out.println( (new Date().getTime() - time)/1000 );
 	return dataset;
     }
