@@ -2,7 +2,6 @@ package org.models.codecs;
 
 import java.util.BitSet;
 import org.models.BinOperations;
-import org.models.NumberCoup;
 
 /**
  * Кодек БЧХ кода
@@ -58,35 +57,42 @@ public class BCHCodec extends Codec{
      */
     @Override
     public BitSet decode(BitSet Sx){
-        //System.out.println( BinOperations.showBitSet(Sx) );
         BitSet Ax = new BitSet();
         Ax.set( ((Sx.length()-1) * k) / n );
         // Деление полиномов, перевот числа, прибавка нулей слева
-        BitSet codeBlock = new BitSet();
-        int iiblock; // int-код инфоблока
-        BitSet biblock; // bin-код инфоблока 
-        int w; // вес остатка
+        int iCodeBlock;                 // int-версия кодового слова
+        int w;                          // вес остатка
+        BitSet infoBlock;               // инфоблок 
         PolynomDivision.Result divRes;  // результат деления
-        for(int axi=0, sxi=0; sxi<Sx.length()-1; sxi+=n){
-            codeBlock.clear(); codeBlock.set(n);
-            for(int ci=0, i=sxi; i<sxi+n; i++, ci++) if(Sx.get(i)) codeBlock.set(ci);
-            int iCodeBlock = BinOperations.binToDec(codeBlock);
+        for(int axi=0, exp, sxi=0; sxi<Sx.length()-1; sxi+=n){
+            exp =(int) Math.pow(2, n-1); // степень разряда числа
+            iCodeBlock = 0;
+            for(int i=sxi; i<sxi+n; i++){
+                if(Sx.get(i))iCodeBlock+=exp;
+                exp/=2;
+            }
             divRes = PolynomDivision.exec(iCodeBlock, n, Gx);
             w = BinOperations.decToBin(divRes.reminder).cardinality() - 1;
             if(w>1){ 
-                iCodeBlock = BinOperations.binToDec( fixError(iCodeBlock, w) );
+                iCodeBlock = fixError(iCodeBlock, w);
                 divRes = PolynomDivision.exec(iCodeBlock, n, Gx);
             }
-            iiblock = NumberCoup.exec(divRes.quotient, 2, k);
-            biblock = BinOperations.decToBin(iiblock);
-            biblock = BinOperations.addZeroToCode(biblock, k);
-            for(int i=0; i<biblock.length()-1; i++, axi++) if(biblock.get(i)) Ax.set(axi);
+            iCodeBlock = BinOperations.coupNumber(divRes.quotient ,k);
+            infoBlock = BinOperations.decToBin(iCodeBlock);
+            infoBlock = BinOperations.addZeroToCode(infoBlock, k);
+            for(int i=0; i<infoBlock.length()-1; i++, axi++) if(infoBlock.get(i)) Ax.set(axi);
         }
         return Ax;
     }
     
+    /**
+     * Исправляет ошибку кодового слова
+     * @param number число
+     * @param w вес остатка
+     * @return
+     */
     @Override
-    public BitSet fixError(int number, int w){
+    public int fixError(int number, int w){
         PolynomDivision.Result quot = new PolynomDivision.Result();
         int shift = 0;
         while(w>1){
@@ -97,7 +103,7 @@ public class BCHCodec extends Codec{
         }
         number ^= quot.reminder;
         for(int i=0; i<shift; i++) number = BinOperations.shifRightBits(number, n);
-        return BinOperations.decToBin(number);
+        return number;
     }    
     
     /**

@@ -2,7 +2,6 @@ package org;
 
 import java.util.BitSet;
 import org.models.BinOperations;
-import org.models.NumberCoup;
 import org.models.codecs.BCHCodec;
 import org.models.codecs.Codec;
 import org.models.codecs.PolynomDivision;
@@ -48,10 +47,10 @@ public class AppLoader {
         PolynomDivision.Result[] res = new PolynomDivision.Result[7];
         for(int i=0; i<errcodes.length; i++){
             res[i] = PolynomDivision.exec(BinOperations.binToDec(errcodes[i]), 7, 0b1011);
-            res[i].quotient = NumberCoup.exec(res[i].quotient, 2, 4);
+            res[i].quotient = BinOperations.coupNumber(res[i].quotient, 4);
         }
-        int[] syndrs = new int[8]; 
-        for(int i=0; i<errcodes.length; i++) syndrs[ res[i].reminder ] = errs[i];
+        //int[] syndrs = new int[8]; 
+        //for(int i=0; i<errcodes.length; i++) syndrs[ res[i].reminder ] = errs[i];
         //for(int i=0; i<syndrs.length; i++) System.out.println(i + " = " + syndrs[i]);
         BinOperations.decToBin(4);
         

@@ -160,4 +160,24 @@ public abstract class BinOperations {
         for(int i=0; i<array.length()-1; i++) result += array.get(i)?1:0;
         return result;        
     }
+    
+    /**
+     * Переворчивает разряды числа
+     * @param number число
+     * @param bitNumber число двоичных разрядов числа
+     * @return 
+     */
+    public static int coupNumber(int number, int bitNumber){
+        int result = 0, degree = 0;
+        int highOrder = (int) Math.pow(2, bitNumber-1);
+        while(number != 0){
+            if(number >= highOrder){
+                number -= highOrder;
+                result += (int) Math.pow(2, degree);      
+            }
+            highOrder /= 2;
+            degree++;
+        }
+        return result;
+    }
 }

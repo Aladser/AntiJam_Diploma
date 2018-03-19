@@ -73,7 +73,7 @@ public class HammingCodec extends Codec{
     }
 
     @Override
-    public BitSet fixError(int number, int w) {
+    public int fixError(int number, int w) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
