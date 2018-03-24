@@ -1,11 +1,10 @@
 package org.models;
+
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.util.BitSet;
 
 /**
  * Изображение как битовый массив
- * @author Aladser
  */
 public class ImageBits {
     public final BitSet bits;   // битовый массив
@@ -24,7 +23,7 @@ public class ImageBits {
             numColors = 1;
     }
     public ImageBits(BufferedImage image){
-        byte[] bytes = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();	
+        byte[] bytes = ((java.awt.image.DataBufferByte) image.getRaster().getDataBuffer()).getData();	
         this.width = image.getWidth();
         this.height = image.getHeight();
         bits = BitSet.valueOf(bytes);
@@ -41,7 +40,7 @@ public class ImageBits {
     
     public BufferedImage toImage() throws java.io.IOException{
         byte[] bytes = bits.toByteArray();
-        BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );        
+        BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_3BYTE_BGR );        
 	int j = (numColors == 4) ? 1 : 0; // определяет наличие альфа-канала
 	for (int color = 0, y = 0; y < height; y++){ 
             for (int x = 0; x < width; x++){

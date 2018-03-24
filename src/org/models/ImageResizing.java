@@ -1,31 +1,32 @@
 package org.models;
 
 import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
+
 
 /**
- * Изменяет размеры изображения до размеров окна приложения
- * @author Aladser
+ * Уменьшение изображения
  */
 public abstract class ImageResizing {
-    /* 
-    original - изображение для уменьшения
-    dHeight - новая высота окна 
-    dWidth - новая ширина окна
+    /** Уменьшает изображение до размеров окна
+     * @param original изображение для уменьшения
+     * @param dWidth новая высота окна 
+     * @param dHeight новая ширина окна
+     * @return 
     */
-    public static ImageIcon execute(BufferedImage original, int dWidth, int dHeight){
-        double K1 = 1, K2 = 1;
-        double height = original.getHeight();
-        double width = original.getWidth();
-        if(height > dHeight){
-            K1 = dHeight / height;
-            if( width * K1 > dWidth ){
-                K2 = dWidth / (width * K1);
-            }
+    public static BufferedImage exec(BufferedImage original, double dWidth, double dHeight){
+        double k, nW=dWidth, nH=dHeight; // коэффициент уменьшения, новые высота и ширина
+        if(original.getHeight() > dHeight){
+            k = dHeight / original.getHeight();
+            nW = k * dWidth;
         }
-        width *= (K1*K2);
-        height *= (K1*K2);
-        ImageIcon image = new ImageIcon(original.getScaledInstance((int)width, (int)height, BufferedImage.SCALE_DEFAULT));    
-        return image;
+        if(nW > dWidth){
+            k = dWidth / nW;
+            nH = k * dHeight;
+        }
+        BufferedImage res = new BufferedImage((int)nW, (int)nH, BufferedImage.TYPE_3BYTE_BGR);
+        java.awt.Graphics2D g = res.createGraphics();
+        g.drawImage(original, 0, 0, (int)nW, (int)nH, null);
+        g.dispose();
+        return res;
     }
 }

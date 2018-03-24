@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import org.models.ImageBits;
+import org.models.ImageResizing;
 import org.models.TransmissionMedia;
 import org.models.codecs.BCHCodec;
 import org.models.codecs.Codec;
@@ -309,15 +311,13 @@ public class MainFrame extends javax.swing.JFrame {
         filechooser.setAcceptAllFileFilterUsed(false);
         filechooser.addChoosableFileFilter(filefilter);
         int fileChoiceResp = filechooser.showDialog(null, "Открыть файл");
-        if (fileChoiceResp == javax.swing.JFileChooser.APPROVE_OPTION) {
-            try {  
+        if (fileChoiceResp == javax.swing.JFileChooser.APPROVE_OPTION) {   
+            try { 
                 image = ImageIO.read(filechooser.getSelectedFile());
+                image = ImageResizing.exec(image, imagePanel.getWidth(), imagePanel.getHeight());
                 imageBits = new ImageBits(image);
+                imagePanel.setIcon( new ImageIcon(image) );                
             } catch (IOException ex) {Logger.getLogger("Не удалось прочитать файл");}
-            try {
-                // Проверка, что imageBits верный
-                imagePanel.setIcon( org.models.ImageResizing.execute( imageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight() ) );
-            } catch (IOException ex) {System.out.println("Ошибка создания рисунка");}
             coderButton.setEnabled(true);
             graphicButton.setEnabled(true);
         }
@@ -338,9 +338,8 @@ public class MainFrame extends javax.swing.JFrame {
     //Нажать на кнопку "Кодер"
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
         Date time = new Date();
-        this.infoPanel.append("Идет кодирование..\n");
         transmedia.message = codec.encode(imageBits.bits);        
-        infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n\n");     
+        infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n\n");
         codecChoiceComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
@@ -348,9 +347,8 @@ public class MainFrame extends javax.swing.JFrame {
     // Нажать на кнопку "Декодер"
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	Date time = new Date();
-        infoPanel.append("\n\nИдет декодирование..\n");
         transmedia.message = codec.decode( transmedia.message );
-        infoPanel.append("Декодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
+        infoPanel.append("\n\nДекодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
         infoPanel.append( "\nЧисло неисправленных ошибок после передачи:\n" );
@@ -360,13 +358,11 @@ public class MainFrame extends javax.swing.JFrame {
         errRate = (double)iSubErrRate;                                          // округление 2
         errRate /= 1000;                                                        // округление 3
         infoPanel.append(String.valueOf(errRate) + "%)\n");
-        
-        try {
-            imagePanel.setIcon(org.models.ImageResizing.execute( recImageBits.toImage(), imagePanel.getWidth(), imagePanel.getHeight()) );
+        try {    
+            imagePanel.setIcon( new ImageIcon(recImageBits.toImage()) );
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         codecChoiceComboBox.setEnabled(true);
         addNoiseButton.setEnabled(false);
 	decoderButton.setEnabled(false);
