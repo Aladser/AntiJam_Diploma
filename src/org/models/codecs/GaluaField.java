@@ -73,6 +73,19 @@ public class GaluaField {
      */
     public int[] multilpyPolynoms(int[] pol1, int[]pol2){
         int[] res;
+        
+        System.out.print("[");
+        for(int i=0; i<pol1.length; i++){
+            System.out.print(pol1[i]);
+            if(i<pol1.length-1) System.out.print(",");
+        }
+        System.out.print("] * [ ");
+        for(int i=0; i<pol2.length; i++){
+            System.out.print(pol2[i]);
+            if(i<pol2.length-1) System.out.print(",");
+        }
+        System.out.print("] = ");
+        
         // размер произведения = сумма старших степеней + 1
         res = new int[pol1.length + pol2.length - 1];
         for(int i=0; i<pol1.length; i++){
@@ -82,18 +95,52 @@ public class GaluaField {
                 res[i+j] ^= multilpy(pol1[i], pol2[j]);
         }
         
+        System.out.print("[");
         for(int i=0; i<res.length; i++){
             System.out.print(res[i]);
             if(i<res.length-1)System.out.print(",");
         }
-        System.out.println();
+        System.out.println("]");
         
         return res;
     }
     
-    public int[] dividePolynoms(int[] pol1, int[]pol2){
+    public void dividePolynoms(int[] division, int[]divider){
+        System.out.print(polynomToString(division));
+        System.out.print(" / ");
+        System.out.print(polynomToString(divider));
+        int di1 = division.length - 1; // к-т делимого старшей степени
+        final int di2 = divider.length - 1;  // к-т делителя старшей степени
+        int qi = di1-di2;            // к-т частного старшей степени
+        int[] quot = new int[qi+1];
+        System.out.print(" = ");
+        System.out.print(polynomToString(quot));
+        System.out.println("\n\n\n\n\n\n\n\n\n");
         
-        return new int[1];
+        int ind;
+        int k;
+        int[] mult;
+        while(qi>=0){
+            k = division[di1] / divider[di2];
+            ind = di1 - di2;
+            quot[qi--] = k;
+            mult = new int[ind+1];
+            mult[mult.length-1] = k;
+            division = multilpyPolynoms(divider, mult);
+            
+            break;
+        }
+        
+    }
+    
+    public String polynomToString(int[] pol){
+        String res = "[";
+        for(int i=0; i<pol.length; i++){
+            res += pol[i];
+            if(i<pol.length-1)res+=",";
+        }
+        res += "]";
+        return res;
     }
     
 }

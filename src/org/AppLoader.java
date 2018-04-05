@@ -45,12 +45,12 @@ public class AppLoader {
         GaluaField galua = new GaluaField(0b1011, 8);
         int[] pol1 = {1,4};
         int[] pol2 = {4,6,1};
-        //galua.multilpyPolynoms(pol1, pol2);
-        
+        int[] pol3 = galua.multilpyPolynoms(pol1, pol2);
+        galua.dividePolynoms(pol3, pol2);
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        new MainFrame().setVisible(true);
+        //new MainFrame().setVisible(true);
     }
     
 }
