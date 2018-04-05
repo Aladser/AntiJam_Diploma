@@ -1,5 +1,7 @@
 package org;
 
+import java.util.BitSet;
+import org.models.codecs.GaluaArith;
 import org.views.MainFrame;
 
 /**
@@ -15,20 +17,36 @@ public class AppLoader {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>       
+
+        BitSet arr = new BitSet();
+        arr.clear(0);
+        arr.clear(1);
+        arr.set(2);
+        arr.clear(3);
+        arr.set(4);
+        arr.clear(5);
+        arr.clear(6);
+        arr.set(7);
+        arr.set(8);
+        arr.clear(9);
+        arr.clear(10);
+        arr.set(11);
+        arr.clear(12);
+        arr.set(13);
+        arr.clear(14);
+        arr.clear(15);
+        arr.set(16);
+        
+        GaluaArith galua = new GaluaArith(0b1011, 8);
+        
+        
         
         /* Вызов главного окна */
-        pf = new org.views.ProgressFrame();
-        new MainFrame().setVisible(true);
+        //pf = new org.views.ProgressFrame();
+        //new MainFrame().setVisible(true);
     }
     
 }

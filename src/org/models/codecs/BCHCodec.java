@@ -1,7 +1,6 @@
 package org.models.codecs;
 
 import java.util.BitSet;
-import org.models.BinOperations;
 
 /**
  * Кодек БЧХ кода

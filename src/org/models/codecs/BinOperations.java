@@ -1,4 +1,4 @@
-package org.models;
+package org.models.codecs;
 import java.util.BitSet;
 
 /**
@@ -12,7 +12,7 @@ public abstract class BinOperations {
      */
     public static BitSet decToBin(int number){
         BitSet res = new BitSet();   
-        int numOrders = countBinaryOrders(number);
+        int numOrders = countOrders(number);
         int exp = (int) Math.pow(2, numOrders - 1);    
         int ind = 0;
         res.set(numOrders); 
@@ -36,7 +36,7 @@ public abstract class BinOperations {
     public static BitSet decToBin(int number, int k){     
         BitSet result = new BitSet();
         result.set(k);
-        int numOrders = countBinaryOrders(number);
+        int numOrders = countOrders(number);
         int exp = (int) Math.pow(2, numOrders - 1); 
         int ind = k - numOrders;
         while(number != 0){
@@ -71,7 +71,7 @@ public abstract class BinOperations {
      * @param number число
      * @return 
      */
-    public static int countBinaryOrders(int number){
+    public static int countOrders(int number){
         if(number==0 || number==1) return 1;
         int numOrders = 0;
         while(number != 0){
