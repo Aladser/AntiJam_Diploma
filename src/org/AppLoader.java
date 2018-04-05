@@ -41,16 +41,13 @@ public class AppLoader {
         arr.set(16);
         
         GaluaField galua = new GaluaField(0b1011, 8);
-        galua.multilpy(4, 1);
-        galua.multilpy(4, 6);
-        galua.multilpy(4, 4);
-        galua.multilpy(1, 1);
-        galua.multilpy(1, 6);
-        galua.multilpy(1, 4);
+        int[] pol1 = {1,4};
+        int[] pol2 = {4,6,1};
+        galua.multilpyPolynoms(pol1, pol2);
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        new MainFrame().setVisible(true);
+        //new MainFrame().setVisible(true);
     }
     
 }

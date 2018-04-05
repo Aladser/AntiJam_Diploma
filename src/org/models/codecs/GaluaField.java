@@ -30,12 +30,37 @@ public class GaluaField {
         return -1;
     }
     
-    public final int multilpy(int num1, int num2){
-        System.out.print(num1 + " * " + num2 + " = ");
+    public int multilpy(int num1, int num2){
         int exp = FIELD[num1] + FIELD[num2];
         if(exp >= P-1) exp-=P-1;
-        System.out.print("2^" + FIELD[num1] +" * 2^" + FIELD[num2] + " = 2^" + exp);
-        System.out.println(" = " + indexOf(FIELD, exp));
         return indexOf(FIELD, exp);
     }
+    
+    /**
+     * Умножение полиномов в арифметике поля Галуа
+     * @param pol1
+     * @param pol2
+     * @return 
+     */
+    public int[] multilpyPolynoms(int[] pol1, int[]pol2){
+        int[] res;
+        // размер произведения = сумма старших степеней + 1
+        res = new int[pol1.length + pol2.length - 1];
+        for(int i=0; i<pol1.length; i++){
+            for(int j=0; j<pol2.length; j++)
+                // умножение к-ов в поле Галуа
+                // индекс = сумма индексов
+                res[i+j] ^= multilpy(pol1[i], pol2[j]);
+        }
+        
+        for(int i=0; i<res.length; i++){
+            System.out.print(res[i]);
+            if(i<res.length-1)System.out.print(",");
+        }
+        System.out.println();
+        
+        return res;
+    }
+    
+    
 }
