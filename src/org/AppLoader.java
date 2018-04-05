@@ -24,34 +24,12 @@ public class AppLoader {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        BitSet arr = new BitSet();
-        arr.clear(0);
-        arr.clear(1);
-        arr.set(2);
-        arr.clear(3);
-        arr.set(4);
-        arr.clear(5);
-        arr.clear(6);
-        arr.set(7);
-        arr.set(8);
-        arr.clear(9);
-        arr.clear(10);
-        arr.set(11);
-        arr.clear(12);
-        arr.set(13);
-        arr.clear(14);
-        arr.clear(15);
-        arr.set(16);
-        
         GaluaField galua = new GaluaField(0b1011, 8);
-        int[] pol1 = {1,4};
-        int[] pol2 = {4,6,1};
-        int[] pol3 = galua.multilpyPolynoms(pol1, pol2);
-        galua.dividePolynoms(pol3, pol2);
+
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        //new MainFrame().setVisible(true);
+        new MainFrame().setVisible(true);
     }
     
 }

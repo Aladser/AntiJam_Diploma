@@ -1,7 +1,7 @@
 package org.models.codecs;
 
 /**
- * Арифметика полей Галуа
+ * Поле Галуа
  */
 public class GaluaField {
     private final int Z;              // неприводимый многочлен
@@ -12,18 +12,15 @@ public class GaluaField {
     public GaluaField(int z, int p){
         Z = z;
         P = p;
-        FIELD = createField();
-    }
-    
-    private int[] createField(){
-        int[] res = new int[P];
-        res[0] = -1;
+        // Создание поля Галуа
+        FIELD = new int[P];
+        FIELD[0] = -1;
         int[] arr = new int[P];
         for(int i=0; i<P; i++) arr[i] = PolynomDivision.mod((int)Math.pow(2, i), Z);
-        for(int i=1; i<P; i++) res[i] = indexOf(arr, i);
-        return res;
+        for(int i=1; i<P; i++) FIELD[i] = indexOf(arr, i);   
     }
     
+    // поиск индекса элемента массива
     private int indexOf(int[] array, int elem){
         for(int i=0; i<array.length; i++)if(array[i]==elem) return i;
         return -1;
@@ -61,11 +58,13 @@ public class GaluaField {
      * Исключение деления на ноль
      */
     public class ZeroDivisionException extends Exception{
-        public ZeroDivisionException(){super("Делить на 0 нельзя");}
+        public ZeroDivisionException(){
+            super("Делить на 0 нельзя");
+        }
     }
     
     /**
-     * Сложение и вычитание полиномов в арифметике поля Галуа
+     * "+" и "-" полиномов в арифметике поля Галуа
      * @param pol1
      * @param pol2
      * @return 
@@ -90,7 +89,7 @@ public class GaluaField {
      * @param pol2
      * @return 
      */
-    public int[] multilpyPolynoms(int[] pol1, int[]pol2){
+    public int[] multiplyPolynoms(int[] pol1, int[]pol2){
         int[] res;
         // размер произведения = сумма старших степеней + 1
         res = new int[pol1.length + pol2.length - 1];
@@ -125,11 +124,16 @@ public class GaluaField {
             quot[qi--] = k;
             mult = new int[ind+1];
             mult[mult.length-1] = k;
-            subdivision = multilpyPolynoms(divider, mult);
+            subdivision = multiplyPolynoms(divider, mult);
             division = xorPolynoms(division, subdivision);
         }
     }
     
+    /**
+     * Полином как строка
+     * @param pol
+     * @return 
+     */
     public String polynomToString(int[] pol){
         String res = "[";
         for(int i=0; i<pol.length; i++){
