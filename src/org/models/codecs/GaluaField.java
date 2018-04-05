@@ -30,10 +30,39 @@ public class GaluaField {
         return -1;
     }
     
+    /**
+     * Умножение элементов поле Галуа
+     * @param num1
+     * @param num2
+     * @return 
+     */
     public int multilpy(int num1, int num2){
+        if(num1==0 || num2==0) return 0;
         int exp = FIELD[num1] + FIELD[num2];
         if(exp >= P-1) exp-=P-1;
         return indexOf(FIELD, exp);
+    }
+    
+    /**
+     * Деление элементов поле Галуа
+     * @param num1
+     * @param num2
+     * @return 
+     * @throws org.models.codecs.GaluaField.ZeroDivisionException 
+     */
+    public int divide(int num1, int num2) throws ZeroDivisionException{
+        if(num2==0) throw new ZeroDivisionException();
+        if(num1==0) return 0;
+        int exp = FIELD[num1] - FIELD[num2];
+        if(exp < 0) exp+=P-1;        
+        return indexOf(FIELD, exp);
+    }
+    
+    /**
+     * Исключение деления на ноль
+     */
+    public class ZeroDivisionException extends Exception{
+        public ZeroDivisionException(){super("Делить на 0 нельзя");}
     }
     
     /**
@@ -62,5 +91,9 @@ public class GaluaField {
         return res;
     }
     
+    public int[] dividePolynoms(int[] pol1, int[]pol2){
+        
+        return new int[1];
+    }
     
 }
