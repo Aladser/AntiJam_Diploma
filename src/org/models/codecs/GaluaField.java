@@ -13,7 +13,6 @@ public class GaluaField {
         Z = z;
         P = p;
         FIELD = createField();
-        //for(int i=0; i<FIELD.length; i++) System.out.println(i+" -> "+FIELD[i]);
     }
     
     private int[] createField(){
@@ -66,6 +65,26 @@ public class GaluaField {
     }
     
     /**
+     * Сложение и вычитание полиномов в арифметике поля Галуа
+     * @param pol1
+     * @param pol2
+     * @return 
+     */
+    public int[] xorPolynoms(int[] pol1, int[] pol2){
+        int minSize = Math.min(pol1.length, pol2.length);
+        int maxSize = Math.max(pol1.length, pol2.length);
+        int[] xorRes = new int[maxSize];
+        for(int i=0; i<minSize; i++)xorRes[i] = pol1[i]^pol2[i];
+        int size = xorRes.length;
+        for(int i= xorRes.length-1; i>=0; i--)
+            if(xorRes[i]==0) size--;
+            else break;
+        int[] res = new int[size];
+        System.arraycopy(xorRes, 0, res, 0, size); 
+        return res;
+    }
+    
+    /**
      * Умножение полиномов в арифметике поля Галуа
      * @param pol1
      * @param pol2
@@ -73,19 +92,6 @@ public class GaluaField {
      */
     public int[] multilpyPolynoms(int[] pol1, int[]pol2){
         int[] res;
-        
-        System.out.print("[");
-        for(int i=0; i<pol1.length; i++){
-            System.out.print(pol1[i]);
-            if(i<pol1.length-1) System.out.print(",");
-        }
-        System.out.print("] * [ ");
-        for(int i=0; i<pol2.length; i++){
-            System.out.print(pol2[i]);
-            if(i<pol2.length-1) System.out.print(",");
-        }
-        System.out.print("] = ");
-        
         // размер произведения = сумма старших степеней + 1
         res = new int[pol1.length + pol2.length - 1];
         for(int i=0; i<pol1.length; i++){
@@ -94,43 +100,34 @@ public class GaluaField {
                 // индекс = сумма индексов
                 res[i+j] ^= multilpy(pol1[i], pol2[j]);
         }
-        
-        System.out.print("[");
-        for(int i=0; i<res.length; i++){
-            System.out.print(res[i]);
-            if(i<res.length-1)System.out.print(",");
-        }
-        System.out.println("]");
-        
         return res;
     }
     
+    /**
+     * Умножение полиномов в арифметике поля Галуа
+     * @param division
+     * @param divider 
+     */
     public void dividePolynoms(int[] division, int[]divider){
-        System.out.print(polynomToString(division));
-        System.out.print(" / ");
-        System.out.print(polynomToString(divider));
-        int di1 = division.length - 1; // к-т делимого старшей степени
-        final int di2 = divider.length - 1;  // к-т делителя старшей степени
-        int qi = di1-di2;            // к-т частного старшей степени
+        int di1;                                    // к-т делимого старшей степени
+        final int di2 = divider.length - 1;         // к-т делителя старшей степени
+        int qi = division.length - divider.length;  // к-т частного старшей степени
         int[] quot = new int[qi+1];
-        System.out.print(" = ");
-        System.out.print(polynomToString(quot));
-        System.out.println("\n\n\n\n\n\n\n\n\n");
         
         int ind;
         int k;
         int[] mult;
+        int[] subdivision;
         while(qi>=0){
+            di1 = division.length - 1;
             k = division[di1] / divider[di2];
             ind = di1 - di2;
             quot[qi--] = k;
             mult = new int[ind+1];
             mult[mult.length-1] = k;
-            division = multilpyPolynoms(divider, mult);
-            
-            break;
+            subdivision = multilpyPolynoms(divider, mult);
+            division = xorPolynoms(division, subdivision);
         }
-        
     }
     
     public String polynomToString(int[] pol){
@@ -141,6 +138,5 @@ public class GaluaField {
         }
         res += "]";
         return res;
-    }
-    
+    }    
 }
