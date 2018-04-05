@@ -1,7 +1,7 @@
 package org;
 
 import java.util.BitSet;
-import org.models.codecs.GaluaArith;
+import org.models.codecs.GaluaField;
 import org.views.MainFrame;
 
 /**
@@ -40,13 +40,17 @@ public class AppLoader {
         arr.clear(15);
         arr.set(16);
         
-        GaluaArith galua = new GaluaArith(0b1011, 8);
-        
-        
+        GaluaField galua = new GaluaField(0b1011, 8);
+        galua.multilpy(4, 1);
+        galua.multilpy(4, 6);
+        galua.multilpy(4, 4);
+        galua.multilpy(1, 1);
+        galua.multilpy(1, 6);
+        galua.multilpy(1, 4);
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        //new MainFrame().setVisible(true);
+        new MainFrame().setVisible(true);
     }
     
 }
