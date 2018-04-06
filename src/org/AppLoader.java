@@ -20,24 +20,32 @@ public class AppLoader {
         }
 
         GaluaField galua = new GaluaField(0b1011, 8);
-        int[] pol = {1, 1};
-        System.out.print( galua.polynomToString(pol) );
-        System.out.print(" * ");
-        System.out.print( galua.polynomToString(galua.GX) );
-        System.out.print(" = ");
-        pol = galua.multiplyPolynoms(pol, galua.GX);
-        System.out.println( galua.polynomToString(pol) );
         
-        System.out.print( galua.polynomToString(pol) );
-        System.out.print(" / ");
-        System.out.print( galua.polynomToString(galua.GX) );
-        System.out.print(" = ");
-        pol = galua.dividePolynoms(pol, galua.GX);
-        System.out.println( galua.polynomToString(pol) );
+        int[] pol = new int[2];
+        int[] a = new int[2];
+        for(int i=0; i<8; i++){
+            pol[0] = i;
+            a[0] = i;
+            for(int j=0; j<8; j++){
+                pol[1] = j;
+                a[1] = j;
+                System.out.print( galua.polynomToString(pol) );
+                System.out.print("*");
+                System.out.print( galua.polynomToString(galua.GX) );
+                System.out.print("=");
+                System.out.print( galua.polynomToString(pol) );
+                System.out.print("   ");
+                System.out.print( galua.polynomToString(pol) );
+                System.out.print("/");
+                System.out.print( galua.polynomToString(galua.GX) );
+                System.out.print("=");
+                System.out.println( galua.polynomToString(pol) );
+            }
+        }
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        new org.views.MainFrame().setVisible(true);
+        //new org.views.MainFrame().setVisible(true);
     }
     
 }

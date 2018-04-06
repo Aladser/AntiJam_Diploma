@@ -122,12 +122,7 @@ public class GaluaField {
                 break;
             }
         }
-        if(flagZero == 0){
-            int[] quot = new int[division.length - divider.length+1];
-            System.out.print(" = ");
-            System.out.println(polynomToString(quot));
-            return quot;
-        }
+        if(flagZero == 0) return new int[division.length - divider.length+1];
         //[/проверка на то, что массив имеет все к-ты 0]
         
         int di1;                                    // к-т делимого старшей степени
