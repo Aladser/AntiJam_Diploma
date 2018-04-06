@@ -1,11 +1,6 @@
 package org;
 
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.models.codecs.GaluaField;
-import org.views.MainFrame;
 
 /**
  * Точка входа
@@ -21,15 +16,22 @@ public class AppLoader {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(org.views.MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         GaluaField galua = new GaluaField(0b1011, 8);
-
+        int[] pol = {1, 4};
+        System.out.print( galua.polynomToString(pol) );
+        System.out.print(" * ");
+        System.out.print( galua.polynomToString(galua.GX) );
+        System.out.print(" = ");
+        pol = galua.multiplyPolynoms(pol, galua.GX);
+        System.out.println( galua.polynomToString(pol) );
+        //galua.dividePolynoms(pol, galua.GX);
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        new MainFrame().setVisible(true);
+        //new org.views.MainFrame().setVisible(true);
     }
     
 }

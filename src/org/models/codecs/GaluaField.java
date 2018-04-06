@@ -7,7 +7,7 @@ public class GaluaField {
     private final int Z;              // неприводимый многочлен
     private final int P;              // число элементов поля Галуа
     private final int[] FIELD;        // поле Галуа
-    private final int[] GX = {4,6,1}; // G(x)
+    public final int[] GX = {4,6,1}; // G(x)
     
     public GaluaField(int z, int p){
         Z = z;
@@ -92,7 +92,8 @@ public class GaluaField {
     public int[] multiplyPolynoms(int[] pol1, int[]pol2){
         int[] res;
         // размер произведения = сумма старших степеней + 1
-        res = new int[pol1.length + pol2.length - 1];
+        res = new int[pol1.length + pol2.length - 1];       
+        
         for(int i=0; i<pol1.length; i++){
             for(int j=0; j<pol2.length; j++)
                 // умножение к-ов в поле Галуа
@@ -103,11 +104,29 @@ public class GaluaField {
     }
     
     /**
-     * Умножение полиномов в арифметике поля Галуа
+     * Деление полиномов в арифметике поля Галуа
      * @param division
      * @param divider 
      */
-    public void dividePolynoms(int[] division, int[]divider){
+    public int[] dividePolynoms(int[] division, int[]divider){
+        System.out.print(polynomToString(division));
+        System.out.print(" / ");
+        System.out.print(polynomToString(divider));
+        int flagZero = 0;  
+        // проверка на то, что массив имеет все к-ты 0
+        for(int el : division){
+            if(el != 0){
+                flagZero=1;
+                break;
+            }
+        }
+        if(flagZero == 0){
+            int[] quot = new int[division.length - divider.length+1];
+            System.out.print(" = ");
+            System.out.println(polynomToString(quot));
+            return quot;
+        }
+        
         int di1;                                    // к-т делимого старшей степени
         final int di2 = divider.length - 1;         // к-т делителя старшей степени
         int qi = division.length - divider.length;  // к-т частного старшей степени
@@ -127,6 +146,9 @@ public class GaluaField {
             subdivision = multiplyPolynoms(divider, mult);
             division = xorPolynoms(division, subdivision);
         }
+        System.out.print(" = ");
+        System.out.println(polynomToString(quot));
+        return quot;
     }
     
     /**
