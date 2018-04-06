@@ -12,12 +12,13 @@ public class GaluaField {
     public GaluaField(int z, int p){
         Z = z;
         P = p;
-        // Создание поля Галуа
+        // {Создание поля Галуа}
         FIELD = new int[P];
         FIELD[0] = -1;
         int[] arr = new int[P];
         for(int i=0; i<P; i++) arr[i] = PolynomDivision.mod((int)Math.pow(2, i), Z);
-        for(int i=1; i<P; i++) FIELD[i] = indexOf(arr, i);   
+        for(int i=1; i<P; i++) FIELD[i] = indexOf(arr, i);
+        // {/Создание поля Галуа}
     }
     
     // поиск индекса элемента массива
@@ -78,8 +79,12 @@ public class GaluaField {
         for(int i= xorRes.length-1; i>=0; i--)
             if(xorRes[i]==0) size--;
             else break;
-        int[] res = new int[size];
-        System.arraycopy(xorRes, 0, res, 0, size); 
+        int[] res;
+        if(size == 0) res = new int[1];
+        else {
+            res = new int[size];
+            System.arraycopy(xorRes, 0, res, 0, size); 
+        }
         return res;
     }
     
@@ -109,11 +114,8 @@ public class GaluaField {
      * @param divider 
      */
     public int[] dividePolynoms(int[] division, int[]divider){
-        System.out.print(polynomToString(division));
-        System.out.print(" / ");
-        System.out.print(polynomToString(divider));
         int flagZero = 0;  
-        // проверка на то, что массив имеет все к-ты 0
+        //[проверка на то, что массив имеет все к-ты 0]
         for(int el : division){
             if(el != 0){
                 flagZero=1;
@@ -126,6 +128,7 @@ public class GaluaField {
             System.out.println(polynomToString(quot));
             return quot;
         }
+        //[/проверка на то, что массив имеет все к-ты 0]
         
         int di1;                                    // к-т делимого старшей степени
         final int di2 = divider.length - 1;         // к-т делителя старшей степени
@@ -136,7 +139,7 @@ public class GaluaField {
         int k;
         int[] mult;
         int[] subdivision;
-        while(qi>=0){
+        while(division.length >= divider.length){
             di1 = division.length - 1;
             k = division[di1] / divider[di2];
             ind = di1 - di2;
@@ -146,8 +149,6 @@ public class GaluaField {
             subdivision = multiplyPolynoms(divider, mult);
             division = xorPolynoms(division, subdivision);
         }
-        System.out.print(" = ");
-        System.out.println(polynomToString(quot));
         return quot;
     }
     

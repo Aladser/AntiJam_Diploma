@@ -20,18 +20,24 @@ public class AppLoader {
         }
 
         GaluaField galua = new GaluaField(0b1011, 8);
-        int[] pol = {1, 4};
+        int[] pol = {1, 1};
         System.out.print( galua.polynomToString(pol) );
         System.out.print(" * ");
         System.out.print( galua.polynomToString(galua.GX) );
         System.out.print(" = ");
         pol = galua.multiplyPolynoms(pol, galua.GX);
         System.out.println( galua.polynomToString(pol) );
-        //galua.dividePolynoms(pol, galua.GX);
+        
+        System.out.print( galua.polynomToString(pol) );
+        System.out.print(" / ");
+        System.out.print( galua.polynomToString(galua.GX) );
+        System.out.print(" = ");
+        pol = galua.dividePolynoms(pol, galua.GX);
+        System.out.println( galua.polynomToString(pol) );
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
-        //new org.views.MainFrame().setVisible(true);
+        new org.views.MainFrame().setVisible(true);
     }
     
 }
