@@ -10,8 +10,8 @@ public class GaluaField {
     public final int[] GX = {4,6,1}; // G(x)
     
     public GaluaField(int z, int p){
-        Z = z;
-        P = p;
+        Z = z; // полином порождающий
+        P = p; // число элементов
         // {Создание поля Галуа}
         FIELD = new int[P];
         FIELD[0] = -1;
