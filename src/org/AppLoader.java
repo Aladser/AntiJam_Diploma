@@ -1,7 +1,6 @@
 package org;
 
 import java.util.BitSet;
-import org.models.codecs.GaluaField;
 import org.models.codecs.RSCodec;
 
 /**
@@ -22,13 +21,19 @@ public class AppLoader {
         }
 
         RSCodec rsc = new RSCodec(4, 2, 3);
-        int[] src = {0,0,1, 0,1,0, 0,1};
+        int[] src = {0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1};
         BitSet binSrc = new BitSet();
         binSrc.set(src.length);
         for(int i=0; i<src.length; i++) if(src[i]==1) binSrc.set(i);
         BitSet code = rsc.encode(binSrc);        
-        
-        
+        BitSet res = rsc.decode(code);
+        for(int i=0; i<res.length(); i++){
+            if(res.get(i) != binSrc.get(i)){
+                System.out.println("Ошибка передачи");
+                break;
+            }
+            if(i == res.length()-1) System.out.println("Отправленные и полученные данные равны");
+        }
         
         /* Вызов главного окна */
         //pf = new org.views.ProgressFrame();
