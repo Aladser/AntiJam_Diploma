@@ -106,13 +106,6 @@ public class BCHCodec extends Codec{
     }    
     
     /**
-     * Возвращает порождающий полином
-     * @return 
-     */
-    @Override
-    public int getGX(){ return Gx; }
-    
-    /**
      * Создает кодирующую матрицу
      * @return
      */

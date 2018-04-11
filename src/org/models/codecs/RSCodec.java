@@ -78,11 +78,6 @@ public class RSCodec extends Codec{
     public int fixError(int number, int w) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public int getGX() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     
     /**
      * Создает целое число из отрезка битового массива
