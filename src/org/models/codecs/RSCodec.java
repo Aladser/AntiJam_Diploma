@@ -27,27 +27,17 @@ public class RSCodec extends Codec{
      * @return
      */
     @Override
-    public BitSet encode(BitSet msg) {
-        System.out.print("Отправлены байты\n     " + BinOperations.showBitSet(msg));
-        // коррекция размера битового ассива для возможности деления на блоки по NUM_BITS бит
-        // запоминаем размер цлочисленного массива
-        intArraySize = msg.length()-1;        
+    public BitSet encode(BitSet msg) {  
+        // запоминаем размер целочисленного массива
+        intArraySize = msg.length()-1;    
+        // коррекция размера битового массива для возможности деления на блоки по NUM_BITS бит
         msg = this.correctBitSetLength(msg, NUM_BITS);
         // битовый массив -> целочисленный массив
         int[] iMsg = createIntArray(msg);
         // коррекция размера целочисленного массива для возможности деления на блоки по K
         int rem = K - iMsg.length%K;
         iMsg = java.util.Arrays.copyOf(iMsg, iMsg.length+rem);
-        
-        System.out.print("\nКодирование РС-кодом(4,2)\nAx: ");
-        System.out.print(BinOperations.showBitSet(msg, this.NUM_BITS)+"\n    ");
-        for(int i=0; i<iMsg.length; i++){
-            System.out.print(iMsg[i]);
-            if(i<iMsg.length-1)System.out.print("  ,");
-        }
-        System.out.print( "\nSx: ");
-        
-        // Sx = Ax  *Gx
+        // Sx = Ax * Gx
         int[] Ax = new int[K];
         int[] Sx;
         int[] iCode = new int[iMsg.length * N/K];
@@ -57,29 +47,18 @@ public class RSCodec extends Codec{
             for(int si=0; si<Sx.length; si++) iCode[ci++] = Sx[si];
         }
         // целочисленный массив -> битовый массив
-        BitSet res = createBitSet(iCode);
-        
-        for(int i=0; i<iCode.length; i++){
-            System.out.print(iCode[i]);
-            if(i<iCode.length-1) System.out.print("  ,");
-        }        
-        System.out.println("\n    "+BinOperations.showBitSet(res, this.NUM_BITS)); 
-        return res;
+        return createBitSet(iCode);
     }
 
+    /**
+     * Декодирование
+     * @param code кодовое слово в форме BitSet
+     * @return 
+     */
     @Override
     public BitSet decode(BitSet code) {
         // битовый массив -> целочисленный массив
         int[] iCode = this.createIntArray(code);
-        
-        System.out.println("\nДекодирование РС кода(4,2)");
-        System.out.print("Sx: " + BinOperations.showBitSet(code, 3)+"\n    ");
-        for(int i=0; i<iCode.length; i++){
-            System.out.print(iCode[i]);
-            if(i<iCode.length-1) System.out.print(",  ");
-        }
-        System.out.println();
-        
         // Ax = Sx / Gx
         int[] iMsg = new int[iCode.length * K/N];
         int[] Sx = new int[N];
@@ -92,14 +71,6 @@ public class RSCodec extends Codec{
         // целочисленный массив -> битовый массив
         BitSet res = createBitSet(iMsg);
         for(int i=res.length(); i>this.intArraySize; i--) res.clear(i);
-        
-        System.out.print("Ax: ");
-        for(int i=0; i<iMsg.length; i++){
-            System.out.print(iMsg[i]);
-            if(i<iMsg.length-1) System.out.print(",  ");
-        }
-        System.out.println("\nПолучены байты\n    "+BinOperations.showBitSet(res));
-        
         return res;
     }
 
