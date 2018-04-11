@@ -1,5 +1,6 @@
 package org.models.codecs;
 
+import org.models.BinOperations;
 import java.util.BitSet;
 
 /**
@@ -62,7 +63,7 @@ public class BCHCodec extends Codec{
         int iCodeBlock;                 // int-версия кодового слова
         int w;                          // вес остатка
         BitSet infoBlock;               // инфоблок 
-        PolynomDivision.Result divRes;  // результат деления
+        org.models.PolynomDivision.Result divRes;  // результат деления
         for(int axi=0, exp, sxi=0; sxi<Sx.length()-1; sxi+=n){
             exp =(int) Math.pow(2, n-1); // степень разряда числа
             iCodeBlock = 0;
@@ -70,11 +71,11 @@ public class BCHCodec extends Codec{
                 if(Sx.get(i))iCodeBlock+=exp;
                 exp/=2;
             }
-            divRes = PolynomDivision.exec(iCodeBlock, n, Gx);
+            divRes = org.models.PolynomDivision.exec(iCodeBlock, n, Gx);
             w = BinOperations.decToBin(divRes.reminder).cardinality() - 1;
             if(w>1){ 
                 iCodeBlock = fixError(iCodeBlock, w);
-                divRes = PolynomDivision.exec(iCodeBlock, n, Gx);
+                divRes = org.models.PolynomDivision.exec(iCodeBlock, n, Gx);
             }
             iCodeBlock = BinOperations.coupNumber(divRes.quotient ,k);
             infoBlock = BinOperations.decToBin(iCodeBlock);
@@ -92,12 +93,12 @@ public class BCHCodec extends Codec{
      */
     @Override
     public int fixError(int number, int w){
-        PolynomDivision.Result quot = new PolynomDivision.Result();
+        org.models.PolynomDivision.Result quot = new org.models.PolynomDivision.Result();
         int shift = 0;
         while(w>1){
             shift++;
             number = BinOperations.shifLefttBits(number, n);
-            quot = PolynomDivision.exec(number, n, 0b1011);
+            quot = org.models.PolynomDivision.exec(number, n, 0b1011);
             w = BinOperations.decToBin(quot.reminder).cardinality() - 1; // вес остатка
         }
         number ^= quot.reminder;

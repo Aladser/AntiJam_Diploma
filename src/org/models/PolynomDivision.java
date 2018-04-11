@@ -1,4 +1,6 @@
-package org.models.codecs;
+package org.models;
+
+import org.models.BinOperations;
 
 /**
  * Деление полиномов

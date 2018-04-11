@@ -6,8 +6,7 @@ public class RSCodec extends Codec{
     public final int N; // длина кодового слова
     public final int K; // длина инфослова
     public final int NUM_BITS; // число бит для числа кодового слова
-    private int intArraySize; // размер инофокодого слова
-    private final GaluaField galua; // поле Галуа
+    private final org.models.GaluaField galua; // поле Галуа
     
     /**
      * Кодек Рида-Соломона
@@ -16,7 +15,7 @@ public class RSCodec extends Codec{
      * @param numBits  число бит для создания целого числа
      */
     public RSCodec(int n, int k, int numBits){
-        galua = new GaluaField(0b1011, 8);
+        galua = new org.models.GaluaField(0b1011, 8);
         N = n;
         K = k;
         NUM_BITS = numBits;
@@ -27,16 +26,14 @@ public class RSCodec extends Codec{
      * @return
      */
     @Override
-    public BitSet encode(BitSet msg) {  
-        // запоминаем размер целочисленного массива
-        intArraySize = msg.length()-1;    
+    public BitSet encode(BitSet msg) {   
         // коррекция размера битового массива для возможности деления на блоки по NUM_BITS бит
         msg = this.correctBitSetLength(msg, NUM_BITS);
         // битовый массив -> целочисленный массив
         int[] iMsg = createIntArray(msg);
         // коррекция размера целочисленного массива для возможности деления на блоки по K
         int rem = K - iMsg.length%K;
-        iMsg = java.util.Arrays.copyOf(iMsg, iMsg.length+rem);
+        if(rem != K) iMsg = java.util.Arrays.copyOf(iMsg, iMsg.length+rem);
         // Sx = Ax * Gx
         int[] Ax = new int[K];
         int[] Sx;
@@ -47,7 +44,7 @@ public class RSCodec extends Codec{
             for(int si=0; si<Sx.length; si++) iCode[ci++] = Sx[si];
         }
         // целочисленный массив -> битовый массив
-        return createBitSet(iCode);
+        return createBitSet(iCode);    
     }
 
     /**
@@ -70,7 +67,6 @@ public class RSCodec extends Codec{
         }
         // целочисленный массив -> битовый массив
         BitSet res = createBitSet(iMsg);
-        for(int i=res.length(); i>this.intArraySize; i--) res.clear(i);
         return res;
     }
 
@@ -134,7 +130,6 @@ public class RSCodec extends Codec{
         int[] res = new int[(src.length() - 1)/NUM_BITS];
         int ri = 0;
         for(int i=0; i<src.length()-1; i+=NUM_BITS) res[ri++] = createIntegerFromBitSet(src, i, NUM_BITS);
-        intArraySize = res.length;
         return res;
     } 
     

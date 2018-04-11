@@ -17,7 +17,7 @@ public abstract class ImageResizing {
         double k, nW=dWidth, nH=dHeight; // коэффициент уменьшения, новые высота и ширина
         if(original.getHeight() > dHeight){
             k = dHeight / original.getHeight();
-            nW = k * dWidth;
+            nW = (int)(k * dWidth);
         }
         if(nW > dWidth){
             k = dWidth / nW;
@@ -27,6 +27,7 @@ public abstract class ImageResizing {
         java.awt.Graphics2D g = res.createGraphics();
         g.drawImage(original, 0, 0, (int)nW, (int)nH, null);
         g.dispose();
+        int m = (res.getWidth()*res.getHeight()*24);
         return res;
     }
 }

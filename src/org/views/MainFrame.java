@@ -2,7 +2,6 @@ package org.views;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -121,7 +120,7 @@ public class MainFrame extends javax.swing.JFrame {
             extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(extrernalImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
                 .addContainerGap())
         );
         extrernalImagePanelLayout.setVerticalGroup(
@@ -141,7 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         noisePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        coderButton.setText("Кодер и Отправка");
+        coderButton.setText("Кодер");
         coderButton.setEnabled(false);
         coderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,7 +156,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        decoderButton.setText("Получение и декодер");
+        decoderButton.setText("Декодер");
         decoderButton.setEnabled(false);
         decoderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,7 +270,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(externalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 919, Short.MAX_VALUE)
+                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
                     .addContainerGap())
             );
             layout.setVerticalGroup(
@@ -316,6 +315,7 @@ public class MainFrame extends javax.swing.JFrame {
             try { 
                 image = ImageIO.read(filechooser.getSelectedFile());
                 image = ImageResizing.exec(image, imagePanel.getWidth(), imagePanel.getHeight());
+                
                 imageBits = new ImageBits(image);
                 imagePanel.setIcon( new ImageIcon(image) );                
             } catch (IOException ex) {Logger.getLogger("Не удалось прочитать файл");}
@@ -362,7 +362,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {    
             imagePanel.setIcon( new ImageIcon(recImageBits.toImage()) );
         } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Не удалось создать изображение из массива бит");
         }
         codecChoiceComboBox.setEnabled(true);
         addNoiseButton.setEnabled(false);

@@ -1,4 +1,4 @@
-package org.models.codecs;
+package org.models;
 import java.util.BitSet;
 
 /**

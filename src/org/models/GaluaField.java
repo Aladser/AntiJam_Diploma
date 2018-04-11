@@ -1,4 +1,4 @@
-package org.models.codecs;
+package org.models;
 
 /**
  * Поле Галуа
@@ -45,7 +45,7 @@ public class GaluaField {
      * @param num1
      * @param num2
      * @return 
-     * @throws org.models.codecs.GaluaField.ZeroDivisionException 
+     * @throws org.models.GaluaField.ZeroDivisionException 
      */
     public int divide(int num1, int num2) throws ZeroDivisionException{
         if(num2==0) throw new ZeroDivisionException();
@@ -160,5 +160,8 @@ public class GaluaField {
         }
         res += "]";
         return res;
-    }    
+    }
+
+
+    
 }
