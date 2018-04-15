@@ -6,7 +6,7 @@ public class RSCodec extends Codec{
     public final int N; // длина кодового слова
     public final int K; // длина инфослова
     public final int NUM_BITS; // число бит для числа кодового слова
-    private final org.models.GaluaField galua; // поле Галуа
+    public final org.models.GaluaField galua; // поле Галуа
     
     /**
      * Кодек Рида-Соломона
@@ -62,7 +62,7 @@ public class RSCodec extends Codec{
         int[] Ax;
         for(int mi=0, ci=0; ci<iCode.length; ci+=N){
             for(int si=0, i=ci; i<ci+N; i++) Sx[si++] = iCode[i];
-            Ax = galua.dividePolynoms(Sx, galua.GX);
+            Ax = galua.dividePolynoms(Sx, galua.GX).quotient;
             for(int i=0; i<Ax.length; i++) iMsg[mi++] = Ax[i];
         }
         // целочисленный массив -> битовый массив
@@ -150,7 +150,9 @@ public class RSCodec extends Codec{
                 ri++;
             }
         }
-        
         return res;
     }
+    
+    
+    
 }

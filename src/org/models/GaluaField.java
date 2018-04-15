@@ -5,7 +5,10 @@ package org.models;
  */
 public class GaluaField {
     private final int Z;              // неприводимый многочлен
-    private final int P;              // число элементов поля Галуа
+    /**
+     * Число элементов поля
+     */
+    public final int P;             
     private final int[] FIELD;        // поле Галуа
     public final int[] GX = {4,6,1}; // G(x)
     
@@ -112,9 +115,12 @@ public class GaluaField {
      * Деление полиномов в арифметике поля Галуа
      * @param division
      * @param divider 
+     * @return  
      */
-    public int[] dividePolynoms(int[] division, int[]divider){
-        int flagZero = 0;  
+    public DivisionResult dividePolynoms(int[] division, int[]divider){
+        DivisionResult result = new DivisionResult();
+        int flagZero = 0;
+        
         //[проверка на то, что массив имеет все к-ты 0]
         for(int el : division){
             if(el != 0){
@@ -122,13 +128,17 @@ public class GaluaField {
                 break;
             }
         }
-        if(flagZero == 0) return new int[division.length - divider.length+1];
+        if(flagZero == 0){
+            result.quotient = new int[division.length - divider.length+1];
+            result.reminder = new int[1];
+            return result;
+        }
         //[/проверка на то, что массив имеет все к-ты 0]
         
         int di1;                                    // к-т делимого старшей степени
         final int di2 = divider.length - 1;         // к-т делителя старшей степени
         int qi = division.length - divider.length;  // к-т частного старшей степени
-        int[] quot = new int[qi+1];
+        result.quotient = new int[qi+1];
         
         int ind;
         int k;
@@ -138,13 +148,14 @@ public class GaluaField {
             di1 = division.length - 1;
             k = division[di1] / divider[di2];
             ind = di1 - di2;
-            quot[qi--] = k;
+            result.quotient[qi--] = k;
             mult = new int[ind+1];
             mult[mult.length-1] = k;
             subdivision = multiplyPolynoms(divider, mult);
             division = xorPolynoms(division, subdivision);
         }
-        return quot;
+        result.reminder = division;
+        return result;
     }
     
     /**
@@ -162,6 +173,9 @@ public class GaluaField {
         return res;
     }
 
-
+    public static class DivisionResult{
+        public int[] quotient;
+        public int[] reminder;
+    }
     
 }
