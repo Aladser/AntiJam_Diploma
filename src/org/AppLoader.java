@@ -26,12 +26,36 @@ public class AppLoader {
         GaluaField.DivisionResult divRes;
         System.out.println("Варианты ошибок в " + Arrays.toString(Cx));
         for(int i=0; i<codec.galua.P; i++){
-            Cx[3] = i;
+            Cx[2] = i;
+            Ex[2]= i;
             divRes = codec.galua.dividePolynoms(Cx, codec.galua.GX);
-            System.out.println(Arrays.toString(Cx) + " / " + Arrays.toString(codec.galua.GX) + " = " + Arrays.toString(divRes.quotient) + " ост." + Arrays.toString(divRes.reminder));
+            System.out.print(Arrays.toString(Cx) + " / " + Arrays.toString(codec.galua.GX) + " = " + Arrays.toString(divRes.quotient) + " ост." + Arrays.toString(divRes.reminder));
+            if(divRes.reminder[0]==0){
+                System.out.print("   ");
+            }
+            divRes = codec.galua.dividePolynoms(Ex, codec.galua.GX);
+            System.out.println(";     " + Arrays.toString(Ex) + " / " + Arrays.toString(codec.galua.GX) + " = " + Arrays.toString(divRes.quotient) + " ост." + Arrays.toString(divRes.reminder));
+        }
+        Cx[2]=4;
+        Ex[2]=0;
+        for(int i=0; i<codec.galua.P; i++){
+            Cx[3] = i;
+            Ex[3] = i;
+            divRes = codec.galua.dividePolynoms(Cx, codec.galua.GX);
+            System.out.print(Arrays.toString(Cx) + " / " + Arrays.toString(codec.galua.GX) + " = " + Arrays.toString(divRes.quotient) + " ост." + Arrays.toString(divRes.reminder));
+            if(divRes.reminder[0]==0){
+                System.out.print("   ");
+            }
+            divRes = codec.galua.dividePolynoms(Ex, codec.galua.GX);
+            System.out.println(";     " + Arrays.toString(Ex) + " / " + Arrays.toString(codec.galua.GX) + " = " + Arrays.toString(divRes.quotient) + " ост." + Arrays.toString(divRes.reminder));
+        }
+        
+        int[][] a = new int[3][5];
+        for(int i=0; i<a.length; i++){
+            for(int j=0; j<a[0].length; j++) a[i][j]= j;
         }
         
         /* Вызов главного окна */
-        new org.views.MainFrame().setVisible(true);
+        //new org.views.MainFrame().setVisible(true);
     } 
 }
