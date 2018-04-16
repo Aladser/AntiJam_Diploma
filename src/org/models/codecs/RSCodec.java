@@ -1,5 +1,6 @@
 package org.models.codecs;
 
+import java.util.Arrays;
 import java.util.BitSet;
 import org.models.BinOperations;
 import org.models.GaluaField;
@@ -56,7 +57,6 @@ public class RSCodec extends Codec{
     public BitSet encode(BitSet msg) {
         // коррекция размера битового массива для возможности деления на блоки по NUM_BITS бит
         msg = this.correctBitSetLength(msg, NUM_BITS);
-        //System.out.println("A (x) = " + BinOperations.showBitSet(msg, 3));
         // битовый массив -> целочисленный массив
         int[] iMsg = createIntArray(msg);
         // коррекция размера целочисленного массива для возможности деления на блоки по K
@@ -72,7 +72,6 @@ public class RSCodec extends Codec{
             for(int si=0; si<Sx.length; si++) iCode[ci++] = Sx[si];
         }
         // целочисленный массив -> битовый массив
-        //System.out.println("C (x) = " + BinOperations.showBitSet(createBitSet(iCode), 3));
         return createBitSet(iCode);    
     }
 
@@ -83,28 +82,51 @@ public class RSCodec extends Codec{
      */
     @Override
     public BitSet decode(BitSet code) {
-        //System.out.println("C'(x) = " + BinOperations.showBitSet(code, 3));
-        // битовый массив -> целочисленный массив
+        //System.out.println("C'(x) " + BinOperations.showBitSet(code, NUM_BITS));
+        GaluaField.DivisionResult divRes;
         int[] iCode = this.createIntArray(code);
-        // Ax = Sx / Gx
         int[] iMsg = new int[iCode.length * K/N];
-        int[] Sx = new int[N];
+        int[] Сx = new int[N];
         int[] Ax;
         for(int mi=0, ci=0; ci<iCode.length; ci+=N){
-            for(int si=0, i=ci; i<ci+N; i++) Sx[si++] = iCode[i];
-            Ax = galua.dividePolynoms(Sx, galua.GX).quotient;
+            for(int si=0, i=ci; i<ci+N; i++) Сx[si++] = iCode[i];
+            divRes = galua.dividePolynoms(Сx, galua.GX);
+            Ax = fixError(Сx, divRes);
+            //Ax = divRes.quotient;
             for(int i=0; i<Ax.length; i++) iMsg[mi++] = Ax[i];
         }
-        // целочисленный массив -> битовый массив
-        BitSet res = createBitSet(iMsg);
-        //System.out.println("A (x) = " + BinOperations.showBitSet(res, 3));
-        return res;
+        //System.out.println("A(x)  " + BinOperations.showBitSet(createBitSet(iMsg), NUM_BITS) + "\n");
+        return createBitSet(iMsg);
     }
 
     @Override
-    public int fixError(int number, int w) {
-        
+    public int fixError(int number, int w) {      
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * Исправление ошибок в РС коде
+     * @param Cx кодовое слово 
+     * @param divRes результат деления
+     * @return 
+     */
+    private int[] fixError(int[] Cx, GaluaField.DivisionResult divRes) {
+        int[] Ax = divRes.quotient;
+        int remWeight = 0;
+        if(divRes.reminder[0] != 0){
+            for(int el : divRes.reminder) if(el != 0) remWeight++;
+            if(remWeight > 1){
+                int rx = 0; // int форма остатка деления
+                // массив divRes.reminder -> число rx
+                for(int i=0; i<divRes.reminder.length; i++) rx += divRes.reminder[i]*Math.pow(10, i);
+                int ex = syndroms[rx]; // e(x) как int число
+                int[] Ex = new int[N]; // e(x) как массив
+                for(int i=0; i<Ex.length; i++, ex/=10) Ex[i] = ex%10;
+                for(int i=0; i<Cx.length; i++) Cx[i] ^= Ex[i];
+                Ax = galua.dividePolynoms(Cx, galua.GX).quotient;
+            }
+        }
+        return Ax;
     }
     
     /**

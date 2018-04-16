@@ -1,5 +1,7 @@
 package org.models;
 
+import java.util.Arrays;
+
 /**
  * Поле Галуа
  */
@@ -173,6 +175,10 @@ public class GaluaField {
         return res;
     }
 
+    /**
+     * Результат деления полиномов.
+     * quotient - частное, reminder - остаток
+     */
     public static class DivisionResult{
         public int[] quotient;
         public int[] reminder;
