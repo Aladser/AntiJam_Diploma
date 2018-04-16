@@ -1,12 +1,37 @@
 package org.models.codecs;
 
+import java.util.Arrays;
 import java.util.BitSet;
+import org.models.GaluaField;
 
+/**
+ * Кодек кода Рида-Соломона
+ */
 public class RSCodec extends Codec{
-    public final int N; // длина кодового слова
-    public final int K; // длина инфослова
-    public final int NUM_BITS; // число бит для числа кодового слова
-    public final org.models.GaluaField galua; // поле Галуа
+    /**
+     * Длина кодового слова
+     */
+    public final int N;
+    /**
+     * Длина информационного блока
+     */
+    public final int K;
+    /**
+     * Длина G(x)
+     */
+    public final int GX_LENGTH;
+    /**
+     * Число бит для числа поля Галуа
+     */
+    public final int NUM_BITS;
+    /**
+     * Поле Галуа
+     */
+    public final org.models.GaluaField galua;
+    /**
+     * Таблица r(x)-e(x)
+     */
+    public final int[] syndroms;
     
     /**
      * Кодек Рида-Соломона
@@ -19,6 +44,8 @@ public class RSCodec extends Codec{
         N = n;
         K = k;
         NUM_BITS = numBits;
+        GX_LENGTH = galua.GX.length;
+        syndroms = createSyndTable();
     }
 
     /** Кодирование
@@ -153,6 +180,30 @@ public class RSCodec extends Codec{
         return res;
     }
     
-    
+    /**
+     * Создает таблицу e(x)->r(x)
+     * @return 
+     */
+    private int[] createSyndTable(){
+        GaluaField.DivisionResult divRes;
+        int n1 = GX_LENGTH-1; // размер остатка деления = 2
+        int[] Ex = new int[N];
+        int rx;       // reminder как число
+        int ex;       // ex как число
+        
+        int[] sndr = new int[galua.P*(n1-1)*10]; // в данном примере длина равна 80, так как числа 0-79
+        for(int i=n1; i<N; i++){ 
+            for(Ex[i]=0; Ex[i]<galua.P; Ex[i]++){
+                divRes = galua.dividePolynoms(Ex, galua.GX);
+                //System.out.println(Arrays.toString(Ex) + " -> " + Arrays.toString(divRes.reminder));   
+                ex = Ex[i];
+                for(int z=0; z<i; z++) ex*=10;
+                rx = divRes.reminder[0] + 10*divRes.reminder[1];
+                sndr[rx] = ex;
+            }
+            Ex[i]= 0;
+        }
+        return sndr;
+    }
     
 }

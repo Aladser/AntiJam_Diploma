@@ -130,7 +130,7 @@ public class GaluaField {
         }
         if(flagZero == 0){
             result.quotient = new int[division.length - divider.length+1];
-            result.reminder = new int[1];
+            result.reminder = new int[divider.length-1];
             return result;
         }
         //[/проверка на то, что массив имеет все к-ты 0]
