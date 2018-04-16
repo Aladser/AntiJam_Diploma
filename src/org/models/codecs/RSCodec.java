@@ -195,7 +195,6 @@ public class RSCodec extends Codec{
         for(int i=n1; i<N; i++){ 
             for(Ex[i]=0; Ex[i]<galua.P; Ex[i]++){
                 divRes = galua.dividePolynoms(Ex, galua.GX);
-                //System.out.println(Arrays.toString(Ex) + " -> " + Arrays.toString(divRes.reminder));   
                 ex = Ex[i];
                 for(int z=0; z<i; z++) ex*=10;
                 rx = divRes.reminder[0] + 10*divRes.reminder[1];
