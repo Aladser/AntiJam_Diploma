@@ -1,6 +1,5 @@
 package org.models.codecs;
 
-import java.util.Arrays;
 import java.util.BitSet;
 import org.models.GaluaField;
 
@@ -99,6 +98,7 @@ public class RSCodec extends Codec{
 
     @Override
     public int fixError(int number, int w) {
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -68,7 +68,7 @@ public class GaluaField {
     }
     
     /**
-     * "+" и "-" полиномов в арифметике поля Галуа
+     * (+) полиномов в арифметике поля Галуа
      * @param pol1
      * @param pol2
      * @return 
