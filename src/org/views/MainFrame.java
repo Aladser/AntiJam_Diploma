@@ -240,8 +240,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Хэмминга", "БЧХ", "РС" }));
-            codecChoiceComboBox.setSelectedIndex(2);
+            codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "БЧХ", "РС" }));
+            codecChoiceComboBox.setSelectedIndex(1);
             codecChoiceComboBox.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     selectCodecButton(evt);
@@ -426,16 +426,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void setCodec(int par){
         switch(par){
             case 0:
-                codec = new org.models.codecs.HammingCodec();
-                infoPanel.append( "Хэмминг код\n\n");
-                break;
-            case 1:
                 codec = new BCHCodec(0b1011, 7, 4);
                 infoPanel.append( "Код БЧХ \nПорождающий полином g(x) = 1011\n\n");
                 break;
-            case 2:
+            case 1:
                 codec = new RSCodec(4,2,3);
-                infoPanel.append( "Код БЧХ \nПоле Галуа Gf(2^3)=8\n\n");
+                infoPanel.append( "Код РС \nПоле Галуа Gf(2^3)=8\n\n");
         }         
     }
     
