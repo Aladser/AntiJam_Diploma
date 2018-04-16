@@ -1,6 +1,7 @@
 package org.models.codecs;
 
 import java.util.BitSet;
+import org.models.BinOperations;
 import org.models.GaluaField;
 
 /**
@@ -52,9 +53,10 @@ public class RSCodec extends Codec{
      * @return
      */
     @Override
-    public BitSet encode(BitSet msg) {   
+    public BitSet encode(BitSet msg) {
         // коррекция размера битового массива для возможности деления на блоки по NUM_BITS бит
         msg = this.correctBitSetLength(msg, NUM_BITS);
+        //System.out.println("A (x) = " + BinOperations.showBitSet(msg, 3));
         // битовый массив -> целочисленный массив
         int[] iMsg = createIntArray(msg);
         // коррекция размера целочисленного массива для возможности деления на блоки по K
@@ -70,6 +72,7 @@ public class RSCodec extends Codec{
             for(int si=0; si<Sx.length; si++) iCode[ci++] = Sx[si];
         }
         // целочисленный массив -> битовый массив
+        //System.out.println("C (x) = " + BinOperations.showBitSet(createBitSet(iCode), 3));
         return createBitSet(iCode);    
     }
 
@@ -80,6 +83,7 @@ public class RSCodec extends Codec{
      */
     @Override
     public BitSet decode(BitSet code) {
+        //System.out.println("C'(x) = " + BinOperations.showBitSet(code, 3));
         // битовый массив -> целочисленный массив
         int[] iCode = this.createIntArray(code);
         // Ax = Sx / Gx
@@ -93,6 +97,7 @@ public class RSCodec extends Codec{
         }
         // целочисленный массив -> битовый массив
         BitSet res = createBitSet(iMsg);
+        //System.out.println("A (x) = " + BinOperations.showBitSet(res, 3));
         return res;
     }
 
@@ -144,7 +149,8 @@ public class RSCodec extends Codec{
     private BitSet correctBitSetLength(BitSet src, int blockSize){
         int lsrc = src.length() - 1;
         int rem = blockSize - lsrc % blockSize;
-        src.set(src.length() + rem - 1);
+        if(rem == blockSize) rem = 0;
+        else src.set(src.length() + rem - 1);
         return src;
     }
 
