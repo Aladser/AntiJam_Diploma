@@ -10,6 +10,7 @@ import org.models.ImageResizing;
 import org.models.TransmissionMedia;
 import org.models.codecs.BCHCodec;
 import org.models.codecs.Codec;
+import org.models.codecs.ConvolCodec;
 import org.models.codecs.RSCodec;
 
 // Главное окно
@@ -240,7 +241,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "БЧХ", "РС" }));
+            codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "БЧХ", "РС", "Сверточный" }));
+            codecChoiceComboBox.setSelectedIndex(2);
             codecChoiceComboBox.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     selectCodecButton(evt);
@@ -426,11 +428,15 @@ public class MainFrame extends javax.swing.JFrame {
         switch(par){
             case 0:
                 codec = new BCHCodec(0b1011, 7, 4);
-                infoPanel.append( "Код БЧХ \nПорождающий полином g(x) = 1011\n\n");
+                infoPanel.append( "Код БЧХ(7,4) \nПорождающий полином g(x) = 1011\n\n");
                 break;
             case 1:
                 codec = new RSCodec(4,2,3);
-                infoPanel.append( "Код РС \nПоле Галуа Gf(2^3)=8\n\n");
+                infoPanel.append( "Код РС(12,6) \nПоле Галуа Gf(2^3)=8\n\n");
+                break;
+            case 2:
+                codec = new ConvolCodec(12, 9, 3);
+                infoPanel.append( "Сверточный код (12,9)\n\n");
         }         
     }
     

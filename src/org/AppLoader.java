@@ -22,13 +22,13 @@ public class AppLoader {
         
         ConvolCodec c = new ConvolCodec(12, 9, 3);
         BitSet Ax = new BitSet(); 
-        int[] arr = {1,1,1, 0,0,0, 1,1,1};
+        int[] arr = {1,1,1, 0,0,0, 1,1};
         Ax.set(arr.length);
         for(int i=0; i<Ax.length()-1; i++) if(arr[i]==1) Ax.set(i);
         BitSet Cx = c.encode(Ax);
         c.decode(Cx);
         
         /* Вызов главного окна */
-        //new org.views.MainFrame().setVisible(true);
+        new org.views.MainFrame().setVisible(true);
     } 
 }

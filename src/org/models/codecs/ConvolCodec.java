@@ -22,8 +22,8 @@ public class ConvolCodec extends Codec{
     private int num_blocks;   // число блоков
     
     public ConvolCodec(int n, int k, int numbits){
-        N = n;
         K = k;
+        N = n;
         NUM_BITS = numbits;
         num_blocks = k / NUM_BITS;
     }
@@ -31,12 +31,13 @@ public class ConvolCodec extends Codec{
     @Override
     public BitSet encode(BitSet Ax) {
         BitSet Cx = new BitSet();
-        Cx.set((Ax.length()-1)*N/K);
         int ai=0, ci=0;
         // коррекция размера для деления без остатка
+        //System.out.println("Инф "+ BinOperations.showBitSet(Ax, 3));
         int rem = NUM_BITS - (Ax.length()-1)%NUM_BITS; 
         if(rem != NUM_BITS) Ax.set(Ax.length()+rem-1);
-        //System.out.println(BinOperations.showBitSet(Ax, 3));
+        Cx.set((Ax.length()-1)*N/K);
+        //System.out.println("Ax  " + BinOperations.showBitSet(Ax, 3));
         // кодирование
         int checkBit = 0;
         for(; ai<Ax.length()-1; ai++){
@@ -61,13 +62,13 @@ public class ConvolCodec extends Codec{
                 checkBit = 0;
             }
         }
-        //System.out.println(BinOperations.showBitSet(Cx, 4));
+        //System.out.println("Cx  " + BinOperations.showBitSet(Cx, 4));
         return Cx;
     }
 
     @Override
     public BitSet decode(BitSet Cx) {
-        System.out.println("Cx = "+BinOperations.showBitSet(Cx, 4));
+        //System.out.println("C'x "+BinOperations.showBitSet(Cx, 4));
         
         BitSet Ax = new BitSet();
         Ax.set((Cx.length()-1)*K/N);
@@ -88,14 +89,21 @@ public class ConvolCodec extends Codec{
                 if(ai+1 > 6){
                     if(Cx.get(ci-11)) checkBit^=1;
                     if(Cx.get(ci-9)) checkBit^=1;
+                    
                 }
                 checkBit ^= Cx.get(ci)?1:0;
-                System.out.println("syndrom = " + checkBit);
+                //System.out.println("S = "+checkBit);
                 checkBit=0;
             }
         }
         
-        System.out.println("Ax = "+BinOperations.showBitSet(Ax, 3));
+        //System.out.println("Ax  "+BinOperations.showBitSet(Ax, 3));
+        int rem = (Ax.length()-1)/8;
+        int ind = Ax.length()-1-rem;
+        for(int i=ind+1; i<Ax.length(); i++){
+            Ax.clear(i);
+        }
+        //System.out.println("Инф "+BinOperations.showBitSet(Ax, 3));
         return Ax;
     }
 
