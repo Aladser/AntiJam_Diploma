@@ -1,7 +1,5 @@
 package org.models;
 
-import java.util.Arrays;
-
 /**
  * Поле Галуа
  */
@@ -21,7 +19,7 @@ public class GaluaField {
         FIELD = new int[P];
         FIELD[0] = -1;
         int[] arr = new int[P];
-        for(int i=0; i<P; i++) arr[i] = PolynomDivision.mod((int)Math.pow(2, i), Z);
+        for(int i=0; i<P; i++) arr[i] = PolynomArith.mod((int)Math.pow(2, i), Z);
         for(int i=1; i<P; i++) FIELD[i] = indexOf(arr, i);
         // {/Создание поля Галуа}
     }

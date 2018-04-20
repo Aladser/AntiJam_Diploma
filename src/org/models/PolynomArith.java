@@ -1,18 +1,16 @@
 package org.models;
 
-import org.models.BinOperations;
-
 /**
- * Деление полиномов
+ * Полиноминальная арифметика
  */
-public abstract class PolynomDivision {
+public abstract class PolynomArith {
     /** Деление
      * @param division делимое
      * @param n требуемое число разрядов делимого
      * @param divider делитель
      * @return частное и остаток деления
      */
-    public static Result exec(int division, int n, int divider){
+    public static Result divide(int division, int n, int divider){
         int k = BinOperations.countOrders(divider);
         Result result = new Result();
         

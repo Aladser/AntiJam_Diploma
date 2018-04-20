@@ -241,7 +241,6 @@ public class MainFrame extends javax.swing.JFrame {
             );
 
             codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "БЧХ", "РС" }));
-            codecChoiceComboBox.setSelectedIndex(1);
             codecChoiceComboBox.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     selectCodecButton(evt);
@@ -340,7 +339,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
         Date time = new Date();
         transmedia.message = codec.encode(imageBits.bits);        
-        infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n\n");
+        infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         codecChoiceComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
@@ -349,16 +348,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	Date time = new Date();
         transmedia.message = codec.decode( transmedia.message );
-        infoPanel.append("\n\nДекодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
+        infoPanel.append("\nДекодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
-        infoPanel.append( "\nЧисло неисправленных ошибок после передачи:\n" );
+        infoPanel.append( "Число неисправленных ошибок после передачи:\n" );
         infoPanel.append( numErrors + " (");
         double errRate = (double)numErrors/transmedia.message.size() * 100000;  //% ошибок от всех битов
         int iSubErrRate = (int)Math.round(errRate);                             // округление 1
         errRate = (double)iSubErrRate;                                          // округление 2
         errRate /= 1000;                                                        // округление 3
-        infoPanel.append(String.valueOf(errRate) + "%)\n");
+        infoPanel.append(String.valueOf(errRate) + "%)\n\n");
         try {    
             imagePanel.setIcon( new ImageIcon(recImageBits.toImage()) );
         } catch (IOException ex) {
