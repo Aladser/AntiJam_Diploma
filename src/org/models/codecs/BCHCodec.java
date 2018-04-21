@@ -92,7 +92,6 @@ public class BCHCodec extends Codec{
      * @param w вес остатка
      * @return
      */
-    @Override
     public int fixError(int number, int w){
         PolynomArith.Result quot = new PolynomArith.Result();
         int shift = 0;

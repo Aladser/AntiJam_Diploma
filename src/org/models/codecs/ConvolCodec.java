@@ -19,7 +19,7 @@ public class ConvolCodec extends Codec{
      * Число бит в блоке A(x)
      */
     public final int NUM_BITS;
-    private int num_blocks;   // число блоков
+    private final int num_blocks;   // число блоков
     
     public ConvolCodec(int n, int k, int numbits){
         K = k;
@@ -30,16 +30,12 @@ public class ConvolCodec extends Codec{
     
     @Override
     public BitSet encode(BitSet Ax) {
-        //System.out.println("Инф "+(Ax.length()-1));
         BitSet Cx = new BitSet();
         int ai=0, ci=0;
         // коррекция размера для деления без остатка
-        //System.out.println("Инф "+ BinOperations.showBitSet(Ax, 3));
         int rem = NUM_BITS - (Ax.length()-1)%NUM_BITS; 
         if(rem != NUM_BITS) Ax.set(Ax.length()+rem-1);
         Cx.set((Ax.length()-1)*N/K);
-        //System.out.println("Ax  " + BinOperations.showBitSet(Ax, 3));
-        //System.out.println("Ax  "+(Ax.length()-1));
         // кодирование
         int checkBit = 0;
         for(; ai<Ax.length()-1; ai++){
@@ -64,14 +60,14 @@ public class ConvolCodec extends Codec{
                 checkBit = 0;
             }
         }
-        //System.out.println("Cx  " + BinOperations.showBitSet(Cx, 4));
-        //System.out.println("Cx  "+(Cx.length()-1));
         return Cx;
     }
 
     @Override
     public BitSet decode(BitSet Cx) {
-        //System.out.println("C'x "+BinOperations.showBitSet(Cx, 4));
+        int S = 0;
+        int si = 0;
+        System.out.print(BinOperations.showBitSet(Cx, 4));
         
         BitSet Ax = new BitSet();
         Ax.set((Cx.length()-1)*K/N);
@@ -95,25 +91,49 @@ public class ConvolCodec extends Codec{
                     
                 }
                 checkBit ^= Cx.get(ci)?1:0;
-                //System.out.println("S = "+checkBit);
+                
+                S += checkBit;
+                si++;
+                if(si == num_blocks){
+                    if(S < 2){
+                        System.out.println(" | 00"+Integer.toBinaryString(S)+" | "+S);
+                    }
+                    else if(S < 4)
+                        System.out.println(" | 0"+Integer.toBinaryString(S)+" | "+S);
+                    else
+                        System.out.println(" | "+Integer.toBinaryString(S)+" | "+S);
+                    
+                }
+                S<<=1;
+                
                 checkBit=0;
             }
         }
         
         //System.out.println("Ax  "+BinOperations.showBitSet(Ax, 3));
-        int rem = (Ax.length()-1)%8;
-        int ind = Ax.length()-1-rem;
-        for(int i=ind+1; i<Ax.length(); i++){
-            Ax.clear(i);
-        }
+        int ind = Ax.length()-1-((Ax.length()-1)%8);
+        for(int i=ind+1; i<Ax.length(); i++) Ax.clear(i);
         
-        //System.out.println("Инф "+BinOperations.showBitSet(Ax, 3));
+        //System.out.println(BinOperations.showBitSet(Ax, 3));
         return Ax;
     }
-
-    @Override
-    public int fixError(int number, int w) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
+    public void createSyndrTable(){
+        int[] syndroms = new int[N];
+        BitSet Ax = new BitSet(); 
+        int[] arr = {0,0,0, 0,0,0, 0,0,0};
+        Ax.set(arr.length);
+        for(int i=0; i<Ax.length()-1; i++) if(arr[i]==1) Ax.set(i);
+        BitSet Cx = encode(Ax);
+        
+        System.out.println("Ex             | S");
+        for(int i=0; i<12; i++){
+            Cx.set(i);
+            decode(Cx);
+            Cx.clear(i);
+        }
+        
+        
+    }
+   
 }

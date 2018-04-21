@@ -8,7 +8,6 @@ import java.util.BitSet;
 abstract public class Codec {
     public abstract BitSet encode(BitSet message);       // кодирование
     public abstract BitSet decode(BitSet encodeMessage); // декодирование
-    public abstract int fixError(int number, int w);     // исправление ошибок
     
     // Преобразует логическое в целое
     protected static int getInteger(boolean value){

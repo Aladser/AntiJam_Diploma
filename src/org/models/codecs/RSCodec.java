@@ -84,11 +84,6 @@ public class RSCodec extends Codec{
         }
         return createBitSet(iAx);
     }
-
-    @Override
-    public int fixError(int number, int w) {      
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     /**
      * Исправление ошибок в РС коде
