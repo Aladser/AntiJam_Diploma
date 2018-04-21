@@ -30,6 +30,7 @@ public class ConvolCodec extends Codec{
     
     @Override
     public BitSet encode(BitSet Ax) {
+        //System.out.println("Инф "+(Ax.length()-1));
         BitSet Cx = new BitSet();
         int ai=0, ci=0;
         // коррекция размера для деления без остатка
@@ -38,6 +39,7 @@ public class ConvolCodec extends Codec{
         if(rem != NUM_BITS) Ax.set(Ax.length()+rem-1);
         Cx.set((Ax.length()-1)*N/K);
         //System.out.println("Ax  " + BinOperations.showBitSet(Ax, 3));
+        //System.out.println("Ax  "+(Ax.length()-1));
         // кодирование
         int checkBit = 0;
         for(; ai<Ax.length()-1; ai++){
@@ -63,6 +65,7 @@ public class ConvolCodec extends Codec{
             }
         }
         //System.out.println("Cx  " + BinOperations.showBitSet(Cx, 4));
+        //System.out.println("Cx  "+(Cx.length()-1));
         return Cx;
     }
 
@@ -98,11 +101,12 @@ public class ConvolCodec extends Codec{
         }
         
         //System.out.println("Ax  "+BinOperations.showBitSet(Ax, 3));
-        int rem = (Ax.length()-1)/8;
+        int rem = (Ax.length()-1)%8;
         int ind = Ax.length()-1-rem;
         for(int i=ind+1; i<Ax.length(); i++){
             Ax.clear(i);
         }
+        
         //System.out.println("Инф "+BinOperations.showBitSet(Ax, 3));
         return Ax;
     }
