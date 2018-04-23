@@ -44,20 +44,20 @@ public class RSCodec extends Codec{
      */
     @Override
     public BitSet encode(BitSet Ax) {
-        // Коррекция длины msg для деления на NUM_BITS без остатка
+        // Коррекция длины A(x) для деления на NUM_BITS без остатка
         int rem = NUM_BITS - ((Ax.length() - 1) % NUM_BITS);
         if(rem != NUM_BITS) Ax.set(Ax.length() + rem - 1);       
         // BitSet массив -> unt[] массив
         int[] iAx = createIntArray(Ax);
-        // коррекция размера iMsg для деления на K без остатка
+        // коррекция размера iAx для деления на K без остатка
         rem = K - iAx.length%K;
         if(rem != K) iAx = java.util.Arrays.copyOf(iAx, iAx.length+rem);
         // Sx = Ax * Gx
         int[] numAx = new int[K];
         int[] numCx;
         int[] iCx = new int[iAx.length * N/K];
-        for(int ci=0, i=0; i<iAx.length; i+=K){
-            for(int ai=0, mi=i; mi<i+this.K; mi++, ai++) numAx[ai] = iAx[mi];
+        for(int ci=0, ai=0; ai<iAx.length; ai+=K){
+            for(int i=0, mi=ai; mi<ai+K; mi++, i++) numAx[i] = iAx[mi];
             numCx = galua.multiplyPolynoms(numAx, galua.GX);
             for(int si=0; si<numCx.length; si++) iCx[ci++] = numCx[si];
         }
@@ -77,7 +77,7 @@ public class RSCodec extends Codec{
         int[] numAx;                           // Ax[i]
         org.models.GaluaField.DivisionResult divRes;      // результат деления
         for(int ai=0, ci=0; ci<iCx.length; ci+=N){
-            for(int si=0, i=ci; i<ci+N; i++) numСx[si++] = iCx[i];
+            for(int si=0, i=ci; i<ci+N;) numСx[si++] = iCx[i++];
             divRes = galua.dividePolynoms(numСx, galua.GX);
             numAx = fixError(numСx, divRes);
             for(int i=0; i<numAx.length; i++) iAx[ai++] = numAx[i];

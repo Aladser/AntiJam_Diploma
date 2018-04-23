@@ -61,25 +61,28 @@ public class BCHCodec extends Codec{
         BitSet Ax = new BitSet();
         Ax.set( ((Sx.length()-1) * k) / n );
         // Деление полиномов, перевот числа, прибавка нулей слева
-        int iCodeBlock;                 // int-версия кодового слова
-        int w;                          // вес остатка
-        BitSet infoBlock;               // инфоблок 
-        PolynomArith.Result divRes;  // результат деления
+        int iCodeBlock;                    // int-версия кодового слова
+        int w;                             // вес остатка
+        BitSet infoBlock;                  // инфоблок 
+        PolynomArith.Result divRes;        // результат деления
+        int hExp = (int) Math.pow(2, n-1); // высшая степень разряда кодового слова
         for(int axi=0, exp, sxi=0; sxi<Sx.length()-1; sxi+=n){
-            exp =(int) Math.pow(2, n-1); // степень разряда числа
+            exp = hExp; // степень разряда числа
             iCodeBlock = 0;
+            // Из битового фрагмента C(ci.. ci+n) образуем целое число
             for(int i=sxi; i<sxi+n; i++){
                 if(Sx.get(i))iCodeBlock+=exp;
                 exp/=2;
             }
+            // деление полиномов
             divRes = PolynomArith.divide(iCodeBlock, n, Gx);
+            // остаток от деления полиномов
             w = BinOperations.decToBin(divRes.reminder).cardinality() - 1;
             if(w>1){ 
                 iCodeBlock = fixError(iCodeBlock, w);
                 divRes = PolynomArith.divide(iCodeBlock, n, Gx);
             }
-            iCodeBlock = BinOperations.coupNumber(divRes.quotient ,k);
-            infoBlock = BinOperations.decToBin(iCodeBlock);
+            infoBlock = BinOperations.decToBin( BinOperations.coupNumber(divRes.quotient ,k) );
             infoBlock = BinOperations.addZeroToCode(infoBlock, k);
             for(int i=0; i<infoBlock.length()-1; i++, axi++) if(infoBlock.get(i)) Ax.set(axi);
         }

@@ -72,7 +72,6 @@ public class ConvolCodec extends Codec{
 
     @Override
     public BitSet decode(BitSet Cx) {
-        //System.out.println("С(x)  "+BinOperations.showBitSet(Cx, 4));
         BitSet Ax = new BitSet();
         Ax.set((Cx.length()-1)*K/N);
         int S=0, si=0;    // синдром
@@ -87,17 +86,15 @@ public class ConvolCodec extends Codec{
             S += checkBit ^ (Cx.get(ci+3)?1:0);                                    // проверка на ошибку
             // если собран синдром
             if(si == 2){
-                //if(S != 0) System.out.println("S = "+Integer.toBinaryString(S)+"("+S+")");
                 if(S==0) si=0;
                 // Если синдром имеет 1 в старшем разряде
-                if(S >= 4){
+                else if(S >= 4){
                     int ind = -1;
                     for(int i=0; i<syndroms.length; i++) if(syndroms[i]==S) ind=i;
-                    if(Cx.get(ci+ind-8)) Cx.clear(ci+ind-8);
-                    else Cx.set(ci+ind-8);
                     if(Ax.get(ai+ind-6)) Ax.clear(ai+ind-6);
                     else Ax.set(ai+ind-6);
                     S=0;
+                    si=0;
                 }
                 // если синдром неполный, продолжаем его набор
                 else S<<=1;
@@ -108,8 +105,6 @@ public class ConvolCodec extends Codec{
                 si++;
             }
         }
-        //System.out.println("С(x)  "+BinOperations.showBitSet(Cx, 4));
-        //System.out.println("A(x)  "+BinOperations.showBitSet(Ax, 3));
         return Ax;
     }
 
