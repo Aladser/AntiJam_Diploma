@@ -59,7 +59,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Кодеки");
-        setResizable(false);
 
         fileOpenButton.setText("Открыть файл");
         fileOpenButton.setFocusPainted(false);
@@ -322,7 +321,7 @@ public class MainFrame extends javax.swing.JFrame {
                 image = ImageResizing.exec(image, imagePanel.getWidth(), imagePanel.getHeight());
                 
                 imageBits = new ImageBits(image);
-                imagePanel.setIcon( new ImageIcon(image) );                
+                imagePanel.setIcon( new ImageIcon(image) );
             } catch (IOException ex) {Logger.getLogger("Не удалось прочитать файл");}
             coderButton.setEnabled(true);
             graphicButton.setEnabled(true);
