@@ -3,7 +3,7 @@ package org;
 /**
  * Точка входа
  */
-public class AppLoader {
+public class AntijamCodes {
     public static void main(String args[]){
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

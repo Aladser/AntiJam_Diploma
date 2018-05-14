@@ -23,6 +23,8 @@ public class MainFrame extends javax.swing.JFrame {
     public Codec codec;                          // Кодек
     
     public MainFrame(){
+        ImageIcon icon = new ImageIcon("src/org/views/resources/ico.ico");
+	setIconImage(icon.getImage());
         initComponents();
         setCodec( codecChoiceComboBox.getSelectedIndex() );
         transmedia = new TransmissionMedia();
@@ -123,7 +125,7 @@ public class MainFrame extends javax.swing.JFrame {
             extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(extrernalImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
                 .addContainerGap())
         );
         extrernalImagePanelLayout.setVerticalGroup(
@@ -273,7 +275,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(externalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
+                    .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
                     .addContainerGap())
             );
             layout.setVerticalGroup(
