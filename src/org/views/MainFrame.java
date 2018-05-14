@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.models.ImageBits;
 import org.models.ImageResizing;
 import org.models.TransmissionMedia;
@@ -19,7 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
     private ImageBits imageBits;                 // Исходный битовый массив изображения
     private ImageBits recImageBits;              // Полученный битовый массив изображения    
     private final TransmissionMedia transmedia;  // Канал передачи данных
-    private int numErrors;                       // Число ошибок после передачи
+    private int numErrors;                       // Число неисправленных ошибок
     public Codec codec;                          // Кодек
     
     public MainFrame(){
@@ -332,8 +333,40 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Нажать на кнопку "График"
     private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
-        infoPanel.append("  Начало вычисления точек графика");
-        ChartDialog chart = new ChartDialog(this, imageBits.bits, codec);
+        infoPanel.append("  Зависимость числа неисправленных ошибок от уров-\n");
+        infoPanel.append("ня шума\n");
+        double backupKerr = transmedia.getNoiseLevel(); // сохранение текущего Perr
+        final int GRAPH_PTS = 7;                   // число точек графика ошибок
+        double[] pErrArray = new double[GRAPH_PTS]; // массив Kош
+        int[] numErrArray = new int[GRAPH_PTS];     // массив числа неисправленных ошибок
+        double Perr = 0.00001;                      // исходный Kош
+        double unCorrErrPercent;
+        for(int i=0; i<GRAPH_PTS; i++){
+            pErrArray[i] = Perr;
+            if(Perr >= 0.001) Perr *= 2;
+            else Perr *= 10;  
+        }
+        for(int i=0; i<GRAPH_PTS; i++){
+            transmedia.setNoiseLevel(pErrArray[i]);
+            transmedia.message = codec.encode(imageBits.bits);
+            transmedia.imposeNoise();
+            transmedia.message = codec.decode(transmedia.message);
+            numErrArray[i] = TransmissionMedia.equals(imageBits.bits, transmedia.message);
+            infoPanel.append("  Kош=" + transmedia.getNoiseLevel() + "; ");
+            infoPanel.append( "Неисправлено ошибок: " + numErrArray[i] + " (");
+            unCorrErrPercent = (double)numErrArray[i]/(double)imageBits.bits.length();
+            // округление до сотых
+            unCorrErrPercent *= 10000;
+            unCorrErrPercent = (int)unCorrErrPercent;
+            unCorrErrPercent = unCorrErrPercent/100;
+            infoPanel.append( unCorrErrPercent + "%)\n");
+            
+            if(Perr >= 0.001) Perr *= 2;
+            else Perr *= 10;            
+        }
+        transmedia.setNoiseLevel(backupKerr);
+        ChartDialog chart = new ChartDialog(this, imageBits.bits, codec, pErrArray, numErrArray);
+        chart.setLocation(this.getX()+520, this.getY()+70);
         chart.setVisible(true);
     }//GEN-LAST:event_graphicButtonActionPerformed
 
@@ -388,6 +421,7 @@ public class MainFrame extends javax.swing.JFrame {
         else
             infoPanel.append("  Наложен шум Kош = "+ transmedia.getNoiseLevel());
         transmedia.imposeNoise();
+        
         decoderButton.setEnabled(true);
         plusNoiseButton.setEnabled(false);
         minusNoiseButton.setEnabled(false);
