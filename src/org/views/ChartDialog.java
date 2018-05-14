@@ -34,7 +34,7 @@ public class ChartDialog extends javax.swing.JDialog{
         final JFreeChart chart = ChartFactory.createLineChart(
                                                               "Число неисправленных ошибок (вероятность ошибок)",       // chart title
                                                               "Вероятность ошибки",                    // domain axis label
-                                                              "Ошибок не исправлено\"",                   // range axis label
+                                                              "Ошибок не исправлено",                   // range axis label
                                                               dataset,                   // data
                                                               PlotOrientation.VERTICAL,  // orientation
                                                               false,                      // include legend

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.models.ImageBits;
 import org.models.ImageResizing;
 import org.models.TransmissionMedia;
@@ -28,6 +27,8 @@ public class MainFrame extends javax.swing.JFrame {
         setCodec( codecChoiceComboBox.getSelectedIndex() );
         transmedia = new TransmissionMedia();
         kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(screenSize.width/2 - this.getWidth()/2, screenSize.height/2 - this.getHeight()/2);
     }
 
     @SuppressWarnings("unchecked")
@@ -468,20 +469,20 @@ public class MainFrame extends javax.swing.JFrame {
                 codec = new BCHCodec(0b1011, 7, 4);
                 infoPanel.append( "  Код БЧХ(7,4) \n  Порождающий полином g(x) = 1011\n");
                 infoPanel.append( "  Кодирование: умножение информационного слова \nна кодирующую матрицу\n");
-                infoPanel.append( "  Декодирование: деление кодового слова\nна порождающий многочлен\n");
+                infoPanel.append( "  Декодирование: деление кодового слова на порож-\nдающий многочлен\n");
                 infoPanel.append( "  Исправление ошибок основано на теореме Меггита\n\n");
                 break;
             case 1:
                 codec = new RSCodec(4,2,3);
                 infoPanel.append( "  Код Рида-Соломона(12,6) \n  Поле Галуа Gf(8)\n");
-                infoPanel.append( "  Кодирование: умножение информационного \nполинома и порождающего полинома в поле Галуа\n");
-                infoPanel.append( "  Декодирование: деление кодового полинома \nна порождающий полинома в поле Галуа\n");
+                infoPanel.append( "  Кодирование: умножение информационного поли-\nнома и порождающего полинома в поле Галуа\n");
+                infoPanel.append( "  Декодирование: деление кодового полинома на по-\nрождающий полинома в поле Галуа\n");
                 infoPanel.append( "  Исправление ошибок: синдромное декодирование\n\n");
                 break;
             case 2:
                 codec = new ConvolCodec(12, 9, 3);
                 infoPanel.append( "  Сверточный код (12,9)\n");
-                infoPanel.append( "  Кодирование: схема кодера основана \nна порождающем полиноме\n");
+                infoPanel.append( "  Кодирование: схема кодера основана на порожда-\nющем полиноме\n");
                 infoPanel.append( "  Декодирование: схема, обратная кодеру\n");
                 infoPanel.append( "  Исправление ошибок: синдромное декодирование\n\n");
         }         
