@@ -332,7 +332,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Нажать на кнопку "График"
     private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
-        infoPanel.append("Начало вычисления точек графика");
+        infoPanel.append("  Начало вычисления точек графика");
         ChartDialog chart = new ChartDialog(this, imageBits.bits, codec);
         chart.setVisible(true);
     }//GEN-LAST:event_graphicButtonActionPerformed
@@ -341,7 +341,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void coderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coderButtonActionPerformed
         Date time = new Date();
         transmedia.message = codec.encode(imageBits.bits);        
-        infoPanel.append("Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
+        infoPanel.append("  Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         codecChoiceComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
     }//GEN-LAST:event_coderButtonActionPerformed
@@ -350,10 +350,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void decoderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decoderButtonActionPerformed
 	Date time = new Date();
         transmedia.message = codec.decode( transmedia.message );
-        infoPanel.append("\nДекодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
+        infoPanel.append("\n  Декодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
-        infoPanel.append( "Число неисправленных ошибок после передачи:\n" );
+        infoPanel.append( "  Число неисправленных ошибок после передачи:\n" );
         infoPanel.append( numErrors + " (");
         double errRate = (double)numErrors/transmedia.message.size() * 100000;  //% ошибок от всех битов
         int iSubErrRate = (int)Math.round(errRate);                             // округление 1
@@ -371,7 +371,7 @@ public class MainFrame extends javax.swing.JFrame {
         plusNoiseButton.setEnabled(true);
         minusNoiseButton.setEnabled(true);
         coderButton.setEnabled(true);
-        addNoiseButton.setEnabled(true);
+        addNoiseButton.setEnabled(false);
     }//GEN-LAST:event_decoderButtonActionPerformed
 
     // Нажать на кнопку "Наложить шум"
@@ -383,10 +383,10 @@ public class MainFrame extends javax.swing.JFrame {
                 zeros*=10;
                 numZeros++;
             }
-            infoPanel.append("Наложен шум 10^-"+ numZeros);
+            infoPanel.append("  Наложен шум Kош = 10^-"+ numZeros);
         }
         else
-            infoPanel.append("Наложен шум 10^-"+ transmedia.getNoiseLevel());
+            infoPanel.append("  Наложен шум Kош = "+ transmedia.getNoiseLevel());
         transmedia.imposeNoise();
         decoderButton.setEnabled(true);
         plusNoiseButton.setEnabled(false);
@@ -401,7 +401,9 @@ public class MainFrame extends javax.swing.JFrame {
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 2);
 	else
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 10);
-        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );        
+        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
+        if(transmedia.getNoiseLevel() >= 0.1) plusNoiseButton.setEnabled(false);
+        if(transmedia.getNoiseLevel() > 0.000001) minusNoiseButton.setEnabled(true);
     }//GEN-LAST:event_plusNoiseButtonActionPerformed
 
     // Понизить уровень шума
@@ -415,6 +417,8 @@ public class MainFrame extends javax.swing.JFrame {
         noise = Math.pow(10, -++exp);
         transmedia.setNoiseLevel(noise);
         kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
+        if(transmedia.getNoiseLevel() <= 0.000001) minusNoiseButton.setEnabled(false);
+        if(transmedia.getNoiseLevel() < 0.1) plusNoiseButton.setEnabled(true);
     }//GEN-LAST:event_minusNoiseButtonActionPerformed
 
     // Нажать на selectCodecComboBox
@@ -428,15 +432,24 @@ public class MainFrame extends javax.swing.JFrame {
         switch(par){
             case 0:
                 codec = new BCHCodec(0b1011, 7, 4);
-                infoPanel.append( "Код БЧХ(7,4) \nПорождающий полином g(x) = 1011\n\n");
+                infoPanel.append( "  Код БЧХ(7,4) \n  Порождающий полином g(x) = 1011\n");
+                infoPanel.append( "  Кодирование: умножение информационного слова \nна кодирующую матрицу\n");
+                infoPanel.append( "  Декодирование: деление кодового слова\nна порождающий многочлен\n");
+                infoPanel.append( "  Исправление ошибок основано на теореме Меггита\n\n");
                 break;
             case 1:
                 codec = new RSCodec(4,2,3);
-                infoPanel.append( "Код РС(12,6) \nПоле Галуа Gf(2^3)=8\n\n");
+                infoPanel.append( "  Код Рида-Соломона(12,6) \n  Поле Галуа Gf(8)\n");
+                infoPanel.append( "  Кодирование: умножение информационного \nполинома и порождающего полинома в поле Галуа\n");
+                infoPanel.append( "  Декодирование: деление кодового полинома \nна порождающий полинома в поле Галуа\n");
+                infoPanel.append( "  Исправление ошибок: синдромное декодирование\n\n");
                 break;
             case 2:
                 codec = new ConvolCodec(12, 9, 3);
-                infoPanel.append( "Сверточный код (12,9)\n\n");
+                infoPanel.append( "  Сверточный код (12,9)\n");
+                infoPanel.append( "  Кодирование: схема кодера основана \nна порождающем полиноме\n");
+                infoPanel.append( "  Декодирование: схема, обратная кодеру\n");
+                infoPanel.append( "  Исправление ошибок: синдромное декодирование\n\n");
         }         
     }
     
