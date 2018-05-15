@@ -20,12 +20,12 @@ public class ChartDialog extends javax.swing.JDialog{
 	
     public ChartDialog(MainFrame owner, BitSet srcMessage, Codec codec, double[] PerrArr, int[] numErrArray){
 	super(owner, "График", true);
-	setBounds(190, 190, 900, 540);	       
+	setBounds(190, 190, owner.imagePanel.getWidth(), owner.imagePanel.getHeight());	       
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for(int i=0; i<PerrArr.length; i++) dataset.addValue( numErrArray[i], "" , "" + PerrArr[i]);           
 	final JFreeChart chart = createChart(dataset);
 	final ChartPanel chartPanel = new ChartPanel( chart );   
-	chartPanel.setPreferredSize( new java.awt.Dimension(900, 500 ) );
+	chartPanel.setPreferredSize( new java.awt.Dimension(owner.imagePanel.getWidth(), owner.imagePanel.getHeight() ) );
 	setContentPane( chartPanel );
     }
 

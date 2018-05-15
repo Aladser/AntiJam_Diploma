@@ -336,6 +336,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Нажать на кнопку "График"
     private void graphicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicButtonActionPerformed
+        imagePanel.getHeight();
+        imagePanel.getWidth();
         infoPanel.append("  Зависимость числа неисправленных ошибок от уров-\n");
         infoPanel.append("ня шума\n");
         double backupKerr = transmedia.getNoiseLevel(); // сохранение текущего Perr
@@ -369,7 +371,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         transmedia.setNoiseLevel(backupKerr);
         ChartDialog chart = new ChartDialog(this, imageBits.bits, codec, pErrArray, numErrArray);
-        chart.setLocation(this.getX()+520, this.getY()+70);
+        chart.setLocation(this.getX()+510, this.getY()+50);
         chart.setVisible(true);
     }//GEN-LAST:event_graphicButtonActionPerformed
 
@@ -516,7 +518,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel extrernalImagePanel;
     private javax.swing.JButton fileOpenButton;
     private javax.swing.JButton graphicButton;
-    private javax.swing.JLabel imagePanel;
+    public javax.swing.JLabel imagePanel;
     public javax.swing.JTextArea infoPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel kerrLabel;
