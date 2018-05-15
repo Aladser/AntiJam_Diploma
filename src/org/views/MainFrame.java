@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
     public Codec codec;                          // Кодек
     
     public MainFrame(){
-        ImageIcon icon = new ImageIcon("src/org/views/resources/ico.ico");
+        ImageIcon icon = new ImageIcon("src/main/image/logo.png");
 	setIconImage(icon.getImage());
         initComponents();
         setCodec( codecChoiceComboBox.getSelectedIndex() );
@@ -322,6 +322,7 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 imageBits = new ImageBits(image);
                 imagePanel.setIcon( new ImageIcon(image) );
+                this.setResizable(false);
             } catch (IOException ex) {Logger.getLogger("Не удалось прочитать файл");}
             coderButton.setEnabled(true);
             graphicButton.setEnabled(true);

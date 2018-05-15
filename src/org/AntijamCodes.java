@@ -18,5 +18,4 @@ public class AntijamCodes {
         /* Вызов главного окна */
         new org.views.MainFrame().setVisible(true);
     }
-    
 }
