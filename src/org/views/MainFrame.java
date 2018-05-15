@@ -369,6 +369,7 @@ public class MainFrame extends javax.swing.JFrame {
             if(Perr >= 0.001) Perr *= 2;
             else Perr *= 10;            
         }
+        infoPanel.append("\n");
         transmedia.setNoiseLevel(backupKerr);
         ChartDialog chart = new ChartDialog(this, imageBits.bits, codec, pErrArray, numErrArray);
         chart.setLocation(this.getX()+510, this.getY()+50);
