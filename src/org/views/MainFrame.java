@@ -58,7 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Кодеки");
+        setTitle("Помехойустойчивые коды: сверточные, РС, БЧХ");
 
         fileOpenButton.setText("Открыть файл");
         fileOpenButton.setFocusPainted(false);
