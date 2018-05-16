@@ -26,18 +26,21 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="noisePanel" alignment="1" max="32767" attributes="0"/>
-                  <Component id="codecPanel" max="32767" attributes="0"/>
-                  <Component id="fileOpenButton" max="32767" attributes="0"/>
-                  <Component id="graphicButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="codecChoiceComboBox" max="32767" attributes="0"/>
-                  <Component id="jLabel1" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="noisePanel" alignment="1" max="32767" attributes="0"/>
+                      <Component id="codecPanel" max="32767" attributes="0"/>
+                      <Component id="fileOpenButton" max="32767" attributes="0"/>
+                      <Component id="graphicButton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="codecChoiceComboBox" max="32767" attributes="0"/>
+                      <Component id="unprotectImageBtn" alignment="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jLabel1" alignment="0" min="-2" pref="131" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="externalInfoPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="extrernalImagePanel" pref="836" max="32767" attributes="0"/>
+              <Component id="extrernalImagePanel" pref="757" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -53,6 +56,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="graphicButton" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="unprotectImageBtn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="codecChoiceComboBox" min="-2" max="-2" attributes="0"/>
@@ -60,9 +65,9 @@
                       <Component id="noisePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="codecPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="265" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="270" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="extrernalImagePanel" alignment="0" pref="600" max="32767" attributes="0"/>
+                  <Component id="extrernalImagePanel" alignment="0" pref="648" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -163,7 +168,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder justification="2" position="2" title="&#x418;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x435;">
+            <TitledBorder justification="2" position="2" title="&#x418;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x435; &#x441; &#x437;&#x430;&#x449;&#x438;&#x442;&#x43e;&#x439; &#x43f;&#x43e;&#x43c;&#x435;&#x445;&#x43e;&#x443;&#x441;&#x442;&#x43e;&#x439;&#x447;&#x438;&#x432;&#x44b;&#x43c; &#x43a;&#x43e;&#x434;&#x43e;&#x43c;">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                 <EtchetBorder/>
               </Border>
@@ -181,7 +186,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="imagePanel" pref="804" max="32767" attributes="0"/>
+                  <Component id="imagePanel" pref="725" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -324,9 +329,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="kerrLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="kerrLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="kerrLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="kerrLabel2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="plusNoiseButton" min="-2" pref="25" max="-2" attributes="0"/>
@@ -408,6 +413,16 @@
           <Dimension value="[32, 20]"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="unprotectImageBtn">
+      <Properties>
+        <Property name="actionCommand" type="java.lang.String" value="&#x418;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x435;&#xa;&#x431;&#x435;&#x437; &#x437;&#x430;&#x449;&#x438;&#x442;&#x44b;"/>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="label" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;&#x418;&#x437;&#x43e;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43d;&#x438;&#x435; &#x431;&#x435;&#x437; &#x437;&#x430;&#x449;&#x438;&#x442;&#x44b;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unprotectImageBtnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -16,8 +16,7 @@ public abstract class ImageResizing {
     public static BufferedImage exec(BufferedImage original, double dWidth, double dHeight){
         double k, nW=dWidth, nH=dHeight; // коэффициент уменьшения, новые высота и ширина
         if(original.getHeight() > dHeight){
-            k = dHeight / original.getHeight();
-            nW = (int)(k * dWidth);
+            nW = dHeight;
         }
         if(nW > dWidth){
             k = dWidth / nW;
