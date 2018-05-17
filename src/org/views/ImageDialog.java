@@ -14,8 +14,9 @@ public class ImageDialog extends javax.swing.JDialog {
      * @param modal
      * @param tm
      * @param imageBits1
+     * @param BER
      */
-    public ImageDialog(java.awt.Frame parent, boolean modal, TransmissionMedia tm, ImageBits imageBits1) {
+    public ImageDialog(java.awt.Frame parent, boolean modal, TransmissionMedia tm, ImageBits imageBits1, String BER) {
         super(parent, modal);
         initComponents();       
         ImageBits imageBits2 = new ImageBits( tm.message, imageBits1.width, imageBits1.height);
@@ -24,7 +25,8 @@ public class ImageDialog extends javax.swing.JDialog {
         } catch (IOException ex) {
             System.err.println("Не удалось создать изображение из массива бит");
         }
-        this.setLocation(parent.getX()-200, parent.getY()+50);
+        this.setLocation(parent.getX()-200, parent.getY()+35);
+        this.BERFld.setText(BER);
     }
 
     /**
@@ -38,11 +40,20 @@ public class ImageDialog extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         imageLabel = new javax.swing.JLabel();
+        BERLbl = new javax.swing.JLabel();
+        BERFld = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Изображение без защиты от помех", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        BERLbl.setText("BER");
+
+        BERFld.setBackground(new java.awt.Color(255, 255, 255));
+        BERFld.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -50,14 +61,26 @@ public class ImageDialog extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(BERLbl)
+                        .addGap(18, 18, 18)
+                        .addComponent(BERFld, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
+                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(BERLbl)
+                        .addGap(0, 4, Short.MAX_VALUE))
+                    .addComponent(BERFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -82,6 +105,8 @@ public class ImageDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BERFld;
+    private javax.swing.JLabel BERLbl;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

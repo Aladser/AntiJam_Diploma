@@ -34,9 +34,10 @@ public class MainFrame extends javax.swing.JFrame {
         setCodec( codecChoiceComboBox.getSelectedIndex() );
         origImgTransmedia = new TransmissionMedia();
         transmedia = new TransmissionMedia();
-        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
+        BERLbl.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(screenSize.width/2 - this.getWidth()/2, screenSize.height/2 - this.getHeight()/2);
+        graphicButton.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,6 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel = new javax.swing.JTextArea();
         extrernalImagePanel = new javax.swing.JPanel();
         imagePanel = new javax.swing.JLabel();
+        BERLbl_R = new javax.swing.JLabel();
+        BERFld_R = new javax.swing.JLabel();
         graphicButton = new javax.swing.JButton();
         noisePanel = new javax.swing.JPanel();
         coderButton = new javax.swing.JButton();
@@ -59,10 +62,10 @@ public class MainFrame extends javax.swing.JFrame {
         minusNoiseButton = new javax.swing.JButton();
         plusNoiseButton = new javax.swing.JButton();
         kerrLabel = new javax.swing.JLabel();
-        kerrLabel2 = new javax.swing.JLabel();
-        codecChoiceComboBox = new javax.swing.JComboBox();
+        BERLbl = new javax.swing.JLabel();
+        coderLbl = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        unprotectImageBtn = new javax.swing.JToggleButton();
+        codecChoiceComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Помехойустойчивые коды: сверточные, РС, БЧХ");
@@ -125,19 +128,33 @@ public class MainFrame extends javax.swing.JFrame {
         imagePanel.setFocusable(false);
         imagePanel.setOpaque(true);
 
+        BERLbl_R.setText("BER");
+
+        BERFld_R.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout extrernalImagePanelLayout = new javax.swing.GroupLayout(extrernalImagePanel);
         extrernalImagePanel.setLayout(extrernalImagePanelLayout);
         extrernalImagePanelLayout.setHorizontalGroup(
             extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(extrernalImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
+                .addGroup(extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
+                    .addGroup(extrernalImagePanelLayout.createSequentialGroup()
+                        .addComponent(BERLbl_R)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BERFld_R, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         extrernalImagePanelLayout.setVerticalGroup(
             extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(extrernalImagePanelLayout.createSequentialGroup()
                 .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(extrernalImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BERLbl_R, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                    .addComponent(BERFld_R, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -215,12 +232,12 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             });
 
-            kerrLabel.setText("K ош");
+            kerrLabel.setText("Kош");
             kerrLabel.setPreferredSize(new java.awt.Dimension(34, 20));
 
-            kerrLabel2.setBackground(new java.awt.Color(255, 255, 255));
-            kerrLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-            kerrLabel2.setPreferredSize(new java.awt.Dimension(34, 20));
+            BERLbl.setBackground(new java.awt.Color(255, 255, 255));
+            BERLbl.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            BERLbl.setPreferredSize(new java.awt.Dimension(34, 20));
 
             javax.swing.GroupLayout codecPanelLayout = new javax.swing.GroupLayout(codecPanel);
             codecPanel.setLayout(codecPanelLayout);
@@ -234,7 +251,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(codecPanelLayout.createSequentialGroup()
                             .addComponent(kerrLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(kerrLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(BERLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addContainerGap())
             );
             codecPanelLayout.setVerticalGroup(
@@ -243,7 +260,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap()
                     .addGroup(codecPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(kerrLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(kerrLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BERLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(plusNoiseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -251,13 +268,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "БЧХ", "РС", "Сверточный" }));
-            codecChoiceComboBox.setSelectedIndex(2);
-            codecChoiceComboBox.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    selectCodecButton(evt);
-                }
-            });
+            coderLbl.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
             jLabel1.setBackground(new java.awt.Color(255, 255, 255));
             jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -265,14 +276,33 @@ public class MainFrame extends javax.swing.JFrame {
             jLabel1.setMaximumSize(new java.awt.Dimension(32, 20));
             jLabel1.setPreferredSize(new java.awt.Dimension(32, 20));
 
-            unprotectImageBtn.setActionCommand("Изображение\nбез защиты");
-            unprotectImageBtn.setEnabled(false);
-            unprotectImageBtn.setLabel("<html><center>Изображение без защиты");
-            unprotectImageBtn.addActionListener(new java.awt.event.ActionListener() {
+            codecChoiceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "БЧХ", "РС", "Сверточный" }));
+            codecChoiceComboBox.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    unprotectImageBtnActionPerformed(evt);
+                    selectCodecButton(evt);
                 }
             });
+
+            javax.swing.GroupLayout coderLblLayout = new javax.swing.GroupLayout(coderLbl);
+            coderLbl.setLayout(coderLblLayout);
+            coderLblLayout.setHorizontalGroup(
+                coderLblLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(coderLblLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(coderLblLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(codecChoiceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap())
+            );
+            coderLblLayout.setVerticalGroup(
+                coderLblLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(coderLblLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(codecChoiceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
 
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
@@ -280,15 +310,12 @@ public class MainFrame extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(noisePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(codecPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fileOpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(graphicButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(codecChoiceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(unprotectImageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(noisePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(codecPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fileOpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(graphicButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(coderLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(externalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -305,12 +332,8 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(fileOpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(graphicButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(unprotectImageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(codecChoiceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(23, 23, 23)
+                            .addComponent(coderLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(noisePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -410,7 +433,6 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.append("  Кодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         codecChoiceComboBox.setEnabled(false);
         addNoiseButton.setEnabled(true);
-        unprotectImageBtn.setEnabled(false);
     }//GEN-LAST:event_coderButtonActionPerformed
     
     // Нажать на кнопку "Декодер"
@@ -420,6 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.append("\n  Декодирование завершено (" + (new Date().getTime()-time.getTime()) + " msec)\n");
         recImageBits = new ImageBits( transmedia.message, imageBits.width, imageBits.height);
         numErrors = TransmissionMedia.equals(imageBits.bits, transmedia.message);
+        if(numErrors == 1) numErrors = 0;
         infoPanel.append( "  Число неисправленных ошибок после передачи:\n" );
         infoPanel.append( numErrors + " (");
         double errRate = (double)numErrors/transmedia.message.size() * 100000;  //% ошибок от всех битов
@@ -432,6 +455,12 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.err.println("Не удалось создать изображение из массива бит");
         }
+        double BER = (double) numErrors / (double) imageBits.bits.length();
+        BER *= 10000000;
+        BER = (int) BER;
+        BER /= 10000000;
+        BERFld_R.setText(Double.toString(BER));
+        
         codecChoiceComboBox.setEnabled(true);
         addNoiseButton.setEnabled(false);
 	decoderButton.setEnabled(false);
@@ -439,6 +468,8 @@ public class MainFrame extends javax.swing.JFrame {
         minusNoiseButton.setEnabled(true);
         coderButton.setEnabled(true);
         addNoiseButton.setEnabled(false);
+        ImageDialog fr = new ImageDialog(this, true, origImgTransmedia, imageBits, BERLbl.getText());
+        fr.setVisible(true);
     }//GEN-LAST:event_decoderButtonActionPerformed
 
     // Нажать на кнопку "Наложить шум"
@@ -451,10 +482,10 @@ public class MainFrame extends javax.swing.JFrame {
                 zeros*=10;
                 numZeros++;
             }
-            infoPanel.append("  Наложен шум Kош = 10^-"+ numZeros);
+            infoPanel.append("  Наложен шум BER = 10^-"+ numZeros);
         }
         else
-            infoPanel.append("  Наложен шум Kош = "+ transmedia.getNoiseLevel());
+            infoPanel.append("  Наложен шум BER = "+ transmedia.getNoiseLevel());
         
         transmedia.imposeNoise();
         origImgTransmedia.imposeNoise();
@@ -464,7 +495,7 @@ public class MainFrame extends javax.swing.JFrame {
         minusNoiseButton.setEnabled(false);
         coderButton.setEnabled(false);
         addNoiseButton.setEnabled(false);
-        unprotectImageBtn.setEnabled(true);
+        
     }//GEN-LAST:event_addNoiseButtonActionPerformed
 
     // Повысить уровень шума
@@ -477,7 +508,7 @@ public class MainFrame extends javax.swing.JFrame {
             transmedia.setNoiseLevel(transmedia.getNoiseLevel() * 10);
             origImgTransmedia.setNoiseLevel(transmedia.getNoiseLevel() * 10);
         }
-        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
+        BERLbl.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
         if(transmedia.getNoiseLevel() >= 0.1) plusNoiseButton.setEnabled(false);
         if(transmedia.getNoiseLevel() > 0.000001) minusNoiseButton.setEnabled(true);
     }//GEN-LAST:event_plusNoiseButtonActionPerformed
@@ -493,7 +524,7 @@ public class MainFrame extends javax.swing.JFrame {
         noise = Math.pow(10, -++exp);
         transmedia.setNoiseLevel(noise);
         origImgTransmedia.setNoiseLevel(noise);
-        kerrLabel2.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
+        BERLbl.setText( formateDoubleNumber(transmedia.getNoiseLevel()) );
         if(transmedia.getNoiseLevel() <= 0.000001) minusNoiseButton.setEnabled(false);
         if(transmedia.getNoiseLevel() < 0.1) plusNoiseButton.setEnabled(true);
     }//GEN-LAST:event_minusNoiseButtonActionPerformed
@@ -503,10 +534,6 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.setText("");
         setCodec(codecChoiceComboBox.getSelectedIndex());       
     }//GEN-LAST:event_selectCodecButton
-
-    private void unprotectImageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unprotectImageBtnActionPerformed
-        new ImageDialog(this, true, origImgTransmedia, imageBits).setVisible(true);
-    }//GEN-LAST:event_unprotectImageBtnActionPerformed
     
     // Установить кодек
     private void setCodec(int par){
@@ -549,12 +576,16 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BERFld_R;
+    private javax.swing.JLabel BERLbl;
+    private javax.swing.JLabel BERLbl_R;
     private javax.swing.JScrollPane InfoScrollPanel;
     private javax.swing.JButton addNoiseButton;
     private javax.swing.JButton clearTextPanel;
     private javax.swing.JComboBox codecChoiceComboBox;
     private javax.swing.JPanel codecPanel;
     private javax.swing.JButton coderButton;
+    private javax.swing.JPanel coderLbl;
     private javax.swing.JButton decoderButton;
     private javax.swing.JPanel externalInfoPanel;
     private javax.swing.JPanel extrernalImagePanel;
@@ -564,10 +595,8 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JTextArea infoPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel kerrLabel;
-    private javax.swing.JLabel kerrLabel2;
     private javax.swing.JButton minusNoiseButton;
     private javax.swing.JPanel noisePanel;
     private javax.swing.JButton plusNoiseButton;
-    private javax.swing.JToggleButton unprotectImageBtn;
     // End of variables declaration//GEN-END:variables
 }
