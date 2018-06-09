@@ -32,6 +32,11 @@
                   <Component id="fileOpenButton" max="32767" attributes="0"/>
                   <Component id="graphicButton" alignment="0" max="32767" attributes="0"/>
                   <Component id="coderLbl" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="optionLbl" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="optionComboBox" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="externalInfoPanel" min="-2" max="-2" attributes="0"/>
@@ -57,9 +62,14 @@
                       <Component id="noisePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="codecPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="270" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="optionLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="241" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="extrernalImagePanel" alignment="0" pref="648" max="32767" attributes="0"/>
+                  <Component id="extrernalImagePanel" alignment="0" pref="676" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -184,7 +194,7 @@
                           <Component id="BERLbl_R" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="BERFld_R" min="-2" pref="71" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="616" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -419,7 +429,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="codecChoiceComboBox" alignment="0" max="32767" attributes="0"/>
+                      <Component id="codecComboBox" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -431,7 +441,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="codecChoiceComboBox" min="-2" max="-2" attributes="0"/>
+                  <Component id="codecComboBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -453,13 +463,14 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="codecChoiceComboBox">
+        <Component class="javax.swing.JComboBox" name="codecComboBox">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
+              <StringArray count="4">
                 <StringItem index="0" value="&#x411;&#x427;&#x425;"/>
                 <StringItem index="1" value="&#x420;&#x421;"/>
                 <StringItem index="2" value="&#x421;&#x432;&#x435;&#x440;&#x442;&#x43e;&#x447;&#x43d;&#x44b;&#x439;"/>
+                <StringItem index="3" value="&#x421;&#x432;&#x435;&#x440;&#x442;&#x43e;&#x447;&#x43d;&#x44b;&#x439; 2"/>
               </StringArray>
             </Property>
           </Properties>
@@ -469,5 +480,25 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="optionLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="optionComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="1"/>
+            <StringItem index="1" value="2"/>
+            <StringItem index="2" value="3"/>
+            <StringItem index="3" value="4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
   </SubComponents>
 </Form>

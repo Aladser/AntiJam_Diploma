@@ -1,5 +1,8 @@
 package org;
 
+import java.awt.EventQueue;
+import javax.swing.ImageIcon;
+
 /**
  * Точка входа
  */
@@ -16,6 +19,9 @@ public class AntijamCodes {
             java.util.logging.Logger.getLogger(org.views.MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         /* Вызов главного окна */
-        new org.views.MainFrame().setVisible(true);
+        EventQueue.invokeLater(() -> {
+            new org.views.MainFrame().setVisible(true);
+        });
+        
     }
 }
