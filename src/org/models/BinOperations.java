@@ -1,9 +1,7 @@
 package org.models;
 import java.util.BitSet;
 
-/**
- * Операции над двоичными числами
- */
+/** Операции над двоичными числами */
 public abstract class BinOperations {
     /**
      * Десятичное => двоичное

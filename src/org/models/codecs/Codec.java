@@ -2,9 +2,7 @@ package org.models.codecs;
 
 import java.util.BitSet;
 
-/**
- * Абстрактный класс кодека
- */
+/** Абстрактный класс кодека */
 abstract public class Codec {
     public abstract BitSet encode(BitSet message);       // кодирование
     public abstract BitSet decode(BitSet encodeMessage); // декодирование

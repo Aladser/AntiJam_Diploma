@@ -29,7 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
     double BEF2;
     
     public MainFrame(){
-        ImageIcon icon = new ImageIcon("src/main/image/logo.png");
+        ImageIcon icon = new ImageIcon( getClass().getResource("logo.png") );
 	setIconImage(icon.getImage());
         initComponents();
         setCodec( codecComboBox.getSelectedIndex() );
@@ -67,8 +67,6 @@ public class MainFrame extends javax.swing.JFrame {
         coderLbl = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         codecComboBox = new javax.swing.JComboBox();
-        optionLbl = new javax.swing.JLabel();
-        optionComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Помехойустойчивые коды: сверточные, РС, БЧХ");
@@ -307,10 +305,6 @@ public class MainFrame extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            optionLbl.setText("Вариант");
-
-            optionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
-
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
@@ -322,11 +316,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(codecPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(fileOpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(graphicButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(coderLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(optionLbl)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(optionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(coderLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(externalInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -349,11 +339,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(noisePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(codecPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(optionLbl)
-                                .addComponent(optionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 241, Short.MAX_VALUE))
+                            .addGap(0, 270, Short.MAX_VALUE))
                         .addComponent(extrernalImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE))
                     .addContainerGap())
             );
@@ -377,8 +363,8 @@ public class MainFrame extends javax.swing.JFrame {
             try { 
                 image = ImageIO.read(filechooser.getSelectedFile());
                 image = ImageResizing.exec(image, imagePanel.getWidth(), imagePanel.getHeight());
-                
                 imageBits = new ImageBits(image);
+                this.infoPanel.append("  Размер изображения: "+imageBits.bits.length() + " бит\n");
                 this.imagePanel.setIcon( new ImageIcon(image) );
                 this.setResizable(false);
             } catch (IOException ex) {Logger.getLogger("Не удалось прочитать файл");}
@@ -573,6 +559,7 @@ public class MainFrame extends javax.swing.JFrame {
                 infoPanel.append( "  Кодирование: схема кодера основана на порожда-\nющем полиноме\n");
                 infoPanel.append( "  Декодирование: схема, обратная кодеру\n");
                 infoPanel.append( "  Исправление ошибок: синдромное декодирование\n\n");
+                break;
             case 3:
                 infoPanel.append("   Эксперимент");
                 codec = new ConvolCodec2();
@@ -615,8 +602,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel kerrLabel;
     private javax.swing.JButton minusNoiseButton;
     private javax.swing.JPanel noisePanel;
-    private javax.swing.JComboBox<String> optionComboBox;
-    private javax.swing.JLabel optionLbl;
     private javax.swing.JButton plusNoiseButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,21 +2,13 @@ package org.models.codecs;
 
 import java.util.BitSet;
 
-/**
- * Кодек сверточного кода
- */
+/** Кодек сверточного кода */
 public class ConvolCodec extends Codec{
-    /**
-     * Длина кодового слова
-     */
+    /** Длина кодового слова */
     public final int N;
-    /**
-     * Длина инфоблока
-     */
+    /** Длина инфоблока */
     public final int K;
-    /**
-     * Число бит в блоке A(x)
-     */
+    /** Число бит в блоке A(x) */
     public final int NUM_BITS;
     private final int num_blocks;   // число блоков
     public final int[] syndroms;   // синдромы

@@ -1,10 +1,6 @@
 package org.models;
 
-import org.models.BinOperations;
-
-/**
- * Деление полиномов
- */
+/** Деление полиномов */
 public abstract class PolynomDivision {
     /** Деление
      * @param division делимое

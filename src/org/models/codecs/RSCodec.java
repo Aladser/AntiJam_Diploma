@@ -2,17 +2,11 @@ package org.models.codecs;
 
 import java.util.BitSet;
 
-/**
- * Кодек кода Рида-Соломона
- */
+/** Кодек кода Рида-Соломона */
 public class RSCodec extends Codec{
-    /**
-     * Длина кодового слова
-     */
+    /** Длина кодового слова */
     public final int N;
-    /**
-     * Длина информационного блока
-     */
+    /** Длина информационного блока */
     public final int K;
     // Длина G(x)
     private final int GX_LENGTH;

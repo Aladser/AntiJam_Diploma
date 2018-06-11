@@ -1,11 +1,6 @@
 package org;
 
-import java.awt.EventQueue;
-import javax.swing.ImageIcon;
-
-/**
- * Точка входа
- */
+/** Точка входа в приложение */
 public class AntijamCodes {
     public static void main(String args[]){
         try {
@@ -19,7 +14,7 @@ public class AntijamCodes {
             java.util.logging.Logger.getLogger(org.views.MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         /* Вызов главного окна */
-        EventQueue.invokeLater(() -> {
+        java.awt.EventQueue.invokeLater(() -> {
             new org.views.MainFrame().setVisible(true);
         });
         

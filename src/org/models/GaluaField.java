@@ -1,13 +1,9 @@
 package org.models;
 
-/**
- * Поле Галуа
- */
+/** Поле Галуа */
 public class GaluaField {
     private final int Z;              // неприводимый многочлен
-    /**
-     * Число элементов поля
-     */
+    /** Число элементов поля */
     public final int P;             
     private final int[] FIELD;        // поле Галуа
     public final int[] GX = {4,6,1}; // G(x)
@@ -58,9 +54,7 @@ public class GaluaField {
         return indexOf(FIELD, exp);
     }
     
-    /**
-     * Исключение деления на ноль
-     */
+    /** Исключение деления на ноль */
     public class ZeroDivisionException extends Exception{
         public ZeroDivisionException(){
             super("Делить на 0 нельзя");
@@ -120,8 +114,7 @@ public class GaluaField {
     public DivisionResult dividePolynoms(int[] division, int[]divider){
         DivisionResult result = new DivisionResult();
         int flagZero = 0;
-        
-        //[проверка на то, что массив имеет все к-ты 0]
+        //проверка на то, что массив имеет все к-ты 0
         for(int el : division){
             if(el != 0){
                 flagZero=1;
@@ -133,7 +126,6 @@ public class GaluaField {
             result.reminder = new int[divider.length-1];
             return result;
         }
-        //[/проверка на то, что массив имеет все к-ты 0]
         
         int di1;                                    // к-т делимого старшей степени
         final int di2 = divider.length - 1;         // к-т делителя старшей степени

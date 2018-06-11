@@ -2,10 +2,7 @@ package org.models;
 
 import java.awt.image.BufferedImage;
 
-
-/**
- * Уменьшение изображения
- */
+/** Уменьшение изображения */
 public abstract class ImageResizing {
     /** Уменьшает изображение до размеров окна
      * @param original изображение для уменьшения
@@ -26,7 +23,6 @@ public abstract class ImageResizing {
         java.awt.Graphics2D g = res.createGraphics();
         g.drawImage(original, 0, 0, (int)nW, (int)nH, null);
         g.dispose();
-        int m = (res.getWidth()*res.getHeight()*24);
         return res;
     }
 }

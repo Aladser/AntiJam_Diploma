@@ -4,9 +4,7 @@ import org.models.BinOperations;
 import java.util.BitSet;
 import org.models.PolynomArith;
 
-/**
- * Кодек БЧХ кода
- */
+/** Кодек БЧХ кода */
 public class BCHCodec extends Codec{
     private final int n; // длина кодового слова
     private final int k; // длина инфоблока

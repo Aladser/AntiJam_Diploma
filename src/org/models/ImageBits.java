@@ -3,9 +3,7 @@ package org.models;
 import java.awt.image.BufferedImage;
 import java.util.BitSet;
 
-/**
- * Изображение как битовый массив
- */
+/** Изображение как битовый массив */
 public class ImageBits {
     public final BitSet bits;   // битовый массив
     public final int width;     // ширина изображения

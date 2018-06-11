@@ -1,8 +1,6 @@
 package org.models;
 
-/**
- * Полиноминальная арифметика
- */
+/** Полиноминальная арифметика */
 public abstract class PolynomArith {
     /** Деление
      * @param division делимое
